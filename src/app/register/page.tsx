@@ -9,5 +9,5 @@ export default function Home() {
         <RegisterBox />
       </div>
     </div>
-  )
-} 
+  );
+}
