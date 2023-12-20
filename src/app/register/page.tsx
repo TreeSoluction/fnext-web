@@ -44,7 +44,7 @@ export default function Home() {
       <div className="flex w-full xl:h-screen bg-HIGH_BLUE items-center justify-center">
         <div className="xl:text-9xl text-7xl text-white font-bold">FENEXT</div>
       </div>
-      <div className="flex-col h-screen bg-LOW_BLUE xl:p-14 pl-14 pr-14 pt-10">
+      <div className="flex-col h-screen bg-gradient-to-b from-blue-500 to-blue-600 xl:p-14 pl-14 pr-14 pt-10 ">
         <div className="md:text-6xl xl:text-7xl text-4xl xl:mt-20 xl:mr-24 xl:ml-24 text-white font-semibold">
           Crie o seu cadastro gratuito em poucos passos...
         </div>
@@ -63,6 +63,6 @@ export default function Home() {
         </div>
         <ToastContainer />
       </div >
-    </div >
+    </div>
   );
 }
