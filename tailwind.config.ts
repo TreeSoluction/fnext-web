@@ -15,6 +15,7 @@ const config: Config = {
       },
       colors: {
         HIGH_BLUE: "#050A30",
+        LOW_BLUE: "#004aad",
         PASTEL: "#EBEBD3",
         MEDIUM_GREEN: "#4C5B5C",
         LOW_PURPLE: "#A7ACD9",
