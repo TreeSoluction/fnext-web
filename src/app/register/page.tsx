@@ -4,6 +4,10 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import api from "../services/api"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { notifyInfo, notifySuccess, notifyError } from '../services/notification'
 
 export default function Home() {
   const RegisterSchema = z.object({
@@ -17,9 +21,22 @@ export default function Home() {
   });
 
   const onSubmit = async (data) => {
-    console.log(data);
-    //TODO CALL API
-    reset();
+    notifyInfo("Registrando...")
+
+    api.post("/owner", {
+      name: data.fullname,
+      email: data.email,
+      password: data.password
+    }).then(res => {
+      if (res.status === 201) {
+        notifySuccess("Usuario registrado!")
+        reset();
+      }
+    }).catch(err => {
+      if (err.response.status === 409) {
+        notifyError("Email ja esta em uso!")
+      }
+    })
   };
 
   return (
@@ -44,6 +61,7 @@ export default function Home() {
             <button type='submit' className="text-white transition duration-200 outline-none focus:outline hover:outline hover:outline-5 focus:outline-5 focus:outline-blue-600 hover:outline-blue-600 ring-1 hover:bg-white hover:text-black bg-transparent border-2 border-white mt-6 h-10 w-full rounded-sm font-semibold">Registrar</button>
           </form>
         </div>
+        <ToastContainer />
       </div >
     </div >
   );
