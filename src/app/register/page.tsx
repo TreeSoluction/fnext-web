@@ -1,4 +1,27 @@
+'use client'
+
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+
 export default function Home() {
+  const RegisterSchema = z.object({
+    fullname: z.string(),
+    email: z.string().email({ message: "Email Invalido!" }),
+    password: z.string().min(6, { message: "A senha tem que ter no mínimo 6 letras, números ou símbolos" }),
+  });
+
+  const { register, handleSubmit, formState: { errors }, reset } = useForm({
+    resolver: zodResolver(RegisterSchema),
+  });
+
+  const onSubmit = async (data) => {
+    console.log(data);
+    //TODO CALL API
+    reset();
+  };
+
   return (
     <div className="xl:flex">
       <div className="flex w-full xl:h-screen bg-HIGH_BLUE items-center justify-center">
@@ -9,17 +32,19 @@ export default function Home() {
           Crie o seu cadastro gratuito em poucos passos...
         </div>
         <div className="mt-16">
-          <form className="xl:ml-24 xl:mr-24">
+          <form onSubmit={handleSubmit(onSubmit)} className="xl:ml-24 xl:mr-24">
             <label className="text-white">Nome Completo</label>
-            <input className="block w-full transition duration-200 rounded-sm bg-transparent border-2 border-white text-white" />
+            <input {...register('fullname')} className="block w-full transition duration-200 rounded-sm bg-transparent border-2 border-white text-white" />
             <label className="text-white">Email</label>
-            <input className="block w-full transition duration-200 rounded-sm bg-transparent border-2 border-white text-white" />
+            <input {...register('email')} className="block w-full transition duration-200 rounded-sm bg-transparent border-2 border-white text-white" />
+            {errors.email && <p style={{ color: "red", fontWeight: 500 }}>{errors.email.message}</p>}
             <label className="text-white">Senha</label>
-            <input className="block w-full transition duration-200 rounded-sm bg-transparent border-2 border-white text-white" />
-            <button className="text-white transition duration-200 outline-none focus:outline hover:outline hover:outline-5 focus:outline-5 focus:outline-blue-600 hover:outline-blue-600 ring-1 hover:bg-white hover:text-black bg-transparent border-2 border-white mt-6 h-10 w-full rounded-sm font-semibold">Registrar</button>
+            <input {...register('password')} type="password" className="block w-full transition duration-200 rounded-sm bg-transparent border-2 border-white text-white" />
+            {errors.password && <p style={{ color: "red", fontWeight: 500 }}>{errors.password.message}</p>}
+            <button type='submit' className="text-white transition duration-200 outline-none focus:outline hover:outline hover:outline-5 focus:outline-5 focus:outline-blue-600 hover:outline-blue-600 ring-1 hover:bg-white hover:text-black bg-transparent border-2 border-white mt-6 h-10 w-full rounded-sm font-semibold">Registrar</button>
           </form>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 }
