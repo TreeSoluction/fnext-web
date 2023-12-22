@@ -8,6 +8,7 @@ import api from "../services/api"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { notifyInfo, notifySuccess, notifyError } from '../services/notification'
+import Cookies from 'js-cookie';
 
 export default function Home() {
   const RegisterSchema = z.object({
@@ -20,6 +21,10 @@ export default function Home() {
     resolver: zodResolver(RegisterSchema),
   });
 
+  function SetCookie(value: string) {
+    Cookies.set("ownerid", value)
+  }
+
   const onSubmit = async (data) => {
     notifyInfo("Registrando...")
 
@@ -30,6 +35,7 @@ export default function Home() {
     }).then(res => {
       if (res.status === 201) {
         notifySuccess("Usuario registrado!")
+        SetCookie(res.data.id)
         reset();
       }
     }).catch(err => {
