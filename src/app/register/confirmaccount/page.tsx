@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { SubmitHandler, FieldValues, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import api from "../../services/api";
@@ -13,11 +13,6 @@ import {
   notifyError,
 } from "../../services/notification";
 import Cookies from "js-cookie";
-
-interface FormData {
-  code: string;
-  email?: string;
-}
 
 export default function Home() {
   const [ownerid, setOwnerId] = useState("");
@@ -58,7 +53,7 @@ export default function Home() {
     ),
   });
 
-  const onSubmit: SubmitHandler<FormData> = async (data) => {
+  const onSubmit = async (data) => {
     notifyInfo("Confirmando...");
 
     api
