@@ -1,17 +1,21 @@
-'use client'
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import api from "../../services/api"
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { notifyInfo, notifySuccess, notifyError } from '../../services/notification'
-import Cookies from 'js-cookie';
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import api from "../../services/api";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import {
+  notifyInfo,
+  notifySuccess,
+  notifyError,
+} from "../../services/notification";
+import Cookies from "js-cookie";
 
 export default function Home() {
-  const [ownerid, setOwnerId] = useState("")
+  const [ownerid, setOwnerId] = useState("");
 
   const ConfirmationWithCookieSchema = z.object({
     code: z.string().length(4, { message: "Formato Invalido!" }),
@@ -19,44 +23,53 @@ export default function Home() {
 
   const ConfirmationOutCookieSchema = z.object({
     code: z.string().length(4, { message: "Formato Invalido!" }),
-    email: z.string().email({ message: "Email Invalido!" }).nullable()
+    email: z.string().email({ message: "Email Invalido!" }).nullable(),
   });
 
   useEffect(() => {
     function SearchOwnerCookie(): string {
-      const cookie = Cookies.get('ownerid')
+      const cookie = Cookies.get("ownerid");
       if (!cookie) {
-        return ""
+        return "";
       } else {
-        return cookie
+        return cookie;
       }
-    };
+    }
 
-    setOwnerId(SearchOwnerCookie())
-  }, [""])
+    setOwnerId(SearchOwnerCookie());
+  }, [""]);
 
-  const { register, handleSubmit, formState: { errors }, reset } = useForm({
-    resolver: zodResolver(ownerid ? ConfirmationWithCookieSchema : ConfirmationOutCookieSchema),
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    resolver: zodResolver(
+      ownerid ? ConfirmationWithCookieSchema : ConfirmationOutCookieSchema
+    ),
   });
 
   const onSubmit = async (data) => {
-    notifyInfo("Confirmando...")
+    notifyInfo("Confirmando...");
 
-    console.log("bateu");
-
-    api.post("/owner/verifyemail", {
-      ownerid: ownerid,
-      code: data.code,
-      email: data.email
-    }).then(res => {
-      if (res.status === 200) {
-        notifySuccess("Email verificado!")
-      }
-    }).catch(err => {
-      if (err.response.status === 409) {
-        notifyError("Codigo incorreto!")
-      }
-    })
+    api
+      .post("/owner/verifyemail", {
+        ownerid: parseInt(ownerid),
+        code: data.code,
+        email: data.email,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          notifySuccess("Email verificado!");
+          reset();
+        }
+      })
+      .catch((err) => {
+        if (err.response.status === 409) {
+          notifyError("Codigo incorreto!");
+        }
+      });
   };
 
   return (
@@ -71,24 +84,41 @@ export default function Home() {
         <div className="mt-16">
           <form onSubmit={handleSubmit(onSubmit)} className="xl:ml-24 xl:mr-24">
             <label className="text-white">Codigo de Confirmacao</label>
-            <input {...register('code')} className="block w-full transition duration-200 rounded-sm bg-transparent border-2 border-white text-white" />
-            {errors.code && <p style={{ color: "red", fontWeight: 500 }}>{errors.code.message}</p>}
+            <input
+              {...register("code")}
+              className="block w-full transition duration-200 rounded-sm bg-transparent border-2 border-white text-white"
+            />
+            {errors.code && (
+              <p style={{ color: "red", fontWeight: 500 }}>
+                {errors.code.message}
+              </p>
+            )}
             {ownerid === "" ? (
               <>
                 <label className="text-white">Email</label>
-                <input {...register('email')} className="block w-full transition duration-200 rounded-sm bg-transparent border-2 border-white text-white" />
-                {errors.email && <p style={{ color: "red", fontWeight: 500 }}>{errors.email.message}</p>}
+                <input
+                  {...register("email")}
+                  className="block w-full transition duration-200 rounded-sm bg-transparent border-2 border-white text-white"
+                />
+                {errors.email && (
+                  <p style={{ color: "red", fontWeight: 500 }}>
+                    {errors.email.message}
+                  </p>
+                )}
               </>
             ) : (
               <></>
             )}
-            <button type='submit' className="text-white transition duration-200 outline-none focus:outline hover:outline hover:outline-5 focus:outline-5 focus:outline-blue-600 hover:outline-blue-600 ring-1 hover:bg-white hover:text-black bg-transparent border-2 border-white mt-6 h-10 w-full rounded-sm font-semibold">
+            <button
+              type="submit"
+              className="text-white transition duration-200 outline-none focus:outline hover:outline hover:outline-5 focus:outline-5 focus:outline-blue-600 hover:outline-blue-600 ring-1 hover:bg-white hover:text-black bg-transparent border-2 border-white mt-6 h-10 w-full rounded-sm font-semibold"
+            >
               Verificar Email
             </button>
           </form>
         </div>
         <ToastContainer />
-      </div >
+      </div>
     </div>
   );
 }
