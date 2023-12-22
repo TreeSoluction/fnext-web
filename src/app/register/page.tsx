@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import api from "../services/api";
@@ -14,6 +14,12 @@ import {
 } from "../services/notification";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+
+interface FormData {
+  fullname: string;
+  email: string;
+  password: string;
+}
 
 export default function Home() {
   const router = useRouter();
@@ -38,7 +44,7 @@ export default function Home() {
     Cookies.set("ownerid", value);
   }
 
-  const onSubmit = async (data) => {
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
     notifyInfo("Registrando...");
 
     api
