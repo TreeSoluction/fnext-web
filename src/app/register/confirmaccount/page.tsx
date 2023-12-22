@@ -13,15 +13,14 @@ import Cookies from 'js-cookie';
 export default function Home() {
   const [ownerid, setOwnerId] = useState("")
 
-  const ConfirmationCodeSchema = z.object({
-    code: z.string().length(4),
-    email: z.string().email().nullable()
+  const ConfirmationWithCookieSchema = z.object({
+    code: z.string().length(4, { message: "Formato Invalido!" }),
   });
 
-  const { register, handleSubmit, formState: { errors }, reset } = useForm({
-    resolver: zodResolver(ConfirmationCodeSchema),
+  const ConfirmationOutCookieSchema = z.object({
+    code: z.string().length(4, { message: "Formato Invalido!" }),
+    email: z.string().email({ message: "Email Invalido!" }).nullable()
   });
-
 
   useEffect(() => {
     function SearchOwnerCookie(): string {
@@ -34,8 +33,11 @@ export default function Home() {
     };
 
     setOwnerId(SearchOwnerCookie())
-  }, [])
+  }, [""])
 
+  const { register, handleSubmit, formState: { errors }, reset } = useForm({
+    resolver: zodResolver(ownerid ? ConfirmationWithCookieSchema : ConfirmationOutCookieSchema),
+  });
 
   const onSubmit = async (data) => {
     notifyInfo("Confirmando...")
@@ -70,15 +72,19 @@ export default function Home() {
           <form onSubmit={handleSubmit(onSubmit)} className="xl:ml-24 xl:mr-24">
             <label className="text-white">Codigo de Confirmacao</label>
             <input {...register('code')} className="block w-full transition duration-200 rounded-sm bg-transparent border-2 border-white text-white" />
+            {errors.code && <p style={{ color: "red", fontWeight: 500 }}>{errors.code.message}</p>}
             {ownerid === "" ? (
               <>
                 <label className="text-white">Email</label>
                 <input {...register('email')} className="block w-full transition duration-200 rounded-sm bg-transparent border-2 border-white text-white" />
-              </> 
+                {errors.email && <p style={{ color: "red", fontWeight: 500 }}>{errors.email.message}</p>}
+              </>
             ) : (
               <></>
             )}
-            <button type='submit' className="text-white transition duration-200 outline-none focus:outline hover:outline hover:outline-5 focus:outline-5 focus:outline-blue-600 hover:outline-blue-600 ring-1 hover:bg-white hover:text-black bg-transparent border-2 border-white mt-6 h-10 w-full rounded-sm font-semibold">Verificar Email</button>
+            <button type='submit' className="text-white transition duration-200 outline-none focus:outline hover:outline hover:outline-5 focus:outline-5 focus:outline-blue-600 hover:outline-blue-600 ring-1 hover:bg-white hover:text-black bg-transparent border-2 border-white mt-6 h-10 w-full rounded-sm font-semibold">
+              Verificar Email
+            </button>
           </form>
         </div>
         <ToastContainer />
