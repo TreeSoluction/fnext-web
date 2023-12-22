@@ -16,6 +16,9 @@ import Cookies from "js-cookie";
 
 export default function Home() {
   const [ownerid, setOwnerId] = useState("");
+  const [title, setTitle] = useState(
+    "Confirme o codigo enviado para o seu email..."
+  );
 
   const ConfirmationWithCookieSchema = z.object({
     code: z.string().length(4, { message: "Formato Invalido!" }),
@@ -62,6 +65,7 @@ export default function Home() {
       .then((res) => {
         if (res.status === 200) {
           notifySuccess("Email verificado!");
+          setTitle("Email confirmado com Sucesso!");
           reset();
         }
       })
@@ -79,7 +83,7 @@ export default function Home() {
       </div>
       <div className="flex-col h-screen bg-gradient-to-b from-blue-500 to-blue-600 xl:p-14 pl-14 pr-14 pt-10 ">
         <div className="md:text-6xl xl:text-7xl text-4xl xl:mt-20 xl:mr-24 xl:ml-24 text-white font-semibold">
-          Confirme o codigo enviado para o seu email...
+          {title}
         </div>
         <div className="mt-16">
           <form onSubmit={handleSubmit(onSubmit)} className="xl:ml-24 xl:mr-24">
