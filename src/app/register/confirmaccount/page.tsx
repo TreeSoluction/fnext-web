@@ -40,7 +40,7 @@ export default function Home() {
     }
 
     setOwnerId(SearchOwnerCookie());
-  }, [""]);
+  }, []);
 
   const {
     register,
