@@ -94,10 +94,10 @@ export default function Home() {
             />
             {errors.code && (
               <p style={{ color: "red", fontWeight: 500 }}>
-                {errors.code.message}
+                {String(errors.code?.message)}
               </p>
             )}
-            {ownerid === "" ? (
+            {ownerid === "" && (
               <>
                 <label className="text-white">Email</label>
                 <input
@@ -106,12 +106,10 @@ export default function Home() {
                 />
                 {errors.email && (
                   <p style={{ color: "red", fontWeight: 500 }}>
-                    {errors.email.message}
+                    {String(errors.email?.message)}
                   </p>
                 )}
               </>
-            ) : (
-              <></>
             )}
             <button
               type="submit"

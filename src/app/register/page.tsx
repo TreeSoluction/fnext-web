@@ -78,6 +78,11 @@ export default function Home() {
               {...register("fullname")}
               className="block w-full transition duration-200 rounded-sm bg-transparent border-2 border-white text-white"
             />
+            {errors.fullname && (
+              <p style={{ color: "red", fontWeight: 500 }}>
+                {String(errors.fullname?.message)}
+              </p>
+            )}
             <label className="text-white">Email</label>
             <input
               {...register("email")}
@@ -85,7 +90,7 @@ export default function Home() {
             />
             {errors.email && (
               <p style={{ color: "red", fontWeight: 500 }}>
-                {errors.email.message}
+                {String(errors.email?.message)}
               </p>
             )}
             <label className="text-white">Senha</label>
@@ -96,7 +101,7 @@ export default function Home() {
             />
             {errors.password && (
               <p style={{ color: "red", fontWeight: 500 }}>
-                {errors.password.message}
+                {String(errors.password?.message)}
               </p>
             )}
             <button
