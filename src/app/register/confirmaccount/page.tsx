@@ -14,6 +14,11 @@ import {
 } from "../../services/notification";
 import Cookies from "js-cookie";
 
+interface FormData {
+  code: string;
+  email?: string;
+}
+
 export default function Home() {
   const [ownerid, setOwnerId] = useState("");
   const [title, setTitle] = useState(
@@ -53,7 +58,7 @@ export default function Home() {
     ),
   });
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: FormData) => {
     notifyInfo("Confirmando...");
 
     api
