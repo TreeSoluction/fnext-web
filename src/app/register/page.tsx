@@ -14,15 +14,21 @@ import {
 } from "../services/notification";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import InputMask from 'react-input-mask';
 
 export default function Home() {
   const router = useRouter();
   const RegisterSchema = z.object({
-    fullname: z.string(),
-    email: z.string().email({ message: "Email Invalido!" }),
-    password: z.string().min(6, {
-      message: "A senha tem que ter no mínimo 6 letras, números ou símbolos",
-    }),
+    fullname: z.string().min(1, 'Nome não pode ser vazio!'),
+    email: z.string().email({ message: "Email Inválido!" }),
+    password: z.string().min(6, "A senha tem que ter no mínimo 6 caracteres!"),
+    date: z.string(),
+    phone: z.string()
+      .regex(/^\(\d{2}\) \d{5}-\d{4}$/, 'Telefone Inválido!')
+      .transform((phone) => phone.replace(/[()\-]/g, '')),
+    cnpj: z.string()
+      .regex(/^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/, 'CNPJ Inválido!')
+      .transform((cnpj) => cnpj.replace(/[\.\/\-]/g, ''))
   });
 
   const {
@@ -33,6 +39,10 @@ export default function Home() {
   } = useForm({
     resolver: zodResolver(RegisterSchema),
   });
+
+  const [inputMaskDate, setInputMaskDate] = React.useState<string>("");
+  const inputDateRef = React.useRef<HTMLInputElement | null>(null);
+  const inputDateRegisterRef = register("date");
 
   function SetCookie(value: string) {
     Cookies.set("ownerid", value);
@@ -46,6 +56,9 @@ export default function Home() {
         name: data.fullname,
         email: data.email,
         password: data.password,
+        birth_date: data.date,
+        phone: data.phone,
+        cnpj: data.cnpj
       })
       .then((res) => {
         if (res.status === 201) {
@@ -57,63 +70,137 @@ export default function Home() {
       })
       .catch((err) => {
         if (err.response.status === 409) {
-          notifyError("Email ja esta em uso!");
+          notifyError("Email já esta em uso!");
         }
       });
   };
 
+  const updateInputMaskDate = (e) => {
+    const dateMaskFormat = e.target.value.split("-").reverse().join("/");
+    setInputMaskDate(dateMaskFormat)
+  }
+
+  const handleDateChange = (e) => {
+    setInputMaskDate(e.target.value);
+    const isValidDate = e.target.value.length == 10;
+
+    if (isValidDate && inputDateRef.current) {
+      const date = e.target.value.split("/").reverse().join("-");
+      inputDateRef.current.value = date;
+    }
+  }
+
   return (
-    <div className="xl:flex">
-      <div className="flex w-full xl:h-screen bg-HIGH_BLUE items-center justify-center">
-        <div className="xl:text-9xl text-7xl text-white font-bold">FENEXT</div>
-      </div>
-      <div className="flex-col h-screen bg-gradient-to-b from-blue-500 to-blue-600 xl:p-14 pl-14 pr-14 pt-10 ">
-        <div className="md:text-6xl xl:text-7xl text-4xl xl:mt-20 xl:mr-24 xl:ml-24 text-white font-semibold">
-          Crie o seu cadastro gratuito em poucos passos...
+    <div className="flex w-full min-h-screen bg-gradient-to-r from-GRAY to-LOW_PURPLE items-center justify-center px-2 py-20">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col w-full max-w-lg p-6 sm:px-12 sm:py-6 bg-white rounded-[30px] sm:rounded-[50px]  shadow-xl"
+      >
+        <h1 className="text-4xl my-2">
+          Dados Pessoais
+        </h1>
+        <p className="mt-4 text-sm">
+          Duvidas no cadastro? <a className="text-LOW_BLUE underline font-bold" href="#">ajuda</a>
+        </p>
+        <input
+          className="mt-8 border-0 border-b-2 border-BLACK focus:ring-0"
+          type="text"
+          placeholder="Nome"
+          {...register("fullname")}
+        />
+        {errors.fullname && (
+          <p className="font-medium text-red-600">
+            {String(errors.fullname.message)}
+          </p>
+        )}
+        <input
+          className="mt-8 border-0 border-b-2 border-BLACK focus:ring-0"
+          type="email"
+          placeholder="E-mail"
+          {...register("email")}
+        />
+        {errors.email && (
+          <p className="font-medium text-red-600">
+            {String(errors.email.message)}
+          </p>
+        )}
+        <input
+          className="mt-8 border-0 border-b-2 border-BLACK focus:ring-0"
+          type="password"
+          placeholder="Senha"
+          {...register("password")}
+        />
+        {errors.password && (
+          <p className="font-medium text-red-600">
+            {String(errors.password.message)}
+          </p>
+        )}
+        <div className="relative">
+          <input
+            className="mt-8 w-full border-0 border-b-2 border-BLACK focus:ring-0"
+            type="date"
+            {...inputDateRegisterRef}
+            onChange={updateInputMaskDate}
+            ref={(e) => {
+              inputDateRegisterRef.ref(e);
+              inputDateRef.current = e;
+            }}
+          />
+          <InputMask
+            mask="99/99/9999"
+            type="text"
+            maskChar={null}
+            value={inputMaskDate}
+            onChange={handleDateChange}
+          >
+            {() =>
+              <input
+                placeholder="Data de Nascimento"
+                className="absolute left-0 bottom-0 border-0 border-b-2 border-BLACK focus:ring-0 right-20"
+                type="text"
+              />
+            }
+          </InputMask>
         </div>
-        <div className="mt-16">
-          <form onSubmit={handleSubmit(onSubmit)} className="xl:ml-24 xl:mr-24">
-            <label className="text-white">Nome Completo</label>
-            <input
-              {...register("fullname")}
-              className="block w-full transition duration-200 rounded-sm bg-transparent border-2 border-white text-white"
-            />
-            {errors.fullname && (
-              <p style={{ color: "red", fontWeight: 500 }}>
-                {String(errors.fullname?.message)}
-              </p>
-            )}
-            <label className="text-white">Email</label>
-            <input
-              {...register("email")}
-              className="block w-full transition duration-200 rounded-sm bg-transparent border-2 border-white text-white"
-            />
-            {errors.email && (
-              <p style={{ color: "red", fontWeight: 500 }}>
-                {String(errors.email?.message)}
-              </p>
-            )}
-            <label className="text-white">Senha</label>
-            <input
-              {...register("password")}
-              type="password"
-              className="block w-full transition duration-200 rounded-sm bg-transparent border-2 border-white text-white"
-            />
-            {errors.password && (
-              <p style={{ color: "red", fontWeight: 500 }}>
-                {String(errors.password?.message)}
-              </p>
-            )}
-            <button
-              type="submit"
-              className="text-white transition duration-200 outline-none focus:outline hover:outline hover:outline-5 focus:outline-5 focus:outline-blue-600 hover:outline-blue-600 ring-1 hover:bg-white hover:text-black bg-transparent border-2 border-white mt-6 h-10 w-full rounded-sm font-semibold"
-            >
-              Registrar
-            </button>
-          </form>
-        </div>
-        <ToastContainer />
-      </div>
-    </div>
+        {errors.date && (
+          <p className="font-medium text-red-600">
+            {String(errors.date.message)}
+          </p>
+        )}
+        <InputMask
+          mask="(99) 99999-9999"
+          maskChar={null}
+          className="mt-8 border-0 border-b-2 border-BLACK focus:ring-0"
+          type="text"
+          placeholder="Telefone"
+          {...register("phone")}
+        />
+        {errors.phone && (
+          <p className="font-medium text-red-600">
+            {String(errors.phone.message)}
+          </p>
+        )}
+        <InputMask
+          mask="99.999.999/9999-99"
+          maskChar={null}
+          className="mt-8 border-0 border-b-2 border-BLACK focus:ring-0"
+          type="text"
+          placeholder="CNPJ"
+          {...register("cnpj")}
+        />
+        {errors.cnpj && (
+          <p className="font-medium text-red-600">
+            {String(errors.cnpj.message)}
+          </p>
+        )}
+        <p className="max-w-80 text-xs mt-8">
+          Ao clicar em "Próximo" e continuar com o seu cadastro, você está concordando com a nossa <a className="text-BLACK underline font-bold" href="#">Política de Privacidade</a>.
+        </p>
+        <button className="mx-auto my-6 w-1/2 min-w-40  bg-LOW_BLUE text-white text-xl font-bold underline py-2 rounded-[25px]" type="submit">
+          Finalizar
+        </button>
+      </form>
+      <ToastContainer />
+    </div >
   );
 }
