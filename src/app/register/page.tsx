@@ -194,7 +194,7 @@ export default function Home() {
           </p>
         )}
         <p className="max-w-80 text-xs mt-8">
-          Ao clicar em "Próximo" e continuar com o seu cadastro, você está concordando com a nossa <a className="text-BLACK underline font-bold" href="#">Política de Privacidade</a>.
+          Ao clicar em &quotPróximo&quot e continuar com o seu cadastro, você está concordando com a nossa <a className="text-BLACK underline font-bold" href="#">Política de Privacidade</a>.
         </p>
         <button className="mx-auto my-6 w-1/2 min-w-40  bg-LOW_BLUE text-white text-xl font-bold underline py-2 rounded-[25px]" type="submit">
           Finalizar
