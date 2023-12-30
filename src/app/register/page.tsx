@@ -54,7 +54,7 @@ export default function Home() {
     notifyInfo("Registrando...");
 
     api
-      .post("/owner", {
+      .post("/startup", {
         name: data.fullname,
         email: data.email,
         password: data.password,
@@ -71,9 +71,12 @@ export default function Home() {
         }
       })
       .catch((err) => {
-        if (err.response.status === 409) {
-          notifyError("Email já esta em uso!");
+        if (err.response.status < 500) {
+          notifyError(err.response.data.message);
+          return
         }
+
+        notifyError("Ocorreu um erro inesperado ao servidor, tente novamente mais tarde!");
       });
   };
 
