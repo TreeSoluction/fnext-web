@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import api from "../services/api";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
   notifyInfo,
@@ -15,6 +15,7 @@ import {
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import InputMask from 'react-input-mask';
+import ErrorMessage from "@/components/Form/ErrorMessage";
 
 export default function Home() {
   const router = useRouter();
@@ -109,33 +110,21 @@ export default function Home() {
           placeholder="Nome"
           {...register("fullname")}
         />
-        {errors.fullname && (
-          <p className="font-medium text-red-600">
-            {String(errors.fullname.message)}
-          </p>
-        )}
+        <ErrorMessage error={errors.fullname} />
         <input
           className="mt-8 border-0 border-b-2 border-BLACK focus:ring-0"
           type="email"
           placeholder="E-mail"
           {...register("email")}
         />
-        {errors.email && (
-          <p className="font-medium text-red-600">
-            {String(errors.email.message)}
-          </p>
-        )}
+        <ErrorMessage error={errors.email} />
         <input
           className="mt-8 border-0 border-b-2 border-BLACK focus:ring-0"
           type="password"
           placeholder="Senha"
           {...register("password")}
         />
-        {errors.password && (
-          <p className="font-medium text-red-600">
-            {String(errors.password.message)}
-          </p>
-        )}
+        <ErrorMessage error={errors.password} />
         <div className="relative">
           <input
             className="mt-8 w-full border-0 border-b-2 border-BLACK focus:ring-0"
@@ -163,11 +152,7 @@ export default function Home() {
             }
           </InputMask>
         </div>
-        {errors.date && (
-          <p className="font-medium text-red-600">
-            {String(errors.date.message)}
-          </p>
-        )}
+        <ErrorMessage error={errors.date} />
         <InputMask
           mask="(99) 99999-9999"
           maskChar={null}
@@ -176,11 +161,7 @@ export default function Home() {
           placeholder="Telefone"
           {...register("phone")}
         />
-        {errors.phone && (
-          <p className="font-medium text-red-600">
-            {String(errors.phone.message)}
-          </p>
-        )}
+        <ErrorMessage error={errors.phone} />
         <InputMask
           mask="99.999.999/9999-99"
           maskChar={null}
@@ -189,11 +170,7 @@ export default function Home() {
           placeholder="CNPJ"
           {...register("cnpj")}
         />
-        {errors.cnpj && (
-          <p className="font-medium text-red-600">
-            {String(errors.cnpj.message)}
-          </p>
-        )}
+        <ErrorMessage error={errors.cnpj} />
         <p className="max-w-80 text-xs mt-8">
           Ao clicar em &quotPróximo&quot e continuar com o seu cadastro, você está concordando com a nossa <a className="text-BLACK underline font-bold" href="#">Política de Privacidade</a>.
         </p>
