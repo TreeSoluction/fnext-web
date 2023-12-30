@@ -22,7 +22,8 @@ export default function Home() {
     fullname: z.string().min(1, 'Nome não pode ser vazio!'),
     email: z.string().email({ message: "Email Inválido!" }),
     password: z.string().min(6, "A senha tem que ter no mínimo 6 caracteres!"),
-    date: z.string(),
+    date: z.string()
+      .regex(/^\d{4}-\d{2}-\d{2}$/, 'Data Inválida!'),
     phone: z.string()
       .regex(/^\(\d{2}\) \d{5}-\d{4}$/, 'Telefone Inválido!')
       .transform((phone) => phone.replace(/[()\-]/g, '')),
