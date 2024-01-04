@@ -99,7 +99,7 @@ export default function Home() {
     <div className="flex w-full min-h-screen bg-gradient-to-r from-GRAY to-LOW_PURPLE items-center justify-center px-2 py-20">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col w-full max-w-lg p-6 sm:px-12 sm:py-6 bg-white rounded-[30px] sm:rounded-[50px]  shadow-xl"
+        className="flex flex-col w-full max-w-lg p-6 sm:px-12 sm:py-6 bg-white rounded-[5px] sm:rounded-[10px]  shadow-xl"
       >
         <h1 className="text-4xl my-2">
           Dados Pessoais
