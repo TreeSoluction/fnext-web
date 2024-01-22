@@ -15,6 +15,7 @@ import {
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import ErrorMessage from "@/components/Form/error-message";
+import { InputStyled } from "@/components/Form/inputs";
 
 export default function Home() {
   const LoginSchema = z.object({
@@ -80,17 +81,15 @@ export default function Home() {
         <h1 className="text-4xl my-2">
           Insira suas Credenciais
         </h1>
-        <input
-          className="mt-8 border-0 border-b-2 border-BLACK focus:ring-0"
+        <InputStyled
+          label="E-mail"
           type="email"
-          placeholder="E-mail"
           {...register("email")}
         />
         <ErrorMessage error={errors.email} />
-        <input
-          className="mt-8 border-0 border-b-2 border-BLACK focus:ring-0"
+        <InputStyled
+          label="Senha"
           type="password"
-          placeholder="Senha"
           {...register("password")}
         />
         <p className="mt-4 text-sm">
