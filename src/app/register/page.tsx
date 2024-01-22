@@ -14,8 +14,8 @@ import {
 } from "../services/notification";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-import InputMask from 'react-input-mask';
-import ErrorMessage from "@/components/Form/ErrorMessage";
+import ErrorMessage from "@/components/Form/error-message";
+import { InputDate, InputStyled, InputMasked } from "@/components/Form/inputs";
 
 export default function Home() {
   const router = useRouter();
@@ -41,10 +41,6 @@ export default function Home() {
   } = useForm({
     resolver: zodResolver(RegisterSchema),
   });
-
-  const [inputMaskDate, setInputMaskDate] = React.useState<string>("");
-  const inputDateRef = React.useRef<HTMLInputElement | null>(null);
-  const inputDateRegisterRef = register("date");
 
   function SetCookie(value: string) {
     Cookies.set("ownerid", value);
@@ -80,21 +76,6 @@ export default function Home() {
       });
   };
 
-  const updateInputMaskDate = (e) => {
-    const dateMaskFormat = e.target.value.split("-").reverse().join("/");
-    setInputMaskDate(dateMaskFormat)
-  }
-
-  const handleDateChange = (e) => {
-    setInputMaskDate(e.target.value);
-    const isValidDate = e.target.value.length == 10;
-
-    if (isValidDate && inputDateRef.current) {
-      const date = e.target.value.split("/").reverse().join("-");
-      inputDateRef.current.value = date;
-    }
-  }
-
   return (
     <div className="flex w-full min-h-screen bg-gradient-to-r from-GRAY to-LOW_PURPLE items-center justify-center px-2 py-20">
       <form
@@ -107,70 +88,37 @@ export default function Home() {
         <p className="mt-4 text-sm">
           Duvidas no cadastro? <a className="text-LOW_BLUE underline font-bold" href="#">ajuda</a>
         </p>
-        <input
-          className="mt-8 border-0 border-b-2 border-BLACK focus:ring-0"
-          type="text"
-          placeholder="Nome"
+        <InputStyled
+          label="Nome"
           {...register("fullname")}
         />
         <ErrorMessage error={errors.fullname} />
-        <input
-          className="mt-8 border-0 border-b-2 border-BLACK focus:ring-0"
+        <InputStyled
+          label="E-mail"
           type="email"
-          placeholder="E-mail"
           {...register("email")}
         />
         <ErrorMessage error={errors.email} />
-        <input
-          className="mt-8 border-0 border-b-2 border-BLACK focus:ring-0"
+        <InputStyled
+          label="Senha"
           type="password"
-          placeholder="Senha"
           {...register("password")}
         />
         <ErrorMessage error={errors.password} />
-        <div className="relative">
-          <input
-            className="mt-8 w-full border-0 border-b-2 border-BLACK focus:ring-0"
-            type="date"
-            {...inputDateRegisterRef}
-            onChange={updateInputMaskDate}
-            ref={(e) => {
-              inputDateRegisterRef.ref(e);
-              inputDateRef.current = e;
-            }}
-          />
-          <InputMask
-            mask="99/99/9999"
-            type="text"
-            maskChar={null}
-            value={inputMaskDate}
-            onChange={handleDateChange}
-          >
-            {() =>
-              <input
-                placeholder="Data de Nascimento"
-                className="absolute left-0 bottom-0 border-0 border-b-2 border-BLACK focus:ring-0 right-20"
-                type="text"
-              />
-            }
-          </InputMask>
-        </div>
+        <InputDate
+          label="Data de Nascimento"
+          getInputDateRegisterRef={() => register('date')}
+        />
         <ErrorMessage error={errors.date} />
-        <InputMask
+        <InputMasked
           mask="(99) 99999-9999"
-          maskChar={null}
-          className="mt-8 border-0 border-b-2 border-BLACK focus:ring-0"
-          type="text"
-          placeholder="Telefone"
+          label="Telefone"
           {...register("phone")}
         />
         <ErrorMessage error={errors.phone} />
-        <InputMask
+        <InputMasked
           mask="99.999.999/9999-99"
-          maskChar={null}
-          className="mt-8 border-0 border-b-2 border-BLACK focus:ring-0"
-          type="text"
-          placeholder="CNPJ"
+          label="CNPJ"
           {...register("cnpj")}
         />
         <ErrorMessage error={errors.cnpj} />
