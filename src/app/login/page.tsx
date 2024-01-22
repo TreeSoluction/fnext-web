@@ -97,7 +97,7 @@ export default function Home() {
           Esqueceu a senha? <a className="text-LOW_BLUE underline font-bold" href="#">Recuperar</a>
         </p>
         <p className="max-w-80 text-xs mt-8">
-          Ao clicar em &quotPróximo&quot e continuar com o seu cadastro, você está concordando com a nossa <a className="text-BLACK underline font-bold" href="#">Política de Privacidade</a>.
+          Ao clicar em <strong>&quot;Entrar&quot;</strong> e continuar com o seu Login, você está concordando com a nossa <a className="text-BLACK underline font-bold" href="#">Política de Privacidade</a>.
         </p>
         <div>
           <button className="mx-auto my-6 w-1/2 min-w-30 bg-gray-400 text-white text-xl py-2 rounded-[25px]">
