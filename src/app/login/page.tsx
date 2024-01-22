@@ -14,7 +14,7 @@ import {
 } from "../services/notification";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-import ErrorMessage from "@/components/Form/ErrorMessage";
+import ErrorMessage from "@/components/Form/error-message";
 
 export default function Home() {
   const LoginSchema = z.object({
