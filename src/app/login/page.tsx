@@ -92,6 +92,7 @@ export default function Home() {
           type="password"
           {...register("password")}
         />
+        <ErrorMessage error={errors.password} />
         <p className="mt-4 text-sm">
           Esqueceu a senha? <a className="text-LOW_BLUE underline font-bold" href="#">Recuperar</a>
         </p>
