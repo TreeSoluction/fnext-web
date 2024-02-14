@@ -1,3 +1,4 @@
+import { Input } from "postcss";
 import React from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
 import InputMask from 'react-input-mask';
@@ -69,6 +70,7 @@ const InputStyled = React.forwardRef((props: any, ref) => (
         placeholder={props.label}
     />
 ))
+InputStyled.displayName = "InputStyled";
 
 const InputMasked = React.forwardRef((props: any, ref) => (
     <InputMask
@@ -81,5 +83,6 @@ const InputMasked = React.forwardRef((props: any, ref) => (
         placeholder={props.label}
     />
 ))
+InputMasked.displayName = "InputMasked";
 
 export { InputDate, InputStyled, InputMasked }
