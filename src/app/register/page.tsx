@@ -38,6 +38,7 @@ export default function Home() {
     handleSubmit,
     formState: { errors },
     reset,
+    setValue
   } = useForm({
     resolver: zodResolver(RegisterSchema),
   });
@@ -108,6 +109,7 @@ export default function Home() {
         <InputDate
           label="Data de Nascimento"
           getInputDateRegisterRef={() => register('date')}
+          setValueInputDate={(value: string) => setValue('date', value)}
         />
         <ErrorMessage error={errors.date} />
         <InputMasked

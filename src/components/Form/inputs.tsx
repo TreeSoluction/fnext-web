@@ -1,4 +1,3 @@
-import { Input } from "postcss";
 import React from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
 import InputMask from 'react-input-mask';
@@ -6,11 +5,11 @@ import InputMask from 'react-input-mask';
 type InputDateProps = {
     label: string;
     getInputDateRegisterRef: () => UseFormRegisterReturn<"date">;
+    setValueInputDate: (value: string) => void;
 }
 
-const InputDate = ({ label, getInputDateRegisterRef }: InputDateProps) => {
+const InputDate = ({ label, getInputDateRegisterRef, setValueInputDate }: InputDateProps) => {
     const [inputMaskDate, setInputMaskDate] = React.useState<string>("");
-    const inputDateRef = React.useRef<HTMLInputElement | null>(null);
     const inputDateRegisterRef = getInputDateRegisterRef();
 
     const updateInputMaskDate = (e) => {
@@ -22,10 +21,9 @@ const InputDate = ({ label, getInputDateRegisterRef }: InputDateProps) => {
         setInputMaskDate(e.target.value);
         const isValidDate = e.target.value.length == 10;
 
-        if (isValidDate && inputDateRef.current) {
+        if (isValidDate) {
             const date = e.target.value.split("/").reverse().join("-");
-            inputDateRef.current.value = date;
-            debugger
+            setValueInputDate(date);
         }
     }
 
@@ -36,10 +34,6 @@ const InputDate = ({ label, getInputDateRegisterRef }: InputDateProps) => {
                 type="date"
                 {...inputDateRegisterRef}
                 onChange={updateInputMaskDate}
-                ref={(e) => {
-                    inputDateRegisterRef.ref(e);
-                    inputDateRef.current = e;
-                }}
             />
             <InputMask
                 mask="99/99/9999"
