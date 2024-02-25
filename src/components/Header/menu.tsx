@@ -15,13 +15,14 @@ function Menu({ closeMenuFunction }: MenuProps) {
         <div className="fixed inset-0">
             <button className="w-full h-full bg-black opacity-30" onClick={closeMenuFunction}></button>
             <nav>
-                <ul className="bg-white rounded-[2rem] absolute right-10 sm:right-40 top-10 sm:top-20 text-sm">
+                <ul className="bg-white rounded-[2rem] absolute w-10/12 max-w-72 right-10 sm:right-40 top-10 sm:top-20 text-sm ">
                     <li>
                         <a href="#" className="block p-3 hover:bg-slate-100 rounded-md mt-4 mx-2">Mensagem</a>
                     </li>
                     <li>
                         <a href="#" className="block p-3 hover:bg-slate-100 rounded-md mx-2">Salvos</a>
                     </li>
+                    <span className="block h-[1px] w-full my-2 bg-PASTEL"></span>
                     <li>
                         <a href="#" className="block p-3 hover:bg-slate-100 rounded-md mx-2">Minha Franquia</a>
                     </li>
@@ -31,11 +32,12 @@ function Menu({ closeMenuFunction }: MenuProps) {
                     <li>
                         <a href="#" className="block p-3 hover:bg-slate-100 rounded-md mx-2">Conta</a>
                     </li>
+                    <span className="block h-[1px] w-full my-2 bg-PASTEL"></span>
                     <li>
                         <a href="#" className="block p-3 hover:bg-slate-100 rounded-md mx-2">Central de ajuda</a>
                     </li>
                     <li>
-                        <button onClick={userLogout} className="block p-3 hover:bg-red-100 rounded-md mb-4 mx-2">Sair da conta</button>
+                        <button onClick={userLogout} className="block w-[-webkit-fill-available] text-start p-3 hover:bg-red-100 rounded-md mb-4 mx-2">Sair da conta</button>
                     </li>
                 </ul>
             </nav>
