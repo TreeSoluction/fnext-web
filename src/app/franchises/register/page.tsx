@@ -15,16 +15,18 @@ import {
 import Header from "@/components/Header";
 import { InputStyled } from "@/components/Form/inputs";
 import { useRouter } from "next/navigation";
+import ErrorMessage from "@/components/Form/error-message";
 
 export default function Register() {
     const router = useRouter();
     const RegisterSchema = z.object({
-        min_investment: z.number().min(1, 'Valor mínimo de investimento não pode ser vazio!'),
-        return_rate: z.number().min(1, 'Taxa de retorno não pode ser vazia!'),
-        monthly_bill: z.number().min(1, 'Faturamento mensal não pode ser vazio!'),
-        unit_br: z.number().min(1, 'Número de unidades não pode ser vazio!'),
-        royalties: z.number().min(1, 'Royalties não pode ser vazio!'),
-        headquarters: z.string().min(1, 'Sede não pode ser vazia!')
+        min_investment: z.string().min(1, 'Valor mínimo de investimento não pode ser vazio!'),
+        return_rate: z.string().min(1, 'Taxa de retorno não pode ser vazia!'),
+        monthly_bill: z.string().min(1, 'Faturamento mensal não pode ser vazio!'),
+        unit_br: z.string().min(1, 'Número de unidades não pode ser vazio!'),
+        royalties: z.string().min(1, 'Royalties não pode ser vazio!'),
+        headquarters: z.string().min(1, 'Sede não pode ser vazia!'),
+        model_business: z.string().min(1, 'Modelo de negócio não pode ser vazio!'),
     });
 
     const {
@@ -73,6 +75,7 @@ export default function Register() {
                             {...register("min_investment")}
                             className="max-w-52 my-2 rounded-md bg-PASTEL p-2 border-none"
                         />
+                        <ErrorMessage className="w-56" size="small" error={errors.min_investment} />
                     </div>
                     <div>
                         <p>Retorno*</p>
@@ -82,6 +85,7 @@ export default function Register() {
                             {...register("return_rate")}
                             className="max-w-52 my-2 rounded-md bg-PASTEL p-2 border-none"
                         />
+                        <ErrorMessage className="w-56" size="small" error={errors.return_rate} />
                     </div>
                     <div>
                         <p>Faturamento mensal*</p>
@@ -91,6 +95,7 @@ export default function Register() {
                             {...register("monthly_bill")}
                             className="max-w-52 my-2 rounded-md bg-PASTEL p-2 border-none"
                         />
+                        <ErrorMessage className="w-56" size="small" error={errors.monthly_bill} />
                     </div>
                     <div>
                         <p>Unidades no Brasil*</p>
@@ -100,6 +105,7 @@ export default function Register() {
                             {...register("units_br")}
                             className="max-w-52 my-2 rounded-md bg-PASTEL p-2 border-none"
                         />
+                        <ErrorMessage className="w-56" size="small" error={errors.unit_br} />
                     </div>
                     <div>
                         <p>Royalties*</p>
@@ -109,6 +115,7 @@ export default function Register() {
                             {...register("royalties")}
                             className="max-w-52 my-2 rounded-md bg-PASTEL p-2 border-none"
                         />
+                        <ErrorMessage className="w-56" size="small" error={errors.royalties} />
                     </div>
                     <div>
                         <p>Sede*</p>
@@ -117,6 +124,7 @@ export default function Register() {
                             {...register("headquarters")}
                             className="max-w-52 my-2 rounded-md bg-PASTEL p-2 border-none"
                         />
+                        <ErrorMessage className="w-56" size="small" error={errors.unit_br} />
                     </div>
                     <div className="w-8/12">
                         <p>Observação</p>
@@ -130,6 +138,7 @@ export default function Register() {
                         <p>Defina os modelos de negocios de sua franquia</p>
                         <select
                             className="w-60 my-2 rounded-md bg-PASTEL p-2 border-none"
+                            {...register("model_business")}
                         >
                             <option value="">Busque seu modelo</option>
                             <option value="Quiosque">Quiosque</option>
@@ -138,6 +147,7 @@ export default function Register() {
                             <option value="Unidade Movies">Unidade Movies</option>
                             <option value="home office">home office</option>
                         </select>
+                        <ErrorMessage className="w-56" size="small" error={errors.model_business} />
                     </div>
                     <FieldFranchise />
                     <div className="w-8/12">
