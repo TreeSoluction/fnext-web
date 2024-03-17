@@ -15,7 +15,7 @@ export default function FilterHome() {
     }
 
     return (
-        <ul className="flex items-center rounded-full bg-white w-10/12 px-4 max-w-[50rem]">
+        <ul className="flex items-center rounded-full bg-white w-10/12 px-4 max-w-[50rem] z-20">
             <li className="flex-grow relative">
                 <button
                     onClick={() => handleOpenMenu(0)}
