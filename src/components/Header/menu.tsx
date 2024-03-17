@@ -12,7 +12,7 @@ type MenuProps = {
 
 function Menu({ closeMenuFunction }: MenuProps) {
     return (
-        <div className="fixed inset-0 z-10">
+        <div className="fixed inset-0 z-50">
             <button className="w-full h-full bg-black opacity-30" onClick={closeMenuFunction}></button>
             <nav>
                 <ul className="bg-white rounded-[2rem] absolute w-10/12 max-w-72 right-10 sm:right-40 top-10 sm:top-20 text-sm ">
