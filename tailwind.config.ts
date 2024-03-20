@@ -12,7 +12,7 @@ const config: Config = {
         MAIN_HIGH_BLUE: "#0c2049",
         HIGH_BLUE: "#253459",
         LOW_BLUE: "#004aad",
-        PASTEL: "#EBEBD3",
+        PASTEL: "#f7f7f7",
         MEDIUM_GREEN: "#4C5B5C",
         LOW_PURPLE: "#A7ACD9",
         BLACK: "#000000",
