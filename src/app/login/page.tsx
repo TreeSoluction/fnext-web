@@ -16,6 +16,7 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import ErrorMessage from "@/components/Form/error-message";
 import { InputStyled } from "@/components/Form/inputs";
+import { APP_ROUTES } from "@/constants/app-route";
 
 export default function Home() {
   const LoginSchema = z.object({
@@ -53,7 +54,7 @@ export default function Home() {
       .then((res) => {
         if (res.status === 200) {
           notifySuccess("Login Realizado!");
-          SetCookie("jwt", res.data.token);
+          SetCookie("token", res.data.token);
         }
       })
       .catch((err) => {
@@ -63,7 +64,6 @@ export default function Home() {
         }
 
         if (err.response.status === 401) {
-          console.log("Bateu");
           notifyError("Senha incorreta");
           return
         }
@@ -100,9 +100,9 @@ export default function Home() {
           Ao clicar em <strong>&quot;Entrar&quot;</strong> e continuar com o seu Login, você está concordando com a nossa <a className="text-BLACK underline font-bold" href="#">Política de Privacidade</a>.
         </p>
         <div>
-          <button className="mx-auto my-6 w-1/2 min-w-30 bg-gray-400 text-white text-xl py-2 rounded-[25px]">
+          <a href={APP_ROUTES.public.register} className="inline-block my-6 w-1/2 min-w-30 bg-gray-400 text-white text-xl py-2 rounded-[25px] text-center">
             Criar Conta
-          </button>
+          </a>
           <button className="mx-auto my-6 w-1/2 min-w-30 bg-LOW_BLUE text-white text-xl font-bold py-2 rounded-[25px]" type="submit">
             Entrar
           </button>
