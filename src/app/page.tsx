@@ -1,3 +1,4 @@
+"use client"
 
 import Header from "@/components/Header";
 import MenuBar from "@/components/Header/menu";
@@ -8,11 +9,42 @@ import InfoFranchiseCard from "@/components/Cards/info-franchise";
 import FranchiseCard from "@/components/Cards/franchise";
 import franchiseList from "@/constants/franchiseList";
 
-import Image from "next/image";
 import { APP_ROUTES } from "@/constants/app-route";
-import { ICONS } from "@/constants/icons";
+import { use, useState, useEffect } from "react";
+import RegisterModal from "@/components/Modal/register.modal";
+import LoginModal from "@/components/Modal/login.modal.";
 
 export default function Home() {
+    const [isRegisterModalOpen, setRegisterModalOpen] = useState(false);
+    const [isLoginModalOpen, setLoginModalOpen] = useState(false);
+    const [isLogged, setLogged] = useState(false);
+
+    useEffect(() => {
+        const delay = setTimeout(() => {
+            setRegisterModalOpen(true);
+        }, 3000);
+
+        return () => clearTimeout(delay);
+    }, []);
+
+    const openRegisterModal = () => {
+        setRegisterModalOpen(true);
+    };
+
+    const closeRegisterModal = () => {
+        setRegisterModalOpen(false);
+        setLoginModalOpen(true);
+    };
+
+    const openLoginModal = () => {
+        setLoginModalOpen(true);
+    };
+
+    const closeLoginModal = () => {
+        setLoginModalOpen(false);
+    };
+
+
     return (
         <div>
             <Header>
@@ -26,6 +58,9 @@ export default function Home() {
                     <MenuBar />
                 </div>
             </Header>
+            <RegisterModal isOpen={isRegisterModalOpen} onClose={closeRegisterModal} />
+            <LoginModal isOpen={isLoginModalOpen} onClose={closeLoginModal} />
+
             <div className="bg-MAIN_HIGH_BLUE pt-12 pb-8 flex justify-center">
                 <FilterHome />
             </div>
