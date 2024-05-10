@@ -23,3 +23,32 @@
 .modal.open {
   display: flex;
 }
+
+
+.businessRegisterSection {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  padding: 2.5rem;
+  width: 50%;
+  @media screen and (max-width: 768px) {
+    width: 90%;
+  }
+}
+
+.businessRegisterSection:not(:first-child) { 
+  margin-top: 5vh;
+  @media screen and (max-width: 768px) {
+    margin-top: 2vh;
+  }
+}
+
+.businessRegisterSection  input { 
+  border-width: 2px;
+  border-radius: 5px;
+}
+
+.businessRegisterSection input:focus{ 
+  box-shadow: 0 0 10px #719ECE;
+  border-radius: 5px;
+}
