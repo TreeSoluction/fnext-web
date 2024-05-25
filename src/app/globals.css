@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root{
+    --color_primary: #0D2048;
+    --color_sencodary: #1031BD;
+    --color_text: #FFFFFF;
+    --color_text_secundary: #181b23;
+    --font_primary: "Montserrat", sans-serif 
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
