@@ -1,7 +1,7 @@
 
 'use client';  // Adiciona este comentário no topo do arquivo
 
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent} from 'react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { Style } from '@ckeditor/ckeditor5-style';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -83,7 +83,7 @@ function Container_form({children, title}): React.JSX.Element{
         .container_form hr{
             border-top: 0.1rem solid #ececec;
         }
-        
+    
         .container_form h2 {
             font-size: 1.4rem;
             color: var(--color_primary);
@@ -94,12 +94,20 @@ function Container_form({children, title}): React.JSX.Element{
     );
 };
 
-function Togggle_button({title}:{title: string}): React.JSX.Element{
+function Togggle_button({checked, onChange}:{checked:any, onChange: any}): React.JSX.Element{
+    
     return(
         <React.Fragment>
-            <label className="toggle-container">
-                        <input type="checkbox" className="toggle-input" checked/>
-            <span className="toggle-slider">{title}</span>
+            <label className="toggle-container" htmlFor='toggle-check'>
+                        <input type="checkbox" 
+                        id='toggle-check'
+                        className="toggle-input" 
+                        checked = {checked}
+                        onChange={onChange}
+                        />
+                        <span className="toggle-slider">
+                            {checked ? 'Ativo' : 'Desativo'}
+                        </span>
             </label>
             <style jsx>{`
             label {
@@ -203,7 +211,6 @@ function Form_input({label, id, placeholder}:{label: string, id: string, placeho
     );
 };
 
-
 interface FormTextareaProps {
     label: string;
     id_div: string;
@@ -214,12 +221,23 @@ const Form_textarea: React.FC<FormTextareaProps> = ({ label, id_div, id_input })
     const maxLen: string = "300";
     const [editorData, setEditorData] = useState("");
 
+    function CharacterCounts(text: string): number{
+        return text.length;
+    }
+
+    const handleEditorChange = ( event: any, editor: any) => {
+        const data = editor.getData();
+        setEditorData(data);
+    }
+
+    const characterNumber = CharacterCounts(editorData);
+
   
     return (
       <React.Fragment>
         <div className="text_area_labels">
           <label className="label_text">{label}</label>
-          <div id={id_div}><p>0 de 300 caracteres</p></div>
+          <div id={id_div}><p>{characterNumber} de 300 caracteres</p></div>
         </div>
         <CKEditor
           editor={ClassicEditor}
@@ -272,8 +290,8 @@ const Form_textarea: React.FC<FormTextareaProps> = ({ label, id_div, id_input })
     );
 };
 
-
 const Form_busca = ({}) => {
+
     return(
         <React.Fragment>
             <div id="divBusca">
@@ -361,9 +379,236 @@ const Form_busca = ({}) => {
     );
 }
 
+interface ImageProps {
+    inputId: string;
+    previewId: string;
+}
+
+
+const Form_logo = ({}) => {
+
+    const [imageSrc, setImageSrc] = useState<string | null>(null);
+
+    const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            if (file.size <= 2 * 1024 * 1024) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    setImageSrc(e.target?.result as string);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                alert('O arquivo deve ser uma imagem em png ou jpg até 2MB.');
+            }
+        }
+    };
+
+    return(
+        <React.Fragment>
+            <div className="image-upload-container">
+
+                <input className="custom-file-input" 
+                        type="file" 
+                        id="franchise_image--logo" 
+                        accept=".png, .jpg" 
+                        placeholder="insira sua imagem"
+                        onChange={handleImageChange}
+                />
+
+                <label htmlFor='franchise_image--logo' className="custom-file-label">Selecione sua Logo</label>
+                <div className="image-preview" id="preview_container--logo">
+                    {
+                        imageSrc ? <Image src={imageSrc} 
+                                alt="ImagemPreview" 
+                                width={500} height={300}  /> 
+                        : <span>Arraste as imagens aqui</span>
+                    }
+                    
+                
+                </div>
+                <p className="subtext_details">Imagem em png ou jpg até 2MB cada. Sugerimos dimensões de 250px X 150px.</p>
+            </div>
+            <style jsx>{`
+            .image-upload-container {
+                border: 1px none #ccc;
+                padding: 10px;
+                text-align: center;
+            }
+            .image-preview {
+                display: flex;
+                flex-wrap: wrap;
+            
+                width: 99%;
+                min-height: 150px;
+                max-height: 100%;
+            
+                margin-top: 0.2rem;
+                border: 1px solid #ccc;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            input[type="file"]{
+                display: none;
+            }
+            label {
+                display: block;
+                margin-top: 10px;
+                color: #666;
+                font-family: var(--font_primary);
+                font-size: 0.8rem;
+              }
+            .custom-file-label {
+    
+                position: relative;
+                border: none;
+                background-color: transparent;
+                cursor: pointer;
+                color: var(--color_sencodary);
+                text-align: right;
+                item-align: right;
+                font-size: 1rem;
+                margin-bottom: 0.2rem;
+            }
+            .custom-file-label::after {
+                display: none;
+            }
+            .subtext_details{
+                font-size: 0.6rem;
+                color: rgb(158, 157, 157);
+                text-align: right;
+                margin-top: 1rem;
+                align-content: end;
+                text-align: end;
+                margin-bottom: 0;
+            }
+            
+            
+            `}</style>
+        </React.Fragment>
+    );
+}
+
+const Form_imgs = ({}) => {
+
+    const [imageUrls, setImageUrls] = useState<string[]>([]);
+    const [selectedImages, setSelectedImages] = useState<File[]>([]);
+
+    const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const files = event.target.files;
+        if (files) {
+            const newSelectedImages = Array.from(files);
+            setSelectedImages(newSelectedImages);
+
+            const newImageUrls = newSelectedImages.map((file) => URL.createObjectURL(file));
+            setImageUrls(newImageUrls);
+        }
+    };
+
+
+    return(
+        <React.Fragment>
+
+            <div className="image-upload-container">
+
+                <input 
+                    className="custom-file-input" 
+                    type="file" 
+                    id="franchise_image--others" 
+                    accept=".png, .jpg" 
+                    multiple 
+                    placeholder="insira sua imagem"
+                    onChange={handleImageChange}
+                />
+
+                <label className="custom-file-label"  htmlFor="franchise_image--others">Selecione imagens de sua franquia</label>
+                <div className="image-preview" id="preview_container-others">
+                    {
+                        imageUrls.length>0? (
+                            imageUrls.map((url, index) => (
+                                <Image key={index} src={url} alt={`Imagem ${index}`} width={260} height={140} />
+                            ))
+                        ) : (
+                            <span>Arraste as imagens aqui</span>
+                        )
+                    }
+                
+                </div>
+                <p className="subtext_details">Imagem em png ou jpg até 2MB cada. Sugerimos dimensões de 250px X 150px.</p>
+            </div>
+
+            <style jsx>{`
+            .image-upload-container {
+                border: 1px none #ccc;
+                padding: 10px;
+                text-align: center;
+            }
+            .image-preview {
+                display: flex;
+                flex-wrap: wrap;
+            
+                width: 99%;
+                min-height: 150px;
+                max-height: 100%;
+            
+                margin-top: 0.2rem;
+                border: 1px solid #ccc;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            input[type="file"]{
+                display: none;
+            }
+            label {
+                display: block;
+                margin-top: 10px;
+                color: #666;
+                font-family: var(--font_primary);
+                font-size: 0.8rem;
+              }
+            .custom-file-label {
+    
+                position: relative;
+                border: none;
+                background-color: transparent;
+                cursor: pointer;
+                color: var(--color_sencodary);
+                text-align: right;
+                item-align: right;
+                font-size: 1rem;
+                margin-bottom: 0.2rem;
+            }
+            .custom-file-label::after {
+                display: none;
+            }
+            .subtext_details{
+                font-size: 0.6rem;
+                color: rgb(158, 157, 157);
+                text-align: right;
+                margin-top: 1rem;
+                align-content: end;
+                text-align: end;
+                margin-bottom: 0;
+            }
+            
+            
+            `}</style>
+
+        </React.Fragment>
+    )
+}
 export default function Franchise() {
 
-const img_lupa = "fnext-web\public\img\form_francchise\lupa.png"
+    const [switchState, setSwitchState] = useState(true);
+        
+    const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setSwitchState(!switchState)
+    }
+
    
  /**  const [franchiseName, setFranchiseName] = useState('');
   const [franchiseDescription, setFranchiseDescription] = useState('');
@@ -374,7 +619,7 @@ const img_lupa = "fnext-web\public\img\form_francchise\lupa.png"
         <form action="/submit-franchise-info" method="post">
             <Container_form title="Informações da Franquia">
                  
-                    <Togggle_button title='ativo'/>
+                    <Togggle_button checked={switchState} onChange={handleOnChange} />
 
                     <Form_input label='Nome da Franquia' id="franchiseName" placeholder="Digite o nome da franquia"/>
 
@@ -389,17 +634,31 @@ const img_lupa = "fnext-web\public\img\form_francchise\lupa.png"
             </Container_form>
 
             <Container_form title='Logo'>
-               
-                    <div className="image-upload-container">
+                    <Form_logo/>
+            </Container_form>
 
-                        <input className="custom-file-input" type="file" id="franchise_image--logo" accept=".png, .jpg" placeholder="insira sua imagem"/>
+            <Container_form title='Imagens'>
+                    <Form_imgs/>
+            </Container_form>
 
-                        <label className="custom-file-label">Selecione sua Logo</label>
-                        <div className="image-preview" id="preview_container--logo">
-                        <span>Arraste as imagens aqui</span>
+            <Container_form title='Vídeos'>
+            <div className="video-upload-container">
+                    
+                    <label className="label_text franchise_label--video" id="franchiseDescription" htmlFor="franchise_video-url">URL de vídeo sobre sua Franquia <span>(opcional) &#9432;</span></label>
+
+                    <input type="url" id="franchise_video-url" placeholder="https://.."/>
+
+                    <div className="videos-preview" id="preview_container-others">
+                        <span>videos</span>
                         </div>
-                        <p className="subtext_details">Imagem em png ou jpg até 2MB cada. Sugerimos dimensões de 250px X 150px.</p>
+
+                    <div className="franchise-site-url">
+                        <label
+                        className="franchise_label--video" htmlFor="franchise_site-url">URL do site de sua Franquia<span>(opcional) &#x24D8;</span></label>
+                        <input type="url" id="franchise_site-url" placeholder="https://.."/>
                     </div>
+
+                </div>
             </Container_form>
 
         </form>
