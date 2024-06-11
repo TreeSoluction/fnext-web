@@ -4,14 +4,14 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import api from "../../services/api";
+import api from "../../../services/api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
   notifyInfo,
   notifySuccess,
   notifyError,
-} from "../../services/notification";
+} from "../../../services/notification";
 import Cookies from "js-cookie";
 
 export default function Home() {
