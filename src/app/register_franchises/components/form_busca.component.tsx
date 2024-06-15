@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from 'next/image';
 
-const Form_busca = ({holder, message, label="", onChange, value}) => {
+const Form_busca = ({holder, message, label="", onChange, value, classValue, segments}) => {
 
     return(
         <React.Fragment>
@@ -24,17 +24,16 @@ const Form_busca = ({holder, message, label="", onChange, value}) => {
 
                     <datalist
                             className="w-60 my-2 rounded-md bg-PASTEL p-2 border-none" id='textBusca_sugestion'>
-                            <option value="">Busque seu modelo</option>
-                            <option value="Quiosque">Quiosque</option>
-                            <option value="Loja fisica">Loja fisica</option>
-                            <option value="Home based">Home based</option>
-                            <option value="Unidade Movies">Unidade Movies</option>
-                            <option value="home office">home office</option>
-                        </datalist>
+                                 {segments.map((options, index) => (
+                                    <option key={index} value={options}>
+                                    {options}
+                                    </option>
+                                ))}
+                    </datalist>
 
             </div>
 
-            <div className="segment-atribute-alert alert alert-primary" role="alert">
+            <div className={`segment-atribute-alert ${classValue}`} role="alert">
                 {message}
             </div>
 

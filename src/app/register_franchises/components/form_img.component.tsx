@@ -126,4 +126,4 @@ const Form_imgs = ({}) => {
     )
 }
 
-export default Form_imgs;
+export default Form_imgs

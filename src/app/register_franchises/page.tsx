@@ -30,8 +30,28 @@ export default function Franchise() {
 
     //Franchise images e Logos
     const [operatingSegment, setOperationgSegment] = useState<string>("");
-    const [operatingSegmentMessage, setOperationgSegmentMessage] = useState<string>("");
-    const [operatingSegmentMessageClass, setOperationgSegmentMessageClass] = useState<string>("");
+    const [operatingSegmentMessage, setOperationgSegmentMessage] = useState<string>("Nenhum Segmento adicionado");
+    const [operatingSegmentMessageClass, setOperationgSegmentMessageClass] = useState<string>("alert alert-primary");
+    const [operationList, setOperationList] = useState<string[]>(
+            [  "Alimentação",
+            "Casa e Construção",
+            "Comunicação,informática e eletrônicos",
+            "educação",
+            "Entretenimento e lazer",
+            "Hotelaria e turismo",
+            "Limpeza e conservação",
+            "Moda",
+            "Saúde e Beleza e bem estar",
+            "Serviços Automotivos",
+            "Serviço e outros negócios",
+            "Imobiliário",
+            "Finanças e Seguros",
+            "Agricultura e Agroindústria",
+            "Meio Ambiente",
+            "Logística e Transporte",
+            "Bem-Estar Animal"]
+    )
+
 
     const [logoImg, setLogoImg] = useState<string>("");
     const [otherImg, setOtherImg] = useState<string>("");
@@ -51,6 +71,9 @@ export default function Franchise() {
 
     useEffect(() => {
     }, [textClassCharacterCount]);
+
+    useEffect(() => {
+    }, [franchiseDescriptionFrist, franchiseDescriptionSecond ]);
 
 
     const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -89,19 +112,52 @@ export default function Franchise() {
         }
     }
 
-    const handleOperatingSegment = (e: ChangeEvent<HTMLInputElement>) => {
-        if(operatingSegment.length > 0){
-            setOperationgSegment(e.target.value);
+    useEffect(() => {
 
-            console.log(operatingSegment)
+        const list = operationList;
+        
+        if(operatingSegment.length === 0){
+            setOperationgSegmentMessage(`Nenhum Segmento adicionado`)
+            setOperationgSegmentMessageClass("alert alert-primary")
         }
         else{
+            if(list.indexOf(operatingSegment) !== -1){
 
+                setOperationgSegmentMessage(`O Segmento ${operatingSegment} selecionado é válido`)
+                setOperationgSegmentMessageClass("alert alert-success")
+    
+            }
+            else if(list.indexOf(operatingSegment) === -1){
+    
+                setOperationgSegmentMessage(`O Segmento ${operatingSegment} selecionado é inválido, por favor verifique as opções listadas`)
+                setOperationgSegmentMessageClass("alert alert-danger")
+    
+            }
+        }
+        
+    }, [operatingSegment, operationList]);
+    
+    const handleOperatingSegment = (e: ChangeEvent<HTMLInputElement>) => {
+
+        setOperationgSegment(e.target.value);
+    }
+
+    const HandleLogoImg = (e: ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            if (file.size <= 2 * 1024 * 1024) {
+                const reader = new FileReader();
+                reader.onload = (evt) => {
+                    setLogoImg(evt.target?.result as string);
+                    console.log(evt.target?.result as string)
+                };
+                reader.readAsDataURL(file);
+            } else {
+                alert('O arquivo deve ser uma imagem em png ou jpg até 2MB.');
+            }
         }
     }
         
-
-
   return (
     <Container>
         <form action="/submit-franchise-info" method="post">
@@ -112,7 +168,8 @@ export default function Franchise() {
                     <Form_input label='Nome da Franquia' id="franchiseName" placeholder="Digite o nome da franquia" onChange={handleOnNameState} value={nameState}/>
 
                     <Form_textarea label="Descreva a Franquia" 
-                            id_div={textClassCharacterCount} id_input='describefranchise' 
+                            id_div={textClassCharacterCount} 
+                            id_input='describefranchise' 
                             onChange={handleOnfranchiseDescriptionFrist} 
                             characters={franchiseDescriptionFrist.length} 
                     />
@@ -128,15 +185,17 @@ export default function Franchise() {
 
             <Container_form title='Segmento de Atuação'>
                 <Form_busca holder="Buscar segmento de atuação" 
-                            message="Nenhum Segmento adicionado" 
-
+                            message={operatingSegmentMessage}
                             onChange={handleOperatingSegment} 
                             value={operatingSegment}
+                            classValue={operatingSegmentMessageClass}
+                            segments={operationList}
                 />
+
             </Container_form>
 
             <Container_form title='Logo'>
-                    <Form_logo/>
+                    <Form_logo onChange={HandleLogoImg} imageSrc={logoImg}/>
             </Container_form>
 
             <Container_form title='Imagens'>
@@ -167,6 +226,8 @@ export default function Franchise() {
                         label="Modelo de Negócio &#9432;" 
                         onChange={handleOperatingSegment}
                         value = {operatingSegment}
+                        classValue={operatingSegmentMessageClass}
+                        segments={operationList}
                 />
         
                 <Form_data/>

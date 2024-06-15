@@ -9,24 +9,7 @@ interface ImageProps {
     previewId: string;
 }
 
-const Form_logo = ({}) => {
-
-    const [imageSrc, setImageSrc] = useState<string | null>(null);
-
-    const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (file) {
-            if (file.size <= 2 * 1024 * 1024) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    setImageSrc(e.target?.result as string);
-                };
-                reader.readAsDataURL(file);
-            } else {
-                alert('O arquivo deve ser uma imagem em png ou jpg até 2MB.');
-            }
-        }
-    };
+const Form_logo = ({onChange, imageSrc}) => {
 
     return(
         <React.Fragment>
@@ -37,7 +20,7 @@ const Form_logo = ({}) => {
                         id="franchise_image--logo" 
                         accept=".png, .jpg" 
                         placeholder="insira sua imagem"
-                        onChange={handleImageChange}
+                        onChange={onChange}
                 />
 
                 <label htmlFor='franchise_image--logo' className="custom-file-label">Selecione sua Logo</label>
