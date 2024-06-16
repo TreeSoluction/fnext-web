@@ -1,6 +1,22 @@
 import React, { useEffect, useState } from "react";
 import Image from 'next/image';
 
+/**
+ * Form_busca component
+ *
+ * This component renders a search form with an input field, a search button, and a list of suggestions.
+ *
+ * @param {Object} props - The component props
+ * @param {string} props.holder - The placeholder text for the input field
+ * @param {string} props.message - The message to display in the alert
+ * @param {string} [props.label=""] - The label text for the input field
+ * @param {function} props.onChange - The function to call when the input value changes
+ * @param {string} props.value - The current value of the input field
+ * @param {string} props.classValue - The class name for the alert div
+ * @param {Array<string>} props.segments - The list of suggestion options
+ *
+ * @returns {JSX.Element} The rendered component
+ */
 const Form_busca = ({holder, message, label="", onChange, value, classValue, segments}) => {
 
     return(

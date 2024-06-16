@@ -1,5 +1,16 @@
 import React from "react";
 
+
+
+/**
+ * Container_form component
+ *
+ * @param {Object} props - Component properties
+ * @param {React.ReactNode} props.children - The child elements to be rendered inside the container
+ * @param {string} props.title - The title to be displayed in the container
+ * @returns {JSX.Element} The rendered component
+ */
+
 function Container_form({children, title}): React.JSX.Element{
     return (
         <React.Fragment>

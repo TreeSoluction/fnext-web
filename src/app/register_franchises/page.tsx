@@ -52,9 +52,9 @@ export default function Franchise() {
             "Bem-Estar Animal"]
     )
 
-
     const [logoImg, setLogoImg] = useState<string>("");
-    const [otherImg, setOtherImg] = useState<string>("");
+    const [otherImg, setOtherImg] = useState<string[]>([]);
+    const [selectedImages, setSelectedImages] = useState<File[]>([])
 
     //Videos
     const [videoURL, setVideoURL] = useState<string>("");
@@ -73,8 +73,10 @@ export default function Franchise() {
     }, [textClassCharacterCount]);
 
     useEffect(() => {
-    }, [franchiseDescriptionFrist, franchiseDescriptionSecond ]);
+    }, [franchiseDescriptionFrist, franchiseDescriptionSecond, videoURL, websiteURL,  logoImg , otherImg]);
 
+    useEffect(() => {
+    }, [monthlyRevenue, unitinBrazil, headquarters, returnonInvestmenFrom,  returnonInvestmenUntil]);
 
     const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
         setSwitchState(!switchState)
@@ -157,7 +159,73 @@ export default function Franchise() {
             }
         }
     }
+
+    const handleFranchiseImgs = (e: ChangeEvent<HTMLInputElement>) => {
+
+        const files = e.target.files;
+        if (files) {
+            const newSelectedImages = Array.from(files);
+            setSelectedImages(newSelectedImages);
+
+            const newImageUrls = newSelectedImages.map((file) => URL.createObjectURL(file));
+            setOtherImg(newImageUrls);
+        }
+
+    }
+    
+    const handleVideoUrl = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.value.includes('embed')) {
+            setVideoURL(e.target.value);
+            
+        } else {
+            const videoId = e.target.value.split('v=')[1].split('&list=')[0];
+            setVideoURL(`https://www.youtube.com/embed/${videoId}`);
+        }
+
+        console.log("VIDEO URL : ", videoURL)
         
+    }
+
+    const handleSiteUrl = (e: ChangeEvent<HTMLInputElement>) => {
+        setWebsiteURL(e.target.value);
+        console.log("SITE : ", websiteURL)
+    }
+
+    const handleFinanceInfo_monthlyRevenue = ( e: ChangeEvent<HTMLInputElement> ) => {
+        
+        setMonthlyRevenue(e.target.value)
+        console.log("MOTHLY: ", monthlyRevenue);
+    }
+
+    const handleFinanceInfo_UnitinBrazil = ( e: ChangeEvent<HTMLInputElement> ) => {
+        
+        setUnitinBrazil(e.target.value)
+        console.log("UNIT: ", unitinBrazil); 
+    }
+
+    const handleFinanceInfo_Headquarters = ( e: ChangeEvent<HTMLInputElement> ) => {
+        
+        setHeadquarters(e.target.value)
+        console.log("HEADQUARTER: ", headquarters);   
+    }
+
+    const handleFinanceInfo_returnonInvestmenFrom = ( e: ChangeEvent<HTMLInputElement> ) => {
+        
+        setReturnonInvestmenFrom(e.target.value)
+        console.log("FROM RETURN: ", returnonInvestmenFrom); 
+    }
+
+    const handleFinanceInfo_returnonInvestmenUntil = ( e: ChangeEvent<HTMLInputElement> ) => {
+        
+        setReturnonInvestmenUntil(e.target.value)
+        console.log("UNTIL: ", returnonInvestmenUntil); 
+    }
+
+    const handlebusinessModel = ( model ) => {
+        setBusinessModel(model)
+        console.log(businessModel)
+    }
+
   return (
     <Container>
         <form action="/submit-franchise-info" method="post">
@@ -199,15 +267,21 @@ export default function Franchise() {
             </Container_form>
 
             <Container_form title='Imagens'>
-                    <Form_imgs/>
+                    <Form_imgs onChange={handleFranchiseImgs} value={otherImg}/>
             </Container_form>
 
             <Container_form title='Vídeos'>
-                <Form_video/>
+                <Form_video onChangeVideo={handleVideoUrl} onChangeSite={handleSiteUrl} valueVideo={videoURL} valueSite={websiteURL}/>
             </Container_form>
 
             <Container_form title='Informações Financeiras'>
-                <Form_finances/>
+                <Form_finances 
+                        onChangeMonthlyRevenue={handleFinanceInfo_monthlyRevenue}
+                        onChangeUnitinBrazil={handleFinanceInfo_UnitinBrazil}
+                        onChangeHeadquarters={handleFinanceInfo_Headquarters}
+                        onChangeReturnonInvestmenFrom={handleFinanceInfo_returnonInvestmenFrom}
+                        onChangeReturnonInvestmenUntil={handleFinanceInfo_returnonInvestmenUntil}
+                        />
             </Container_form>
 
             <Container_form title='Mdelos de negócios '>
@@ -230,7 +304,9 @@ export default function Franchise() {
                         segments={operationList}
                 />
         
-                <Form_data/>
+                <Form_data 
+                    onChangeSetData={handlebusinessModel}
+                />
             
             </Container_form>
         </form>

@@ -1,6 +1,13 @@
 import React from "react";
 
 
+/**
+ * Container component
+ *
+ * @param {Object} props - Component properties
+ * @param {React.ReactNode} props.children - The child elements to be rendered inside the container
+ * @returns {JSX.Element} The rendered component
+ */
 function Container({ children }: { children: React.ReactNode }): React.JSX.Element {
     return (
         <React.Fragment>

@@ -1,4 +1,12 @@
-import React, { useState, ChangeEvent} from 'react';
+import React from 'react';
+
+/**
+ * Form_confirm_button component
+ *
+ * This component renders a set of confirmation buttons ("Cancelar" and "Salvar") within a styled container.
+ *
+ * @returns {JSX.Element} The rendered component
+ */
 
 const Form_confirm_button = ({}) => {
     return (

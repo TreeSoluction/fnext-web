@@ -5,6 +5,22 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 import IFormTextareaProps from '../components/interfaces/formTexteareaProps.interface'
 
+
+/**
+ * Form_textarea component
+ *
+ * This component renders a labeled textarea with a character counter and CKEditor for rich text editing.
+ *
+ * @param {IFormTextareaProps} props - The component props
+ * @param {string} props.label - The label for the textarea
+ * @param {string} props.id_div - The ID for the character counter div
+ * @param {string} props.id_input - The ID for the input
+ * @param {Function} props.onChange - The function to call when the input value changes
+ * @param {number} props.characters - The current number of characters
+ *
+ * @returns {JSX.Element} The rendered component
+ */
+
 const Form_textarea: React.FC<IFormTextareaProps> = ({ label, id_div, id_input, onChange, characters} )=> {
    
   const maxLen: number = 300;

@@ -2,22 +2,20 @@
 import React, { useState, ChangeEvent} from 'react';
 import Image from 'next/image';
 
-const Form_imgs = ({}) => {
 
-    const [imageUrls, setImageUrls] = useState<string[]>([]);
-    const [selectedImages, setSelectedImages] = useState<File[]>([]);
+/**
+ * Form_imgs component
+ *
+ * This component renders a file input for image uploads, a preview of the selected images, and additional instructions.
+ *
+ * @param {Object} props - The component props
+ * @param {function} props.onChange - The function to call when the input value changes
+ * @param {Array<string>} props.value - The current list of image URLs to display as previews
+ *
+ * @returns {JSX.Element} The rendered component
+ */
 
-    const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const files = event.target.files;
-        if (files) {
-            const newSelectedImages = Array.from(files);
-            setSelectedImages(newSelectedImages);
-
-            const newImageUrls = newSelectedImages.map((file) => URL.createObjectURL(file));
-            setImageUrls(newImageUrls);
-        }
-    };
-
+const Form_imgs = ({onChange, value}) => {
 
     return(
         <React.Fragment>
@@ -31,14 +29,14 @@ const Form_imgs = ({}) => {
                     accept=".png, .jpg" 
                     multiple 
                     placeholder="insira sua imagem"
-                    onChange={handleImageChange}
+                    onChange={onChange}
                 />
 
                 <label className="custom-file-label"  htmlFor="franchise_image--others">Selecione imagens de sua franquia</label>
                 <div className="image-preview" id="preview_container-others">
                     {
-                        imageUrls.length>0? (
-                            imageUrls.map((url, index) => (
+                        value.length>0? (
+                            value.map((url, index) => (
                                 <Image key={index} src={url} alt={`Imagem ${index}`} width={260} height={140} />
                             ))
                         ) : (

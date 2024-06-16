@@ -1,6 +1,11 @@
 import React, { useState, ChangeEvent} from 'react';
 
-const Form_input_data = ({label, id, placeholder, simble="R$"}:{label: string, id: string, placeholder: string, simble: string}): React.JSX.Element =>{
+const Form_input_data = ({label, id, placeholder, 
+                        simble="R$", onChangeValue, onChangeFixed, 
+                        value, valueCheckbox}:
+                        {label: string, id: string, placeholder: string, 
+                        simble: string, onChangeValue: any, onChangeFixed: any
+                        value: string, valueCheckbox: boolean}): React.JSX.Element =>{
     return(
         <React.Fragment >
             <div className='Form_container'> 
@@ -9,7 +14,15 @@ const Form_input_data = ({label, id, placeholder, simble="R$"}:{label: string, i
                          <label className="label_text"> {label} </label>
                          
                          <div className='checkbox_fixo_div'>
-                            <input type="checkbox" id="fixo" name="fixo" value="fixo" />
+                            <input 
+                                    type="checkbox" 
+                                    id="fixo" 
+                                    name="fixo" 
+                                    value="fixo" 
+                                    onChange={onChangeFixed} 
+                                    checked={valueCheckbox}
+
+                            />
                             <label htmlFor="fixo">Fixo</label>
                         </div>
                     </div>
@@ -17,7 +30,17 @@ const Form_input_data = ({label, id, placeholder, simble="R$"}:{label: string, i
                 
                
                 <div className="input-group mb-3">
-                    <input type="text" className="form-control" placeholder={placeholder} id={id} name={id} aria-label="Recipient's username" aria-describedby="basic-addon2"/>
+                    <input 
+                            type="text" 
+                            className="form-control" 
+                            placeholder={placeholder} 
+                            id={id} name={id} 
+                            aria-label="Recipient's username" 
+                            aria-describedby="basic-addon2"
+                            onChange={onChangeValue}
+                            value={value}
+                            
+                    />
                     <div className="input-group-append">
                         <span className="input-group-text" id="basic-addon2">{simble}</span>
                     </div>

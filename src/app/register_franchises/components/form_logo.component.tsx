@@ -4,10 +4,18 @@
 import React, { useState, ChangeEvent} from 'react';
 import Image from 'next/image';
 
-interface ImageProps {
-    inputId: string;
-    previewId: string;
-}
+
+/**
+ * Form_logo component
+ *
+ * This component renders an image upload input with a preview.
+ *
+ * @param {Object} props - The component props
+ * @param {function} props.onChange - The function to call when the input value changes
+ * @param {string} props.imageSrc - The source URL of the image to be displayed in the preview
+ *
+ * @returns {JSX.Element} The rendered component
+ */
 
 const Form_logo = ({onChange, imageSrc}) => {
 

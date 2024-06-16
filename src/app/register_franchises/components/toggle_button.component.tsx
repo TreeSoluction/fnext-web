@@ -1,5 +1,18 @@
 import React from "react";
 
+/**
+ * Toggle_button component
+ *
+ * This component renders a toggle button with a checkbox input that can be toggled
+ * between "Ativo" (Active) and "Desativo" (Inactive) states.
+ *
+ * @param {object} props - The component props
+ * @param {any} props.checked - Boolean indicating whether the toggle is checked or not
+ * @param {function} props.onChange - Function to handle changes when the toggle is clicked
+ *
+ * @returns {JSX.Element} The rendered component
+ */
+
 function Toggle_button({checked, onChange}:{checked:any, onChange: any}): React.JSX.Element{
     
     return(

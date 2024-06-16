@@ -2,28 +2,22 @@
 
 import React, { useState, ChangeEvent} from 'react';
 
+/**
+ * Form_video component
+ *
+ * This component renders a form section for uploading and previewing videos and optionally
+ * entering a franchise site URL.
+ *
+ * @param {object} props - The component props
+ * @param {function} props.onChangeVideo - Function to handle changes in the video URL input
+ * @param {function} props.onChangeSite - Function to handle changes in the site URL input
+ * @param {string} props.valueVideo - Current value of the video URL input
+ * @param {string} props.valueSite - Current value of the site URL input
+ *
+ * @returns {JSX.Element} The rendered component
+ */
 
-const Form_video = ({}) => {
-
-    const [urlVideo, setUrlVideo] = useState<String>("")
-    const [urlSite, setUrlSite] = useState<String>("")
-
-    const handleUrlVideoChange = (event: ChangeEvent<HTMLInputElement>) => {
-        if (event.target.value.includes('embed')) {
-            setUrlVideo(event.target.value);
-            
-        } else {
-            // Transforma a URL em um link de incorporação
-            const videoId = event.target.value.split('v=')[1].split('&list=')[0];
-            setUrlVideo(`https://www.youtube.com/embed/${videoId}`);
-        
-        }
-        
-    };
-
-    const handleUrlSiteChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setUrlSite(event.target.value);
-    };
+const Form_video = ({onChangeVideo, onChangeSite, valueVideo, valueSite}) => {
 
     return(
         <React.Fragment>
@@ -35,13 +29,13 @@ const Form_video = ({}) => {
                     type="url" 
                     id="franchise_video-url" 
                     placeholder="https://.."
-                    onChange={handleUrlVideoChange}
+                    onChange={onChangeVideo}
                 />
 
                 <div className="videos-preview" id="preview_container-others">
                     {
-                        urlVideo ? 
-                        (<iframe src={String(urlVideo)} width={560} height={315} 
+                        valueVideo ? 
+                        (<iframe src={String(valueVideo)} width={560} height={315} 
                         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen={true}/>
                         ) : (
@@ -59,7 +53,7 @@ const Form_video = ({}) => {
                         type="url" 
                         id="franchise_site-url" 
                         placeholder="https://.."
-                        onChange={handleUrlSiteChange}
+                        onChange={onChangeSite}
                     />
                 </div>
 
