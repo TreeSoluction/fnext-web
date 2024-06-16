@@ -16,22 +16,15 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import ErrorMessage from "@/components/Form/error-message";
 import { InputDate, InputStyled, InputMasked } from "@/components/Form/inputs";
+import { CreateUser } from "@/services/User/create.user";
+import { escape } from "querystring";
 
 export default function Home() {
   const router = useRouter();
   const RegisterSchema = z.object({
     fullname: z.string().min(1, "Nome não pode ser vazio!"),
     email: z.string().email({ message: "Email Inválido!" }),
-    password: z.string().min(6, "A senha tem que ter no mínimo 6 caracteres!"),
-    date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Data Inválida!"),
-    phone: z
-      .string()
-      .regex(/^\(\d{2}\) \d{5}-\d{4}$/, "Telefone Inválido!")
-      .transform((phone) => phone.replace(/[()\-]/g, "")),
-    cnpj: z
-      .string()
-      .regex(/^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/, "CNPJ Inválido!")
-      .transform((cnpj) => cnpj.replace(/[\.\/\-]/g, "")),
+    password: z.string().min(6, "A senha tem que ter no mínimo 6 caracteres!")
   });
 
   const {
@@ -51,33 +44,18 @@ export default function Home() {
   const onSubmit = async (data) => {
     notifyInfo("Registrando...");
 
-    api
-      .post("/startup", {
-        name: data.fullname,
-        email: data.email,
-        password: data.password,
-        birth_date: data.date,
-        phone: data.phone,
-        cnpj: data.cnpj,
-      })
-      .then((res) => {
-        if (res.status === 201) {
-          notifySuccess("Usuario registrado!");
-          SetCookie(res.data.id);
-          reset();
-          router.push("register/confirmaccount");
-        }
-      })
-      .catch((err) => {
-        if (err.response.status < 500) {
-          notifyError(err.response.data.message);
-          return;
-        }
+    const response = await CreateUser({
+      fullName: data.fullname,
+      email: data.email,
+      password: data.password
+    });
 
-        notifyError(
-          "Ocorreu um erro inesperado ao servidor, tente novamente mais tarde!"
-        );
-      });
+    if (response.status != 200) {
+      notifyError("Erro ao registrar!");
+      return;
+    }
+
+    notifySuccess("Registrado com sucesso!");
   };
 
   return (
@@ -93,30 +71,12 @@ export default function Home() {
             ajuda
           </a>
         </p>
-        <InputStyled label="Nome" {...register("fullname")} />
+        <InputStyled label="Nome completo" {...register("fullname")} />
         <ErrorMessage error={errors.fullname} />
         <InputStyled label="E-mail" type="email" {...register("email")} />
         <ErrorMessage error={errors.email} />
         <InputStyled label="Senha" type="password" {...register("password")} />
         <ErrorMessage error={errors.password} />
-        <InputDate
-          label="Data de Nascimento"
-          getInputDateRegisterRef={() => register("date")}
-          setValueInputDate={(value: string) => setValue("date", value)}
-        />
-        <ErrorMessage error={errors.date} />
-        <InputMasked
-          mask="(99) 99999-9999"
-          label="Telefone"
-          {...register("phone")}
-        />
-        <ErrorMessage error={errors.phone} />
-        <InputMasked
-          mask="99.999.999/9999-99"
-          label="CNPJ"
-          {...register("cnpj")}
-        />
-        <ErrorMessage error={errors.cnpj} />
         <p className="max-w-80 text-xs mt-8">
           Ao clicar em <strong>&quot;Finalizar&quot;</strong> e continuar com o
           seu cadastro, você está concordando com a nossa{" "}
