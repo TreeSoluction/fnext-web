@@ -1,5 +1,5 @@
 export default interface IbusinessModel{
-    businessModel: string
+    businessModel?: string | undefined
     mainData: {
         capitalForInstallation:{
             value: number

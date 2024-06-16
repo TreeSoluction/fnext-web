@@ -31,7 +31,7 @@ const Form_input_data = ({label, id, placeholder,
                
                 <div className="input-group mb-3">
                     <input 
-                            type="text" 
+                            type="number" 
                             className="form-control" 
                             placeholder={placeholder} 
                             id={id} name={id} 
@@ -64,7 +64,7 @@ const Form_input_data = ({label, id, placeholder,
                             width: 70%;
                         }
                         
-                        input[type="text"]{
+                        input[type="number"]{
                             width: 100px;
                             padding: 6px 12px 6px 12px;
                             border: 1px solid #ddd;

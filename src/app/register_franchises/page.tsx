@@ -67,16 +67,27 @@ export default function Franchise() {
     const [returnonInvestmenFrom, setReturnonInvestmenFrom] = useState<string>("");
     const [returnonInvestmenUntil, setReturnonInvestmenUntil] = useState<string>("");
 
-    const [businessModel, setBusinessModel] = useState<IbusinessModel>();
+
+    const [operatingSegmentEssencial, setOperationgSegmentEssencial] = useState<string>("");
+    const [operatingSegmentMessageEssencial, setOperationgSegmentMessageEssencial] = useState<string>("Nenhum Segmento adicionado");
+    const [operatingSegmentMessageClassEssencial, setOperationgSegmentMessageClassEssencial] = useState<string>("alert alert-primary");
+
+    const [businessModel, setBusinessModel] = useState<IbusinessModel[]>();
 
     useEffect(() => {
-    }, [textClassCharacterCount]);
 
-    useEffect(() => {
-    }, [franchiseDescriptionFrist, franchiseDescriptionSecond, videoURL, websiteURL,  logoImg , otherImg]);
-
-    useEffect(() => {
-    }, [monthlyRevenue, unitinBrazil, headquarters, returnonInvestmenFrom,  returnonInvestmenUntil]);
+    }, [textClassCharacterCount, 
+        franchiseDescriptionFrist, 
+        franchiseDescriptionSecond, 
+        videoURL, websiteURL,  
+        logoImg , otherImg,
+        monthlyRevenue, 
+        unitinBrazil, 
+        headquarters, 
+        returnonInvestmenFrom,  
+        returnonInvestmenUntil,
+        businessModel
+    ]);
 
     const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
         setSwitchState(!switchState)
@@ -138,9 +149,35 @@ export default function Franchise() {
         }
         
     }, [operatingSegment, operationList]);
+
+
+    useEffect(() => {
+
+        const list = operationList;
+        
+        if(operatingSegmentEssencial.length === 0){
+            setOperationgSegmentMessageEssencial(`Nenhum Segmento adicionado`)
+            setOperationgSegmentMessageClassEssencial("alert alert-primary")
+        }
+        else{
+            if(list.indexOf(operatingSegmentEssencial) !== -1){
+
+                setOperationgSegmentMessageEssencial(`O Segmento ${operatingSegmentEssencial} selecionado é válido`)
+                setOperationgSegmentMessageClassEssencial("alert alert-success")
+    
+            }
+            else if(list.indexOf(operatingSegmentEssencial) === -1){
+    
+                setOperationgSegmentMessageEssencial(`O Segmento ${operatingSegmentEssencial} selecionado é inválido, por favor verifique as opções listadas`)
+                setOperationgSegmentMessageClassEssencial("alert alert-danger")
+    
+            }
+        }
+        
+    }, [operatingSegmentEssencial, operationList]);
+
     
     const handleOperatingSegment = (e: ChangeEvent<HTMLInputElement>) => {
-
         setOperationgSegment(e.target.value);
     }
 
@@ -221,9 +258,13 @@ export default function Franchise() {
         console.log("UNTIL: ", returnonInvestmenUntil); 
     }
 
+    const handleOperatingSegmentEssencial = (e: ChangeEvent<HTMLInputElement>) => {
+        setOperationgSegmentEssencial(e.target.value);
+    }
+
     const handlebusinessModel = ( model ) => {
-        setBusinessModel(model)
-        console.log(businessModel)
+        setBusinessModel([model])
+        console.log("THIS IS A BUSNESS MODEL: ", businessModel)
     }
 
   return (
@@ -296,16 +337,17 @@ export default function Franchise() {
             <Container_form title='Dados Essenciais'>
                 <Form_busca 
                         holder="Buscar Modelo de negócio" 
-                        message="Modelo de Negócio" 
+                        message={operatingSegmentMessageEssencial}
                         label="Modelo de Negócio &#9432;" 
-                        onChange={handleOperatingSegment}
-                        value = {operatingSegment}
-                        classValue={operatingSegmentMessageClass}
+                        onChange={handleOperatingSegmentEssencial}
+                        value = {operatingSegmentEssencial}
+                        classValue={operatingSegmentMessageClassEssencial}
                         segments={operationList}
                 />
         
                 <Form_data 
                     onChangeSetData={handlebusinessModel}
+                    segmentValue = {operatingSegmentEssencial}
                 />
             
             </Container_form>

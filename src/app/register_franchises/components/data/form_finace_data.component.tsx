@@ -1,9 +1,25 @@
 
-import React from 'react';
+import React, {useState} from 'react';
 import Input_data_values from './input_data_values.component';
-import Form_confirm_button from './button_add.component';
 
-const Form_data_finances = ({}) => {
+
+const Form_data_finances = ({onChange_TechnicalData_advertisingFee_value,
+                            onChange_TechnicalData_advertisingFee__isFixed,
+                            onChange_technicalData_royalties_value, 
+                            onChange_technicalData_royalties__isFixed, 
+                            onChange_technicalData_storeArea_from, 
+                            onChange_technicalData_storeArea__until,
+                            onChange_technicalData_storeArea__doesNotContain,
+
+                            value_TechnicalData_advertisingFee_value, 
+                            value_TechnicalData_advertisingFee__isFixed,
+                            value_technicalData_royalties_value, 
+                            value_technicalData_royalties__isFixed, 
+                            value_technicalData_storeArea_from,  
+                            value_technicalData_storeArea__until,           
+                            value_technicalData_storeArea__doesNotContain, 
+                        }) => {
+
     return(
         <React.Fragment>
             <div className='input_finace_data_form_container' >
@@ -11,11 +27,30 @@ const Form_data_finances = ({}) => {
 
                  
                     <div className="container-finance-info--item" >
-                         <Input_data_values label='Taxa de Propaganda' id="franchise-finance-fatmed" placeholder="0" simble='%'/>
+                         <Input_data_values 
+                                label='Taxa de Propaganda' 
+                                id="franchise-finance-fatmed" 
+                                placeholder="0" 
+                                simble='%'
+                                onChange_value = {onChange_TechnicalData_advertisingFee_value}
+                                onChange_checkbox = {onChange_TechnicalData_advertisingFee__isFixed}
+                                value={value_TechnicalData_advertisingFee_value}
+                                checkbox={value_TechnicalData_advertisingFee__isFixed}
+                                />
                     </div>
         
                     <div className="container-finance-info--item">
-                         <Input_data_values label='Royalties' id="franchise-finance-unit" placeholder="0" simble='%'/>
+                         <Input_data_values 
+                                label='Royalties' 
+                                id="franchise-finance-unit" 
+                                placeholder="0" 
+                                simble='%'
+                                onChange_value = {onChange_technicalData_royalties_value}
+                                onChange_checkbox = {onChange_technicalData_royalties__isFixed}
+                                value={value_technicalData_royalties_value}
+                                checkbox={value_technicalData_royalties__isFixed}
+
+                                />
                     </div>
         
                 </div>
@@ -27,29 +62,53 @@ const Form_data_finances = ({}) => {
                             <label className="label_text"> Área da loja </label>
                         </div>
 
-
-
                         <div className="input-group mb-3">
-                            <input type="text" className="form-control" placeholder='Apartir de' id='form_input_data--area_loja' name='area_loja' aria-label="Recipient's username" aria-describedby="basic-addon2"/>
+                            <input 
+                                    type="text" 
+                                    className="form-control" 
+                                    placeholder='Apartir de' 
+                                    id='form_input_data--area_loja' 
+                                    name='area_loja' 
+                                    aria-label="Recipient's username" 
+                                    aria-describedby="basic-addon2"
+                                    onChange={onChange_technicalData_storeArea_from}
+                                    value={value_technicalData_storeArea_from}
+                            />
+
                             <div className="input-group-append">
                                 <span className="input-group-text" id="basic-addon2">M²</span>
                             </div>
                         </div>
                     </div>
 
-
-
                     <div className='form_container_data form_container_data--until'> 
                         <div className='label_data_div'>
                             
                             <div className='checkbox_not_have_div'>
-                                <input type="checkbox" id="not_have" name="fixo" value="not_have" />
+                                <input 
+                                    type="checkbox" 
+                                    id="not_have" 
+                                    name="fixo" 
+                                    value="not_have" 
+                                    onChange={onChange_technicalData_storeArea__doesNotContain}
+                                    checked={value_technicalData_storeArea__doesNotContain}
+                                />
                                 <label htmlFor="not_have">Não contém</label>
                             </div>
 
                         </div>
                             <div className="input-group mb-3">
-                                 <input type="text" className="form-control" placeholder='até' id='form_input_data--area_loja' name='area_loja' aria-label="Recipient's username" aria-describedby="basic-addon2"/>
+                                 <input 
+                                        type="text" 
+                                        className="form-control" 
+                                        placeholder='até' 
+                                        id='form_input_data--area_loja' 
+                                        name='area_loja' 
+                                        aria-label="Recipient's username" 
+                                        aria-describedby="basic-addon2"
+                                        onChange={onChange_technicalData_storeArea__until}
+                                        value={value_technicalData_storeArea__until}
+                                />
                             <div className="input-group-append">
                                     <span className="input-group-text" id="basic-addon2">M²</span>
                             </div>
@@ -60,8 +119,6 @@ const Form_data_finances = ({}) => {
                 </div>
 
                 </div>
-
-                <Form_confirm_button/>
                 <style jsx>{`
                     .input_finace_data_form_container{
                         width: 100%;
