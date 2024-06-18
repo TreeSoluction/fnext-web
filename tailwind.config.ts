@@ -16,10 +16,14 @@ const config: Config = {
         MEDIUM_GREEN: "#4C5B5C",
         LOW_PURPLE: "#A7ACD9",
         BLACK: "#000000",
-        GRAY: "#a7a7a6"
+        GRAY: "#a7a7a6",
+      },
+      fontFamily: {
+        secondary: ["Montserrat", "sans-serif"],
       },
     },
   },
   plugins: [require("@tailwindcss/forms")],
 };
+
 export default config;
