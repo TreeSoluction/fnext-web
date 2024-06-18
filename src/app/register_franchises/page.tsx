@@ -73,6 +73,7 @@ export default function Franchise() {
     const [operatingSegmentMessageClassEssencial, setOperationgSegmentMessageClassEssencial] = useState<string>("alert alert-primary");
 
     const [businessModel, setBusinessModel] = useState<IbusinessModel[]>();
+    const [operatingSegmentDisplay,  setOperatingSegmentDisplay ] = useState<boolean>(true);
 
     useEffect(() => {
 
@@ -86,7 +87,8 @@ export default function Franchise() {
         headquarters, 
         returnonInvestmenFrom,  
         returnonInvestmenUntil,
-        businessModel
+        businessModel,
+        operatingSegmentDisplay
     ]);
 
     const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -123,7 +125,7 @@ export default function Franchise() {
         else{
             setTextClassCharacterCount(" words_counts_describe maxLenghtCharceters")
         }
-    }
+    }    
 
     useEffect(() => {
 
@@ -260,11 +262,17 @@ export default function Franchise() {
 
     const handleOperatingSegmentEssencial = (e: ChangeEvent<HTMLInputElement>) => {
         setOperationgSegmentEssencial(e.target.value);
+
     }
 
     const handlebusinessModel = ( model ) => {
         setBusinessModel([model])
+        setOperatingSegmentDisplay(!operatingSegmentDisplay);
         console.log("THIS IS A BUSNESS MODEL: ", businessModel)
+    }
+
+    const handleDisplayOperatingSegment = ( ) => {
+        setOperatingSegmentDisplay(!operatingSegmentDisplay);
     }
 
   return (
@@ -328,30 +336,65 @@ export default function Franchise() {
             <Container_form title='Mdelos de negócios '>
                 <div>
                     <p>Por favor selecione as categorias de atuação de suas franquias e forneça as informações financeiras pertinentes a cada uma delas</p>
-                    <button type="button" className="btn btn-light">Adicionar Modelo</button>
+                    <button 
+                            type="button" 
+                            className="btn btn-light"
+                            onClick={handleDisplayOperatingSegment}        
+                    >Adicionar Modelo</button>
                 </div>
             </Container_form>
 
             <Form_confirm_button/>
-
-            <Container_form title='Dados Essenciais'>
-                <Form_busca 
-                        holder="Buscar Modelo de negócio" 
-                        message={operatingSegmentMessageEssencial}
-                        label="Modelo de Negócio &#9432;" 
-                        onChange={handleOperatingSegmentEssencial}
-                        value = {operatingSegmentEssencial}
-                        classValue={operatingSegmentMessageClassEssencial}
-                        segments={operationList}
-                />
-        
-                <Form_data 
-                    onChangeSetData={handlebusinessModel}
-                    segmentValue = {operatingSegmentEssencial}
-                />
-            
-            </Container_form>
+                <div className="essencial_data_overlay">
+                    <div className="essencial_data_container" >
+                        <h2>Dados Essenciais</h2>
+                        <hr/>
+                        <Form_busca 
+                                holder="Buscar Modelo de negócio" 
+                                message={operatingSegmentMessageEssencial}
+                                label="Modelo de Negócio &#9432;" 
+                                onChange={handleOperatingSegmentEssencial}
+                                value = {operatingSegmentEssencial}
+                                classValue={operatingSegmentMessageClassEssencial}
+                                segments={operationList}
+                        />
+                
+                        <Form_data 
+                            onChangeSetData={handlebusinessModel}
+                            segmentValue = {operatingSegmentEssencial}
+                            onChangeCancel = {handleDisplayOperatingSegment}
+                        />
+                       
+                    </div>
+                </div>
         </form>
+        <style jsx>{
+            `
+            .essencial_data_overlay{
+                display:  ${operatingSegmentDisplay ?  'none': 'block'};
+                
+            }
+            .essencial_data_container {
+                
+                max-width: 800px;
+                margin: 0 auto 2rem auto;
+                padding: 20px;
+                background-color: #fff;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+            .essencial_data_container hr{
+                border-top: 0.1rem solid #ececec;
+            }
+        
+            .essencial_data_container h2 {
+                font-size: 1.4rem;
+                color: var(--color_primary);
+                margin-bottom: 20px;
+            }
+              
+            `}
+        </style>
         
     </Container>
     );

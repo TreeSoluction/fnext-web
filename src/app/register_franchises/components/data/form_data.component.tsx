@@ -9,7 +9,7 @@ import Form_confirm_button from './button_add.component';
 
 import IbusinessModel from '../interfaces/businessModel.interface';
 
-const Form_data = ({onChangeSetData, segmentValue}) => {
+const Form_data = ({onChangeSetData, segmentValue, onChangeCancel}) => {
 
     const [mainData_capitalInstallation_value, setMainData_capitalInstallation_value ] = useState<string>("");
     const [mainData_capitalInstallation__isFixed, setMainData_capitalInstallation__isFixed ] = useState<boolean>(false)
@@ -142,7 +142,6 @@ const Form_data = ({onChangeSetData, segmentValue}) => {
 
 
     return(
-        <div>
         <React.Fragment>
             <h3>Dados principais</h3>
 
@@ -199,6 +198,7 @@ const Form_data = ({onChangeSetData, segmentValue}) => {
 
              <Form_confirm_button
                 onChange={set_json_data}
+                onChangeCancel = {onChangeCancel}
                 />
 
              <style jsx>{
@@ -214,7 +214,6 @@ const Form_data = ({onChangeSetData, segmentValue}) => {
              </style>
 
         </React.Fragment>
-        </div>
     )
 } 
 
