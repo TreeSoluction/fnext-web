@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import Image from 'next/image';
+import Image from "next/image";
+import React from "react";
 
 /**
  * Form_busca component
@@ -17,105 +17,108 @@ import Image from 'next/image';
  *
  * @returns {JSX.Element} The rendered component
  */
-const Form_busca = ({holder, message, label="", onChange, value, classValue, segments}) => {
+const Form_busca = ({
+  holder,
+  message,
+  label = "",
+  onChange,
+  value,
+  classValue,
+  segments,
+}) => {
+  return (
+    <React.Fragment>
+      <label htmlFor="txtBusca">{label}</label>
+      <div id="divBusca">
+        <div className="busca_img">
+          <Image
+            width={20}
+            height={20}
+            src="/img/form_franchise/lupa.png"
+            alt="lupa busca"
+          />
+        </div>
 
-    return(
-        <React.Fragment>
-            <label htmlFor='txtBusca'>{label}</label>
-            <div id="divBusca">
-                <div className='busca_img'>
-                    <Image   width={20} height={20} src="/img/form_franchise/lupa.png" alt="lupa busca" />
-                </div>
-                    
-                    <input type="text" 
-                            id="txtBusca" 
-                            placeholder={holder} 
-                            name='txtBusca' 
-                            autoComplete='on' 
-                            list='textBusca_sugestion'
-                            onChange={onChange}
-                            value={value}
-                    />
-                    <button id="btnBusca">Buscar</button>
+        <input
+          type="text"
+          id="txtBusca"
+          placeholder={holder}
+          name="txtBusca"
+          autoComplete="on"
+          list="textBusca_sugestion"
+          onChange={onChange}
+          value={value}
+        />
+        <button id="btnBusca">Buscar</button>
 
-                    <datalist
-                            className="w-60 my-2 rounded-md bg-PASTEL p-2 border-none" id='textBusca_sugestion'>
-                                 {segments.map((options, index) => (
-                                    <option key={index} value={options}>
-                                    {options}
-                                    </option>
-                                ))}
-                    </datalist>
+        <datalist
+          className="w-60 my-2 rounded-md bg-PASTEL p-2 border-none"
+          id="textBusca_sugestion"
+        >
+          {segments.map((options, index) => (
+            <option key={index} value={options}>
+              {options}
+            </option>
+          ))}
+        </datalist>
+      </div>
 
-            </div>
+      <div className={`segment-atribute-alert ${classValue}`} role="alert">
+        {message}
+      </div>
 
-            <div className={`segment-atribute-alert ${classValue}`} role="alert">
-                {message}
-            </div>
+      <div className="w-8/12"></div>
+      <style jsx>{`
+        .segment-atribute-alert {
+          margin-top: 2rem;
+        }
 
-            <div className="w-8/12">
+        #divBusca {
+          display: flex;
+          background-color: #ffffff;
+          border: 1px solid #ddd;
+          border-radius: 5px;
+          width: 100%;
+          height: 2.4remm;
 
-                        
-                        
-                        
-                    </div>
-            <style jsx>{`
+          box-sizing: border-box;
+        }
 
-                    .segment-atribute-alert{
-                        margin-top: 2rem;
-                    }
+        #txtBusca {
+          background-color: transparent;
+          padding-left: 1rem;
+          font-size: 18px;
+          border: none;
+          height: 2.4rem;
+          width: 80%;
+        }
 
-                    #divBusca{
+        #btnBusca {
+          border-left: 1px solid #ddd;
+          border-bottom: 1px solid #ddd;
+          float: right;
+          width: 20%;
+          height: 2.4rem;
+          border-radius: 0 7px 3.5px 0;
 
-                        display: flex;
-                        background-color:#ffffff;
-                        border: 1px solid #ddd;
-                        border-radius: 5px;
-                        width: 100%;
-                        height:2.4remm;
+          font-weight: bold;
+          background: #ffffff;
+          color: var(--color_text_secundary);
+        }
+        .busca_img {
+          margin: 10px;
+        }
 
-                        box-sizing: border-box;
-                    }
-
-                    #txtBusca{
-
-                        background-color:transparent;
-                        padding-left:1rem;
-                        font-size:18px;
-                        border:none;
-                        height:2.4rem;
-                        width:80%;
-                    }
-
-                    #btnBusca{
-                        border-left: 1px solid #ddd;
-                        border-bottom: 1px solid #ddd;;
-                        float: right;
-                        width:20%;
-                        height:2.4rem;
-                        border-radius:0 7px 3.5px 0;
-
-                        font-weight:bold;
-                        background:#ffffff;
-                        color: var(--color_text_secundary);
-
-                    }
-                    .busca_img{
-                        margin: 10px;
-                    }
-                    
-                    input[type="text"]{
-                        width: 100%;
-                        padding: 10px;
-                        border: 1px solid #ddd;
-                        border-radius: 5px;
-                        box-sizing: border-box;
-                    }
-
-            `}</style>
-        </React.Fragment>
-    );
-}
-
+        input[type="text"] {
+          width: 100%;
+          padding: 10px;
+          border: 1px solid #ddd;
+          border-radius: 5px;
+          box-sizing: border-box;
+        }
+      `}</style>
+    </React.Fragment>
+  );
+};
 
 export default Form_busca;

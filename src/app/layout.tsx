@@ -1,14 +1,14 @@
 "use client";
 
-import { usePathname } from 'next/navigation';
-import { checkIsPublicRoute } from '@/functions/check-is-public-route';
-import PrivateRoute from '@/components/PrivateRoute';
-import './globals.css'
+import PrivateRoute from "@/components/PrivateRoute";
+import { checkIsPublicRoute } from "@/functions/check-is-public-route";
+import { usePathname } from "next/navigation";
+import "./globals.css";
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   const pathname = usePathname();
   const isPublicRoute = checkIsPublicRoute(pathname);
@@ -19,5 +19,5 @@ export default function RootLayout({
         {isPublicRoute ? children : <PrivateRoute>{children}</PrivateRoute>}
       </body>
     </html>
-  )
+  );
 }

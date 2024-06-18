@@ -15,12 +15,11 @@ export default function Franchises() {
         return;
       }
 
-      newVideoLink.split(',').forEach((video) => {
+      newVideoLink.split(",").forEach((video) => {
         console.log(video);
 
         setVideos([...videos, video]);
       });
-
 
       document.getElementById("video").value = null;
     }
@@ -184,7 +183,12 @@ export default function Franchises() {
               </label>
               <div className="flex gap-1">
                 <input id="video" className="w-10/12"></input>
-                <button onClick={addVideos} className="addButton w-2/12 text-white hover:shadow-inner">Adicionar</button>
+                <button
+                  onClick={addVideos}
+                  className="addButton w-2/12 text-white hover:shadow-inner"
+                >
+                  Adicionar
+                </button>
               </div>
               <div className="flex flex-col videoContainerSection">
                 <ul className="ml-5 justify-start items-start ">
@@ -192,19 +196,30 @@ export default function Franchises() {
                     return (
                       <div key={video} className="flex gap-3 items-center ">
                         <div className="flex w-full gap-5 p-1">
-                          <li className="w-11/12 text-sm text-start" key={video}>{video}</li>
-                          <button onClick={() => removeVideo(video)} className="w-1/12 removeButton">X</button>
+                          <li
+                            className="w-11/12 text-sm text-start"
+                            key={video}
+                          >
+                            {video}
+                          </li>
+                          <button
+                            onClick={() => removeVideo(video)}
+                            className="w-1/12 removeButton"
+                          >
+                            X
+                          </button>
                         </div>
                       </div>
                     );
                   })}
                 </ul>
               </div>
-
             </div>
           </div>
           <div className="flex flex-col">
-            <label className="text-sm text-start">URL do site da sua franquia</label>
+            <label className="text-sm text-start">
+              URL do site da sua franquia
+            </label>
             <input></input>
           </div>
         </div>
@@ -219,9 +234,7 @@ export default function Franchises() {
                 <div className="flex flex-col">
                   <div className="flex">
                     <label className="flex w-1/5  items-center justify-center headerOfInput">
-                      <p>
-                        R$
-                      </p>
+                      <p>R$</p>
                     </label>
                     <input type="number" className="flex w-4/5"></input>
                   </div>
@@ -244,11 +257,14 @@ export default function Franchises() {
                   </label>
                   <div className="flex">
                     <label className="flex w-1/5 items-center justify-center headerOfInput">
-                      <p>
-                        %
-                      </p>
+                      <p>%</p>
                     </label>
-                    <input type="number" max={100} min={1} className="flex w-4/5"></input>
+                    <input
+                      type="number"
+                      max={100}
+                      min={1}
+                      className="flex w-4/5"
+                    ></input>
                   </div>
                 </div>
                 <div className="flex flex-col">
@@ -271,7 +287,7 @@ export default function Franchises() {
           </div>
           <button>Adicionar Modelo</button>
         </div>
-      </div >
-    </div >
+      </div>
+    </div>
   );
 }

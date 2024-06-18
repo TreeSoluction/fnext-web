@@ -1,21 +1,20 @@
 "use client";
 
-import React from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import {
-  notifyInfo,
-  notifySuccess,
-  notifyError,
-} from "../../services/notification";
-import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
 import ErrorMessage from "@/components/Form/error-message";
 import { InputStyled } from "@/components/Form/inputs";
 import { CreateUser } from "@/services/User/create.user";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { z } from "zod";
+import {
+  notifyError,
+  notifyInfo,
+  notifySuccess,
+} from "../../services/notification";
 
 export default function RegisterModal({ isOpen, onClose }) {
   const router = useRouter();
@@ -66,8 +65,12 @@ export default function RegisterModal({ isOpen, onClose }) {
             className="flex flex-col w-full max-w-lg p-6 sm:px-12 sm:py-6 bg-white rounded-[5px] sm:rounded-[10px]  shadow-xl"
           >
             <div className="flex">
-              <h1 className="text-4xl my-2 align-top justify-start">Dados Pessoais</h1>
-              <button className="text-1xl ml-14 mb-4" onClick={onClose}>Sair</button>
+              <h1 className="text-4xl my-2 align-top justify-start">
+                Dados Pessoais
+              </h1>
+              <button className="text-1xl ml-14 mb-4" onClick={onClose}>
+                Sair
+              </button>
             </div>
 
             <p className="mt-4 text-sm">
@@ -80,11 +83,15 @@ export default function RegisterModal({ isOpen, onClose }) {
             <ErrorMessage error={errors.fullname} />
             <InputStyled label="E-mail" type="email" {...register("email")} />
             <ErrorMessage error={errors.email} />
-            <InputStyled label="Senha" type="password" {...register("password")} />
+            <InputStyled
+              label="Senha"
+              type="password"
+              {...register("password")}
+            />
             <ErrorMessage error={errors.password} />
             <p className="max-w-80 text-xs mt-8">
-              Ao clicar em <strong>&quot;Finalizar&quot;</strong> e continuar com o
-              seu cadastro, você está concordando com a nossa{" "}
+              Ao clicar em <strong>&quot;Finalizar&quot;</strong> e continuar
+              com o seu cadastro, você está concordando com a nossa{" "}
               <a className="text-BLACK underline font-bold" href="#">
                 Política de Privacidade
               </a>

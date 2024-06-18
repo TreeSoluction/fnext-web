@@ -2,8 +2,8 @@
 
 import Header from "@/components/Header";
 import { GetUserData } from "@/services/User/login.user";
-import { useEffect, useState } from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
 export default function Plans() {
   const [userEmail, setUserEmail] = useState("");
   const [userName, setUserName] = useState("");
@@ -16,7 +16,7 @@ export default function Plans() {
     getInfo().then((res) => {
       const nameParts = res.data.data.name.split(" ");
       const capitalizedParts = nameParts.map(
-        (part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()
+        (part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase(),
       );
       const capitalizedFullName = capitalizedParts.join(" ");
 
@@ -38,7 +38,7 @@ export default function Plans() {
         },
         (err) => {
           console.log(err);
-        }
+        },
       );
   }
 
