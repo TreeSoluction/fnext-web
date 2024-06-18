@@ -1,7 +1,6 @@
 "use client";
 import { useState, ChangeEvent, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Form_input from "./components/form_input.component";
 import Form_textarea from "./components/form_textarea.component";
 import Form_busca from "./components/form_busca.component";
 import Form_logo from "./components/form_logo.component";
