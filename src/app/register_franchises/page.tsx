@@ -1,7 +1,6 @@
 "use client";
 import { useState, ChangeEvent, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Form_textarea from "./components/form_textarea.component";
 import Form_busca from "./components/form_busca.component";
 import Form_logo from "./components/form_logo.component";
 import Form_imgs from "./components/form_img.component";
@@ -14,7 +13,8 @@ import IbusinessModel from "./components/interfaces/businessModel.interface";
 import { useForm } from "react-hook-form";
 import { Container, FormContainer } from "./components/container";
 import { StatusToggle } from "./components/toggle";
-import { Input } from "./components/input";
+import { Input, TextArea } from "./components/form/inputs";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 export default function Franchise() {
   const form = useForm({
@@ -109,23 +109,13 @@ export default function Franchise() {
   };
 
   const handleOnfranchiseDescriptionFrist = (event: any, editor: any) => {
-    if (franchiseDescriptionFrist.length <= 300) {
-      const data = editor.getData();
-      setFranchiseDescriptionFrist(data);
-      setTextClassCharacterCount("words_counts_describe");
-    } else {
-      setTextClassCharacterCount("words_counts_describe maxLenghtCharceters");
-    }
+    const data = editor.getData();
+    setFranchiseDescriptionFrist(data);
   };
 
   const handleOnfranchiseDescriptionSecond = (event: any, editor: any) => {
-    if (franchiseDescriptionFrist.length <= 300) {
-      const data = editor.getData();
-      setFranchiseDescriptionSecond(data);
-      setTextClassCharacterCount(" words_counts_describe");
-    } else {
-      setTextClassCharacterCount(" words_counts_describe maxLenghtCharceters");
-    }
+    const data = editor.getData();
+    setFranchiseDescriptionSecond(data);
   };
 
   useEffect(() => {
@@ -234,7 +224,7 @@ export default function Franchise() {
       >
         <FormContainer
           title="Informações da Franquia"
-          className="flex flex-col gap-2"
+          className="flex flex-col gap-4"
         >
           <StatusToggle
             id={"checked"}
@@ -250,24 +240,29 @@ export default function Franchise() {
             value={nameState}
           />
 
-          <Form_textarea
+          <TextArea
+            maxLenght={300}
             label="Descreva a Franquia"
-            id_div={textClassCharacterCount}
-            id_input="describefranchise"
+            editor={ClassicEditor}
             onChange={handleOnfranchiseDescriptionFrist}
+            id={"describefranchise"}
             characters={franchiseDescriptionFrist.length}
           />
 
-          <Form_textarea
+          <TextArea
+            maxLenght={300}
             label="Descrição da Franquia"
-            id_div={textClassCharacterCount}
-            id_input="franchiseDescription"
+            editor={ClassicEditor}
+            id={"franchiseDescription"}
             onChange={handleOnfranchiseDescriptionSecond}
             characters={franchiseDescriptionSecond.length}
           />
         </FormContainer>
 
-        <FormContainer title="Segmento de Atuação">
+        <FormContainer
+          title="Segmento de Atuação"
+          className="flex flex-col gap-4"
+        >
           <Form_busca
             holder="Buscar segmento de atuação"
             message={operatingSegmentMessage}
@@ -278,15 +273,15 @@ export default function Franchise() {
           />
         </FormContainer>
 
-        <FormContainer title="Logo">
+        <FormContainer title="Logo" className="flex flex-col gap-4">
           <Form_logo onChange={HandleLogoImg} imageSrc={logoImg} />
         </FormContainer>
 
-        <FormContainer title="Imagens">
+        <FormContainer title="Imagens" className="flex flex-col gap-4">
           <Form_imgs onChange={handleFranchiseImgs} value={otherImg} />
         </FormContainer>
 
-        <FormContainer title="Vídeos">
+        <FormContainer title="Vídeos" className="flex flex-col gap-4">
           <Form_video
             onChangeVideo={handleVideoUrl}
             onChangeSite={handleSiteUrl}
@@ -295,7 +290,10 @@ export default function Franchise() {
           />
         </FormContainer>
 
-        <FormContainer title="Informações Financeiras">
+        <FormContainer
+          title="Informações Financeiras"
+          className="flex flex-col gap-4"
+        >
           <Form_finances
             onChangeMonthlyRevenue={handleFinanceInfo_monthlyRevenue}
             onChangeUnitinBrazil={handleFinanceInfo_UnitinBrazil}
@@ -309,7 +307,10 @@ export default function Franchise() {
           />
         </FormContainer>
 
-        <FormContainer title="Mdelos de negócios ">
+        <FormContainer
+          title="Mdelos de negócios"
+          className="flex flex-col gap-4"
+        >
           <div>
             <p>
               Por favor selecione as categorias de atuação de suas franquias e
@@ -323,7 +324,7 @@ export default function Franchise() {
 
         <Form_confirm_button />
 
-        <FormContainer title="Dados Essenciais">
+        <FormContainer title="Dados Essenciais" className="flex flex-col gap-4">
           <Form_busca
             holder="Buscar Modelo de negócio"
             message="Modelo de Negócio"

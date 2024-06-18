@@ -9,7 +9,7 @@ interface StatusToggleProps {
 const StatusToggle = forwardRef<HTMLLabelElement, StatusToggleProps>(
   ({ id, checked, onChange }, ref) => {
     return (
-      <div className="mt-2">
+      <div>
         <label
           ref={ref}
           className="relative inline-block w-32 h-8"
