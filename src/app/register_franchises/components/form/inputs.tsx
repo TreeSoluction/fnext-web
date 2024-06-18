@@ -2,11 +2,10 @@ import { forwardRef } from "react";
 
 // Ckeditor
 import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 // Interfaces
-import { TextAreaProps } from "./interfaces/ITextArea";
 import { InputProps } from "./interfaces/IInput";
+import { TextAreaProps } from "./interfaces/ITextArea";
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ label, id, ...props }, ref) => {
@@ -27,7 +26,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         />
       </div>
     );
-  }
+  },
 );
 Input.displayName = "Input";
 
@@ -48,7 +47,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
         <CKEditor {...props} />
       </div>
     );
-  }
+  },
 );
 TextArea.displayName = "TextArea";
 

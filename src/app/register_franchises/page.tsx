@@ -1,20 +1,20 @@
 "use client";
-import { useState, ChangeEvent, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Form_busca from "./components/form_busca.component";
-import Form_logo from "./components/form_logo.component";
-import Form_imgs from "./components/form_img.component";
-import Form_video from "./components/form_video.component";
-import Form_finances from "./components/form_finances.component";
-import Form_confirm_button from "./components/form__confirme_button.component";
+import { ChangeEvent, useEffect, useState } from "react";
 import Form_data from "./components/data/form_data.component";
+import Form_confirm_button from "./components/form__confirme_button.component";
+import Form_busca from "./components/form_busca.component";
+import Form_finances from "./components/form_finances.component";
+import Form_imgs from "./components/form_img.component";
+import Form_logo from "./components/form_logo.component";
+import Form_video from "./components/form_video.component";
 
-import IbusinessModel from "./components/interfaces/businessModel.interface";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { useForm } from "react-hook-form";
 import { Container, FormContainer } from "./components/container";
-import { StatusToggle } from "./components/toggle";
 import { Input, TextArea } from "./components/form/inputs";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import IbusinessModel from "./components/interfaces/businessModel.interface";
+import { StatusToggle } from "./components/toggle";
 
 export default function Franchise() {
   const form = useForm({
@@ -127,12 +127,12 @@ export default function Franchise() {
     } else {
       if (list.indexOf(operatingSegment) !== -1) {
         setOperationgSegmentMessage(
-          `O Segmento ${operatingSegment} selecionado é válido`
+          `O Segmento ${operatingSegment} selecionado é válido`,
         );
         setOperationgSegmentMessageClass("alert alert-success");
       } else if (list.indexOf(operatingSegment) === -1) {
         setOperationgSegmentMessage(
-          `O Segmento ${operatingSegment} selecionado é inválido, por favor verifique as opções listadas`
+          `O Segmento ${operatingSegment} selecionado é inválido, por favor verifique as opções listadas`,
         );
         setOperationgSegmentMessageClass("alert alert-danger");
       }
@@ -165,7 +165,7 @@ export default function Franchise() {
       setSelectedImages(newSelectedImages);
 
       const newImageUrls = newSelectedImages.map((file) =>
-        URL.createObjectURL(file)
+        URL.createObjectURL(file),
       );
       setOtherImg(newImageUrls);
     }
@@ -185,7 +185,7 @@ export default function Franchise() {
   };
 
   const handleFinanceInfo_monthlyRevenue = (
-    e: ChangeEvent<HTMLInputElement>
+    e: ChangeEvent<HTMLInputElement>,
   ) => {
     setMonthlyRevenue(e.target.value);
   };
@@ -199,13 +199,13 @@ export default function Franchise() {
   };
 
   const handleFinanceInfo_returnonInvestmenFrom = (
-    e: ChangeEvent<HTMLInputElement>
+    e: ChangeEvent<HTMLInputElement>,
   ) => {
     setReturnonInvestmenFrom(e.target.value);
   };
 
   const handleFinanceInfo_returnonInvestmenUntil = (
-    e: ChangeEvent<HTMLInputElement>
+    e: ChangeEvent<HTMLInputElement>,
   ) => {
     setReturnonInvestmenUntil(e.target.value);
   };

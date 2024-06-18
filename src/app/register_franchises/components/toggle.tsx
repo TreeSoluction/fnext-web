@@ -42,7 +42,7 @@ const StatusToggle = forwardRef<HTMLLabelElement, StatusToggleProps>(
         </label>
       </div>
     );
-  }
+  },
 );
 
 StatusToggle.displayName = "StatusToggle";

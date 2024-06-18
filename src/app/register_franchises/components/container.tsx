@@ -15,7 +15,7 @@ const Container = forwardRef<HTMLDivElement, ContainerProps>(
         {children}
       </div>
     );
-  }
+  },
 );
 Container.displayName = "Container";
 
@@ -37,7 +37,7 @@ const FormContainer = forwardRef<HTMLDivElement, FormContainerProps>(
         {children}
       </div>
     );
-  }
+  },
 );
 FormContainer.displayName = "FormContainer";
 

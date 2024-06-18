@@ -1,23 +1,23 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import api from "../../../services/api";
-import { ToastContainer, toast } from "react-toastify";
+import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { z } from "zod";
+import api from "../../../services/api";
 import {
+  notifyError,
   notifyInfo,
   notifySuccess,
-  notifyError,
 } from "../../../services/notification";
-import Cookies from "js-cookie";
 
 export default function Home() {
   const [ownerid, setOwnerId] = useState("");
   const [title, setTitle] = useState(
-    "Confirme o codigo enviado para o seu email..."
+    "Confirme o codigo enviado para o seu email...",
   );
 
   const ConfirmationWithCookieSchema = z.object({
@@ -49,7 +49,7 @@ export default function Home() {
     reset,
   } = useForm({
     resolver: zodResolver(
-      ownerid ? ConfirmationWithCookieSchema : ConfirmationOutCookieSchema
+      ownerid ? ConfirmationWithCookieSchema : ConfirmationOutCookieSchema,
     ),
   });
 

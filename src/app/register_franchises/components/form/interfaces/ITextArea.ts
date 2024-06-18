@@ -1,9 +1,9 @@
-import { WatchdogConfig } from "@ckeditor/ckeditor5-watchdog/src/watchdog";
-import { Editor, EditorConfig } from "@ckeditor/ckeditor5-core";
-import { type InferProps } from "prop-types";
-import { EventInfo } from "@ckeditor/ckeditor5-utils";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { Editor, EditorConfig } from "@ckeditor/ckeditor5-core";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
+import { EventInfo } from "@ckeditor/ckeditor5-utils";
+import { WatchdogConfig } from "@ckeditor/ckeditor5-watchdog/src/watchdog";
+import { type InferProps } from "prop-types";
 
 export interface ErrorDetails {
   phase: "initialization" | "runtime";

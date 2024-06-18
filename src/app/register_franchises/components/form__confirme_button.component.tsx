@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 /**
  * Form_confirm_button component
@@ -9,14 +9,17 @@ import React from 'react';
  */
 
 const Form_confirm_button = ({}) => {
-    return (
-        <React.Fragment>
-               <div className='form_container_button'>
-                <button type="button" className="btn btn-light">Cancelar</button>
-                <button type="button" className="btn btn-primary">Salvar  </button>
-            </div>
-            <style>{
-                `
+  return (
+    <React.Fragment>
+      <div className="form_container_button">
+        <button type="button" className="btn btn-light">
+          Cancelar
+        </button>
+        <button type="button" className="btn btn-primary">
+          Salvar{" "}
+        </button>
+      </div>
+      <style>{`
                 form{
                     max-width: 600px;
                 }
@@ -29,10 +32,9 @@ const Form_confirm_button = ({}) => {
                 .form_container_button button{
                     width: 10rem;
                 }
-                `    
-                }</style>          
-        </React.Fragment>
-    );
-}
+                `}</style>
+    </React.Fragment>
+  );
+};
 
 export default Form_confirm_button;
