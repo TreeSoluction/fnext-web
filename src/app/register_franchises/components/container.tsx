@@ -10,7 +10,7 @@ const Container = forwardRef<HTMLDivElement, ContainerProps>(
       <div
         ref={ref}
         {...props}
-        className="flex flex-col justify-center items-center mt-6 w-screen"
+        className="flex flex-col justify-center items-center mt-6"
       >
         {children}
       </div>
