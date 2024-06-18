@@ -31,8 +31,8 @@ const FormContainer = forwardRef<HTMLDivElement, FormContainerProps>(
         {...props}
         className={`max-w-2xl p-5 bg-white rounded-md shadow ${className}`}
       >
-        <h2>{title}</h2>
-        <hr className="border-t-[1.6px] border-[#0000001a]" />
+        <h2 className="m-0">{title}</h2>
+        <hr className="border-[1.6px] border-[#000000a9] my-2" />
 
         {children}
       </div>
