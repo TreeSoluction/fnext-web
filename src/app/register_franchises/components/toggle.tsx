@@ -35,7 +35,7 @@ const StatusToggle = forwardRef<HTMLLabelElement, StatusToggleProps>(
           <span
             className={`absolute top-0 left-0 w-full h-full flex items-center justify-center text-white uppercase text-xs transition-all duration-300 ${
               checked ? "justify-end pr-12" : "justify-start pl-8"
-            }`}
+            } select-none`}
           >
             {checked ? "Ativo" : "Desativo"}
           </span>

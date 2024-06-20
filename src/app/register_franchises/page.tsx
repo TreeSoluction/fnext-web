@@ -4,15 +4,13 @@ import { ChangeEvent, useEffect, useState } from "react";
 import Form_data from "./components/data/form_data.component";
 import Form_confirm_button from "./components/form__confirme_button.component";
 import Form_finances from "./components/form_finances.component";
-import Form_imgs from "./components/form_img.component";
-import Form_logo from "./components/form_logo.component";
 import Form_video from "./components/form_video.component";
 
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { Search } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { Container, FormContainer } from "./components/container";
-import { Input, TextArea } from "./components/form/inputs";
+import { Input, InputImage, TextArea } from "./components/form/inputs";
 import IbusinessModel from "./components/interfaces/businessModel.interface";
 import { StatusToggle } from "./components/toggle";
 
@@ -144,7 +142,26 @@ export default function Franchise() {
   };
 
   const HandleLogoImg = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log(e);
+
     const file = e.target.files?.[0];
+    if (file) {
+      if (file.size <= 2 * 1024 * 1024) {
+        const reader = new FileReader();
+        reader.onload = (evt) => {
+          setLogoImg(evt.target?.result as string);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        alert("O arquivo deve ser uma imagem em png ou jpg até 2MB.");
+      }
+    }
+  };
+
+  const onDropImg = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files?.[0];
+
     if (file) {
       if (file.size <= 2 * 1024 * 1024) {
         const reader = new FileReader();
@@ -284,14 +301,27 @@ export default function Franchise() {
             {operatingSegmentMessage}
           </div>
         </FormContainer>
-        {/* end refactored */}
 
         <FormContainer title="Logo" className="flex flex-col gap-4">
-          <Form_logo onChange={HandleLogoImg} imageSrc={logoImg} />
+          <div className="flex flex-col">
+            <InputImage
+              label="Selecione sua Logo"
+              id="logo"
+              img={logoImg}
+              onChange={HandleLogoImg}
+              onDrop={onDropImg}
+            />
+            <span className="text-[0.6rem] text-[#9E9D9D] text-right mt-4">
+              Imagem em png ou jpg até 2MB cada. Sugerimos dimensões de 250px X
+              150px.
+            </span>
+          </div>
         </FormContainer>
+        {/* end refactored */}
 
         <FormContainer title="Imagens" className="flex flex-col gap-4">
-          <Form_imgs onChange={handleFranchiseImgs} value={otherImg} />
+          <></>
+          {/* <Form_imgs onChange={handleFranchiseImgs} value={otherImg} /> */}
         </FormContainer>
 
         <FormContainer title="Vídeos" className="flex flex-col gap-4">
