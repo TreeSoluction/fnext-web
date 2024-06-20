@@ -8,22 +8,30 @@ import { InputProps } from "./interfaces/IInput";
 import { TextAreaProps } from "./interfaces/ITextArea";
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, id, ...props }, ref) => {
+  ({ startComponent, endComponent, label, id, ...props }, ref) => {
     return (
       <div>
-        <label
-          htmlFor={id}
-          className="block mb-1 pl-1 text-[#666] text-[0.8rem] font-secondary"
-        >
-          {label}
-        </label>
+        {label ? (
+          <label
+            htmlFor={id}
+            className="block mb-1 pl-1 text-[#666] text-[0.8rem] font-secondary"
+          >
+            {label}
+          </label>
+        ) : null}
 
-        <input
-          id={id}
-          ref={ref}
-          {...props}
-          className="w-full p-2 border border-[#ddd] border-solid rounded"
-        />
+        <div
+          className={`flex h-10 items-center rounded-md border border-input bg-white text-sm focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500`}
+        >
+          {startComponent}
+          <input
+            {...props}
+            id={id}
+            ref={ref}
+            className="w-full px-2 py-0 border-none focus:outline-none focus:ring-0"
+          />
+          {endComponent}
+        </div>
       </div>
     );
   },
