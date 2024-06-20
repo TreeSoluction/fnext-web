@@ -3,7 +3,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { ChangeEvent, useEffect, useState } from "react";
 import Form_data from "./components/data/form_data.component";
 import Form_confirm_button from "./components/form__confirme_button.component";
-import Form_busca from "./components/form_busca.component";
 import Form_finances from "./components/form_finances.component";
 import Form_imgs from "./components/form_img.component";
 import Form_logo from "./components/form_logo.component";
@@ -223,6 +222,7 @@ export default function Franchise() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col gap-8"
       >
+        {/* start refactored */}
         <FormContainer
           title="Informações da Franquia"
           className="flex flex-col gap-4"
@@ -275,19 +275,7 @@ export default function Franchise() {
             }
             onChange={handleOperatingSegment}
             placeholder="Buscar segmento de atuação"
-            id="operation"
           />
-
-          <datalist
-            className="w-60 my-2 rounded-md bg-PASTEL p-2 border-none"
-            id="operation"
-          >
-            {operationList.map((options, index) => (
-              <option key={index} value={options}>
-                {options}
-              </option>
-            ))}
-          </datalist>
 
           <div
             className={`segment-atribute-alert ${operatingSegmentMessageClass}`}
@@ -296,6 +284,7 @@ export default function Franchise() {
             {operatingSegmentMessage}
           </div>
         </FormContainer>
+        {/* end refactored */}
 
         <FormContainer title="Logo" className="flex flex-col gap-4">
           <Form_logo onChange={HandleLogoImg} imageSrc={logoImg} />
@@ -349,15 +338,37 @@ export default function Franchise() {
         <Form_confirm_button />
 
         <FormContainer title="Dados Essenciais" className="flex flex-col gap-4">
-          <Form_busca
-            holder="Buscar Modelo de negócio"
-            message="Modelo de Negócio"
-            label="Modelo de Negócio &#9432;"
+          <Input
+            startComponent={<Search className="ml-2" />}
+            endComponent={
+              <>
+                <button className="h-full w-1/5 border-l border-solid border-[#ddd]">
+                  Buscar
+                </button>
+              </>
+            }
+            placeholder="Buscar Modelo de negócio"
             onChange={handleOperatingSegment}
-            value={operatingSegment}
-            classValue={operatingSegmentMessageClass}
-            segments={operationList}
+            list="operation"
           />
+
+          <datalist
+            className="w-60 my-2 rounded-md bg-PASTEL p-2 border-none"
+            id="operation"
+          >
+            {operationList.map((options, index) => (
+              <option key={index} value={options}>
+                {options}
+              </option>
+            ))}
+          </datalist>
+
+          <div
+            className={`segment-atribute-alert ${operatingSegmentMessageClass}`}
+            role="alert"
+          >
+            {operatingSegmentMessage}
+          </div>
 
           <Form_data onChangeSetData={handlebusinessModel} />
         </FormContainer>
