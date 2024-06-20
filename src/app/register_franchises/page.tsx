@@ -61,7 +61,7 @@ export default function Franchise() {
   ]);
 
   const [logoImg, setLogoImg] = useState<string>("");
-  const [otherImg, setOtherImg] = useState<string[]>([]);
+  const [otherImg, setOtherImg] = useState<string[]>([""]);
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
 
   //Videos
@@ -141,9 +141,7 @@ export default function Franchise() {
     setOperationgSegment(e.target.value);
   };
 
-  const HandleLogoImg = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e);
-
+  const handleLogoImg = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       if (file.size <= 2 * 1024 * 1024) {
@@ -176,15 +174,38 @@ export default function Franchise() {
   };
 
   const handleFranchiseImgs = (e: ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files) {
-      const newSelectedImages = Array.from(files);
-      setSelectedImages(newSelectedImages);
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size <= 2 * 1024 * 1024 && otherImg.length <= 4) {
+        const reader = new FileReader();
 
-      const newImageUrls = newSelectedImages.map((file) =>
-        URL.createObjectURL(file),
-      );
-      setOtherImg(newImageUrls);
+        reader.onload = (evt) => {
+          setOtherImg((s) => [evt.target?.result as string, ...s]);
+        };
+
+        reader.readAsDataURL(file);
+      } else {
+        alert("O arquivo deve ser uma imagem em png ou jpg até 2MB.");
+      }
+    }
+  };
+
+  const onDropOtherImg = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files?.[0];
+
+    if (file) {
+      if (file.size <= 2 * 1024 * 1024 && otherImg.length <= 4) {
+        const reader = new FileReader();
+
+        reader.onload = (evt) => {
+          setOtherImg((s) => [evt.target?.result as string, ...s]);
+        };
+
+        reader.readAsDataURL(file);
+      } else {
+        alert("O arquivo deve ser uma imagem em png ou jpg até 2MB.");
+      }
     }
   };
 
@@ -308,7 +329,7 @@ export default function Franchise() {
               label="Selecione sua Logo"
               id="logo"
               img={logoImg}
-              onChange={HandleLogoImg}
+              onChange={handleLogoImg}
               onDrop={onDropImg}
             />
             <span className="text-[0.6rem] text-[#9E9D9D] text-right mt-4">
@@ -317,12 +338,26 @@ export default function Franchise() {
             </span>
           </div>
         </FormContainer>
-        {/* end refactored */}
 
         <FormContainer title="Imagens" className="flex flex-col gap-4">
-          <></>
-          {/* <Form_imgs onChange={handleFranchiseImgs} value={otherImg} /> */}
+          {otherImg.map((img) => (
+            <div className="flex flex-col">
+              <InputImage
+                onChange={handleFranchiseImgs}
+                label="Selecione uma imagem"
+                id={img === "" ? "firstImg" : img}
+                img={img}
+                onDrop={onDropOtherImg}
+              />
+
+              <span className="text-[0.6rem] text-[#9E9D9D] text-right mt-4">
+                Imagem em png ou jpg até 2MB cada. Sugerimos dimensões de 250px
+                X 150px.
+              </span>
+            </div>
+          ))}
         </FormContainer>
+        {/* end refactored */}
 
         <FormContainer title="Vídeos" className="flex flex-col gap-4">
           <Form_video
