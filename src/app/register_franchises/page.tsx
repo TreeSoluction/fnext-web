@@ -340,12 +340,12 @@ export default function Franchise() {
         </FormContainer>
 
         <FormContainer title="Imagens" className="flex flex-col gap-4">
-          {otherImg.map((img) => (
-            <div className="flex flex-col">
+          {otherImg.map((img, index) => (
+            <div className="flex flex-col" key={index}>
               <InputImage
                 onChange={handleFranchiseImgs}
                 label="Selecione uma imagem"
-                id={img === "" ? "firstImg" : img}
+                id={img === "" ? "firstImg" : String(index)}
                 img={img}
                 onDrop={onDropOtherImg}
               />
