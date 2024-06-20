@@ -1,10 +1,11 @@
-import { forwardRef } from "react";
+import { DragEvent, forwardRef, useState } from "react";
 
 // Ckeditor
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 
 // Interfaces
-import { InputProps } from "./interfaces/IInput";
+import { Camera } from "lucide-react";
+import { ImageInputProps, InputProps } from "./interfaces/IInput";
 import { TextAreaProps } from "./interfaces/ITextArea";
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -59,4 +60,70 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
 );
 TextArea.displayName = "TextArea";
 
-export { Input, TextArea };
+const InputImage = forwardRef<HTMLInputElement, ImageInputProps>(
+  ({ onDrop, id, img, label, ...props }, ref) => {
+    const [dragging, setDragging] = useState(false);
+
+    const handleDragOver = (e: React.DragEvent<any>) => {
+      e.preventDefault();
+      setDragging(true);
+    };
+
+    const handleDragLeave = () => {
+      setDragging(false);
+    };
+
+    const OnDrop = (e: DragEvent<HTMLInputElement>) => {
+      setDragging(false);
+
+      if (onDrop) {
+        onDrop(e);
+      }
+    };
+
+    return (
+      <div className="flex flex-col font-secondary">
+        <label className="text-right" htmlFor={id}>
+          <span className="text-[#1031bd] cursor-pointer">{label}</span>
+
+          <div
+            className={`w-[500px] h-[300px] mt-2 cursor-pointer rounded justify-center items-center
+                ${dragging && !img ? "border-2 border-blue-500 border-solid" : img ? "" : "border-2 border-dashed"}`}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={OnDrop}
+          >
+            {img ? (
+              <img
+                src={img}
+                alt="ImagemPreview"
+                className="overflow-hidden w-full h-full object-cover"
+              />
+            ) : (
+              <div className="flex flex-col gap-2 w-full h-full justify-center items-center pointer-events-none">
+                <Camera size={42} />
+                {dragging ? (
+                  <span>Solte a imagem</span>
+                ) : (
+                  <span>Arraste as imagens aqui</span>
+                )}
+              </div>
+            )}
+          </div>
+        </label>
+
+        <input
+          type="file"
+          accept=".png, .jpg"
+          {...props}
+          ref={ref}
+          id={id}
+          className="hidden"
+        />
+      </div>
+    );
+  },
+);
+InputImage.displayName = "InputImage";
+
+export { Input, InputImage, TextArea };
