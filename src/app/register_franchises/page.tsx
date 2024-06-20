@@ -10,6 +10,7 @@ import Form_logo from "./components/form_logo.component";
 import Form_video from "./components/form_video.component";
 
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { Search } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { Container, FormContainer } from "./components/container";
 import { Input, TextArea } from "./components/form/inputs";
@@ -46,7 +47,7 @@ export default function Franchise() {
     "Alimentação",
     "Casa e Construção",
     "Comunicação,informática e eletrônicos",
-    "educação",
+    "Educação",
     "Entretenimento e lazer",
     "Hotelaria e turismo",
     "Limpeza e conservação",
@@ -263,14 +264,37 @@ export default function Franchise() {
           title="Segmento de Atuação"
           className="flex flex-col gap-4"
         >
-          <Form_busca
-            holder="Buscar segmento de atuação"
-            message={operatingSegmentMessage}
+          <Input
+            startComponent={<Search className="ml-2" />}
+            endComponent={
+              <>
+                <button className="h-full w-1/5 border-l border-solid border-[#ddd]">
+                  Buscar
+                </button>
+              </>
+            }
             onChange={handleOperatingSegment}
-            value={operatingSegment}
-            classValue={operatingSegmentMessageClass}
-            segments={operationList}
+            placeholder="Buscar segmento de atuação"
+            id="operation"
           />
+
+          <datalist
+            className="w-60 my-2 rounded-md bg-PASTEL p-2 border-none"
+            id="operation"
+          >
+            {operationList.map((options, index) => (
+              <option key={index} value={options}>
+                {options}
+              </option>
+            ))}
+          </datalist>
+
+          <div
+            className={`segment-atribute-alert ${operatingSegmentMessageClass}`}
+            role="alert"
+          >
+            {operatingSegmentMessage}
+          </div>
         </FormContainer>
 
         <FormContainer title="Logo" className="flex flex-col gap-4">
