@@ -3,7 +3,6 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import Form_data from "./components/data/form_data.component";
 import Form_confirm_button from "./components/form__confirme_button.component";
-import Form_finances from "./components/form_finances.component";
 
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { Search } from "lucide-react";
@@ -232,27 +231,27 @@ export default function Franchise() {
     setWebsiteURL(e.target.value);
   };
 
-  const handleFinanceInfo_monthlyRevenue = (
+  const handleFinanceInfoMonthlyRevenue = (
     e: ChangeEvent<HTMLInputElement>,
   ) => {
     setMonthlyRevenue(e.target.value);
   };
 
-  const handleFinanceInfo_UnitinBrazil = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleFinanceInfoUnitinBrazil = (e: ChangeEvent<HTMLInputElement>) => {
     setUnitinBrazil(e.target.value);
   };
 
-  const handleFinanceInfo_Headquarters = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleFinanceInfoHeadquarters = (e: ChangeEvent<HTMLInputElement>) => {
     setHeadquarters(e.target.value);
   };
 
-  const handleFinanceInfo_returnonInvestmenFrom = (
+  const handleFinanceInfoReturnonInvestmenFrom = (
     e: ChangeEvent<HTMLInputElement>,
   ) => {
     setReturnonInvestmenFrom(e.target.value);
   };
 
-  const handleFinanceInfo_returnonInvestmenUntil = (
+  const handleFinanceInfoReturnonInvestmenUntil = (
     e: ChangeEvent<HTMLInputElement>,
   ) => {
     setReturnonInvestmenUntil(e.target.value);
@@ -403,24 +402,63 @@ export default function Franchise() {
             id="siteUrl"
           />
         </FormContainer>
-        {/* end refactored */}
 
         <FormContainer
           title="Informações Financeiras"
           className="flex flex-col gap-4"
         >
-          <Form_finances
-            onChangeMonthlyRevenue={handleFinanceInfo_monthlyRevenue}
-            onChangeUnitinBrazil={handleFinanceInfo_UnitinBrazil}
-            onChangeHeadquarters={handleFinanceInfo_Headquarters}
-            onChangeReturnonInvestmenFrom={
-              handleFinanceInfo_returnonInvestmenFrom
-            }
-            onChangeReturnonInvestmenUntil={
-              handleFinanceInfo_returnonInvestmenUntil
-            }
-          />
+          <div className="flex flex-wrap justify-between mt-auto items-end">
+            <div className="w-[30%]">
+              <Input
+                label="Faturamento Médio Mensal"
+                type="number"
+                id="franchiseFinanceFatmed"
+                placeholder="0,00"
+                onChange={handleFinanceInfoMonthlyRevenue}
+              />
+            </div>
+
+            <div className="w-[30%]">
+              <Input
+                label="Unidade no Brasil"
+                type="number"
+                id="franchiseFinanceUnit"
+                onChange={handleFinanceInfoHeadquarters}
+              />
+            </div>
+
+            <div className="w-[30%]">
+              <Input
+                label="Sede"
+                type="number"
+                id="franchiseFinanceSede"
+                onChange={handleFinanceInfoMonthlyRevenue}
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-wrap justify-between mt-auto items-end">
+            <div className="w-[30%]">
+              <Input
+                label="Retorno de Investimento &#x24D8;"
+                type="text"
+                id="franchiseFinanceInvestreturnBegin"
+                onChange={handleFinanceInfoReturnonInvestmenFrom}
+              />
+            </div>
+
+            <div className="w-[30%]">
+              <Input
+                type="number"
+                id="franchiseFinanceInvestreturnUntil"
+                onChange={handleFinanceInfoReturnonInvestmenUntil}
+              />
+            </div>
+
+            <div className="w-[30%]" />
+          </div>
         </FormContainer>
+        {/* end refactored */}
 
         <FormContainer
           title="Mdelos de negócios"
