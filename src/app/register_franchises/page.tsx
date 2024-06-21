@@ -1,18 +1,17 @@
 "use client";
-import "bootstrap/dist/css/bootstrap.min.css";
+
 import { ChangeEvent, useEffect, useState } from "react";
 import Form_data from "./components/data/form_data.component";
 import Form_confirm_button from "./components/form__confirme_button.component";
 import Form_finances from "./components/form_finances.component";
-import Form_video from "./components/form_video.component";
 
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { Search } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { Container, FormContainer } from "./components/container";
 import { Input, InputImage, TextArea } from "./components/form/inputs";
+import { StatusToggle } from "./components/form/toggle";
 import IbusinessModel from "./components/interfaces/businessModel.interface";
-import { StatusToggle } from "./components/toggle";
 
 export default function Franchise() {
   const form = useForm({
@@ -66,6 +65,7 @@ export default function Franchise() {
 
   //Videos
   const [videoURL, setVideoURL] = useState<string>("");
+  const [validUrl, setValidUrl] = useState<boolean>(false);
   const [websiteURL, setWebsiteURL] = useState<string>("");
 
   // Franchise Revenue
@@ -210,12 +210,22 @@ export default function Franchise() {
   };
 
   const handleVideoUrl = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.includes("embed")) {
-      setVideoURL(e.target.value);
-    } else {
-      const videoId = e.target.value.split("v=")[1].split("&list=")[0];
-      setVideoURL(`https://www.youtube.com/embed/${videoId}`);
+    if (
+      /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\//.test(e.target.value)
+    ) {
+      setValidUrl(true);
+
+      if (e.target.value.includes("embed")) {
+        setVideoURL(e.target.value);
+      } else {
+        const videoId = e.target.value.split("v=")[1].split("&list=")[0];
+        setVideoURL(`https://www.youtube.com/embed/${videoId}`);
+      }
+
+      return;
     }
+
+    setValidUrl(false);
   };
 
   const handleSiteUrl = (e: ChangeEvent<HTMLInputElement>) => {
@@ -357,16 +367,43 @@ export default function Franchise() {
             </div>
           ))}
         </FormContainer>
-        {/* end refactored */}
 
         <FormContainer title="Vídeos" className="flex flex-col gap-4">
-          <Form_video
-            onChangeVideo={handleVideoUrl}
-            onChangeSite={handleSiteUrl}
-            valueVideo={videoURL}
-            valueSite={websiteURL}
+          <Input
+            onChange={handleVideoUrl}
+            type="url"
+            id="franchiseVideoUrl"
+            placeholder="https://..."
+            label={
+              <>
+                URL de vídeo sobre sua Franquia <span>(opcional) &#9432;</span>
+              </>
+            }
+          />
+
+          {videoURL && validUrl ? (
+            <iframe
+              src={videoURL}
+              width={560}
+              height={315}
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen={true}
+            />
+          ) : null}
+
+          <Input
+            onChange={handleSiteUrl}
+            type="url"
+            placeholder="https://..."
+            label={
+              <>
+                URL do site de sua Franquia<span>(opcional) &#x24D8;</span>
+              </>
+            }
+            id="siteUrl"
           />
         </FormContainer>
+        {/* end refactored */}
 
         <FormContainer
           title="Informações Financeiras"
