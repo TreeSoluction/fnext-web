@@ -1,9 +1,10 @@
-import { DragEvent, forwardRef, useState } from "react";
+import { DragEvent, LegacyRef, forwardRef, useState } from "react";
 
 // Ckeditor
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 
 // Interfaces
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { Camera } from "lucide-react";
 import { ImageInputProps, InputProps } from "./interfaces/IInput";
 import { TextAreaProps } from "./interfaces/ITextArea";
@@ -40,7 +41,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 Input.displayName = "Input";
 
 const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
-  ({ maxLenght, characters, label, ...props }) => {
+  ({ maxLenght, characters, label, ...props }, ref) => {
     return (
       <div>
         <div className="flex justify-between mb-1 pl-1 text-[#666] text-[0.8rem] font-secondary">
@@ -53,7 +54,10 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
           >{`${characters} de ${maxLenght} caracteres`}</span>
         </div>
 
-        <CKEditor {...props} />
+        <CKEditor
+          {...props}
+          ref={ref as LegacyRef<CKEditor<ClassicEditor>> | undefined}
+        />
       </div>
     );
   },

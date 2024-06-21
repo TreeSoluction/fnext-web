@@ -1,7 +1,7 @@
 import { InputHTMLAttributes, ReactNode } from "react";
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  label?: string;
+  label?: string | ReactNode;
   startComponent?: ReactNode;
   endComponent?: ReactNode;
 }
