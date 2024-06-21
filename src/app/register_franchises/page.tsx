@@ -2,7 +2,6 @@
 
 import { ChangeEvent, useEffect, useState } from "react";
 import Form_data from "./components/data/form_data.component";
-import Form_confirm_button from "./components/form__confirme_button.component";
 
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { Search } from "lucide-react";
@@ -458,26 +457,44 @@ export default function Franchise() {
             <div className="w-[30%]" />
           </div>
         </FormContainer>
+
+        <FormContainer
+          title="Modelos de negócios"
+          className="flex flex-col gap-4"
+        >
+          <p className="text-zinc-600">
+            Por favor selecione as categorias de atuação de suas franquias e
+            forneça as informações financeiras pertinentes a cada uma delas
+          </p>
+
+          <button
+            type="button"
+            className="px-3 py-2 rounded text-white bg-[#007bff]"
+          >
+            Adicionar Modelo
+          </button>
+        </FormContainer>
+
+        <div className="flex justify-end gap-4">
+          <button
+            type="button"
+            className="px-3 py-2 rounded bg-[#ececec] w-1/4"
+          >
+            Cancelar
+          </button>
+          <button
+            type="button"
+            className="px-3 py-2 rounded text-white bg-[#007bff] w-1/4"
+          >
+            Salvar
+          </button>
+        </div>
         {/* end refactored */}
 
         <FormContainer
-          title="Mdelos de negócios"
-          className="flex flex-col gap-4"
+          title="Dados Essenciais"
+          className="flex cursor-pointer flex-col gap-4"
         >
-          <div>
-            <p>
-              Por favor selecione as categorias de atuação de suas franquias e
-              forneça as informações financeiras pertinentes a cada uma delas
-            </p>
-            <button type="button" className="btn btn-light">
-              Adicionar Modelo
-            </button>
-          </div>
-        </FormContainer>
-
-        <Form_confirm_button />
-
-        <FormContainer title="Dados Essenciais" className="flex flex-col gap-4">
           <Input
             startComponent={<Search className="ml-2" />}
             endComponent={
