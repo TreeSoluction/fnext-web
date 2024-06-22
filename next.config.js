@@ -6,6 +6,11 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  onDemandEntries: {
+    onError: (err) => {
+      console.log(`Ignoring ${err} error`);
+    },
+  },
 };
 
 module.exports = nextConfig;
