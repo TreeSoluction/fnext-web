@@ -8,6 +8,8 @@ export const ICONS = {
         loja_fisica: '/icons/Modelo de negocio/Loja fisica.svg',
         quiosque: '/icons/Modelo de negocio/quiosque.svg',
         unidade_movel: '/icons/Modelo de negocio/unidade movel.svg',
+        id_vector: '/icons/Modelo de negocio/id vector.svg',
+        set_up: '/icons/Modelo de negocio/set up.svg',
     },
     segments: {
         turism_agency: '/icons/Segmentos/Agências de Viagens e Turism.svg',
