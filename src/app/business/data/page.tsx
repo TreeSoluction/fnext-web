@@ -9,20 +9,17 @@ export default function Franchises() {
   const [videos, setVideos] = useState<string[]>([]);
 
   function addVideos() {
-    if (document.getElementById("video")) {
-      let newVideoLink = document.getElementById("video")?.value.toString();
-      if (!newVideoLink) {
-        return;
-      }
-
-      newVideoLink.split(",").forEach((video) => {
-        console.log(video);
-
-        setVideos([...videos, video]);
-      });
-
-      document.getElementById("video").value = null;
-    }
+    // if (document.getElementById("video")) {
+    //   let newVideoLink = document.getElementById("video")?.value.toString();
+    //   if (!newVideoLink) {
+    //     return;
+    //   }
+    //   newVideoLink.split(",").forEach((video) => {
+    //     console.log(video);
+    //     setVideos([...videos, video]);
+    //   });
+    //   document.getElementById("video").value = null;
+    // }
   }
 
   function removeVideo(video: string) {

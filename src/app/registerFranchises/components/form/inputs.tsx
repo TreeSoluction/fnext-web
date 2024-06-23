@@ -1,3 +1,4 @@
+"use client";
 import { DragEvent, LegacyRef, forwardRef, useState } from "react";
 
 // Ckeditor
@@ -10,7 +11,7 @@ import { ImageInputProps, InputProps } from "./interfaces/IInput";
 import { TextAreaProps } from "./interfaces/ITextArea";
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ startComponent, endComponent, label, id, ...props }, ref) => {
+  ({ startComponent, endComponent, label, id, className, ...props }, ref) => {
     return (
       <div>
         {label ? (
@@ -23,14 +24,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         ) : null}
 
         <div
-          className={`flex h-10 items-center rounded-md border border-input bg-white text-sm focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500`}
+          className={`flex h-10 items-center rounded-md border border-input bg-white text-sm focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 ${className}`}
         >
           {startComponent}
           <input
             {...props}
             id={id}
             ref={ref}
-            className="w-full px-2 py-0 border-none focus:outline-none focus:ring-0"
+            className="w-full h-full px-2 py-0 rounded-md border-none focus:outline-none focus:ring-0"
           />
           {endComponent}
         </div>
@@ -41,17 +42,17 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 Input.displayName = "Input";
 
 const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
-  ({ maxLenght, characters, label, ...props }, ref) => {
+  ({ maxLength, characters, label, ...props }, ref) => {
     return (
       <div>
         <div className="flex justify-between mb-1 pl-1 text-[#666] text-[0.8rem] font-secondary">
-          <label className={`${characters > maxLenght ? "text-red-500" : ""}`}>
+          <label className={`${characters > maxLength ? "text-red-500" : ""}`}>
             {label}
           </label>
 
           <span
-            className={`${characters > maxLenght ? "text-red-500" : ""}`}
-          >{`${characters} de ${maxLenght} caracteres`}</span>
+            className={`${characters > maxLength ? "text-red-500" : ""}`}
+          >{`${characters} de ${maxLength} caracteres`}</span>
         </div>
 
         <CKEditor
@@ -91,7 +92,7 @@ const InputImage = forwardRef<HTMLInputElement, ImageInputProps>(
           <span className="text-[#1031bd] cursor-pointer">{label}</span>
 
           <div
-            className={`w-[500px] h-[300px] mt-2 cursor-pointer rounded justify-center items-center
+            className={`w-full h-[300px] mt-2 cursor-pointer rounded justify-center items-center
                 ${dragging && !img ? "border-2 border-blue-500 border-solid" : img ? "" : "border-2 border-dashed"}`}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}

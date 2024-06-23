@@ -1,4 +1,4 @@
-export default interface IbusinessModel {
+export interface IbusinessModel {
   businessModel: string;
   mainData: {
     capitalForInstallation: {

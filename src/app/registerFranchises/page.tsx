@@ -1,15 +1,15 @@
 "use client";
 
 import { ChangeEvent, useEffect, useState } from "react";
-import Form_data from "./components/data/form_data.component";
 
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { Search } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { boolean } from "zod";
 import { Container, FormContainer } from "./components/container";
 import { Input, InputImage, TextArea } from "./components/form/inputs";
 import { StatusToggle } from "./components/form/toggle";
-import IbusinessModel from "./components/interfaces/businessModel.interface";
+import { IbusinessModel } from "./components/interfaces/businessModel.interface";
 
 export default function Franchise() {
   const form = useForm({
@@ -260,7 +260,43 @@ export default function Franchise() {
     setBusinessModel(model);
   };
 
-  const onSubmit = (data: any) => {};
+  const onSubmit = (a: any) => {
+    const data = {
+      ownerId: "",
+      business: {
+        sector: "",
+        name: "",
+        description: "",
+        logo: "",
+        images: [],
+        videos: [],
+        site: "",
+        average_monthly_billing: 0,
+        units_in_brazil: 0,
+        headquarters: "",
+        ROI_min: 0,
+        ROI_max: 0,
+      },
+      models: [
+        {
+          name: "",
+          capital_for_instalation: 0,
+          capital_for_instalation_isFixed: false,
+          working_capital: 0,
+          working_capital_isFixed: false,
+          franchise_fee: 0,
+          franchise_fee_isFixed: false,
+          marketing_fee: 0,
+          marketing_fee_isFixed: false,
+          has_store_area: false,
+          store_area_min: 0,
+          store_area_max: 0,
+          royalties: 0,
+          royalties_isFixed: boolean,
+        },
+      ],
+    };
+  };
 
   return (
     <Container>
@@ -268,7 +304,6 @@ export default function Franchise() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col gap-8"
       >
-        {/* start refactored */}
         <FormContainer
           title="Informações da Franquia"
           className="flex flex-col gap-4"
@@ -288,7 +323,7 @@ export default function Franchise() {
           />
 
           <TextArea
-            maxLenght={300}
+            maxLength={300}
             label="Descreva a Franquia"
             editor={ClassicEditor}
             onChange={handleOnfranchiseDescriptionFrist}
@@ -297,7 +332,7 @@ export default function Franchise() {
           />
 
           <TextArea
-            maxLenght={300}
+            maxLength={300}
             label="Descrição da Franquia"
             editor={ClassicEditor}
             id={"franchiseDescription"}
@@ -489,12 +524,8 @@ export default function Franchise() {
             Salvar
           </button>
         </div>
-        {/* end refactored */}
 
-        <FormContainer
-          title="Dados Essenciais"
-          className="flex cursor-pointer flex-col gap-4"
-        >
+        <FormContainer title="Dados Essenciais" className="flex flex-col gap-4">
           <Input
             startComponent={<Search className="ml-2" />}
             endComponent={
@@ -527,8 +558,260 @@ export default function Franchise() {
             {operatingSegmentMessage}
           </div>
 
-          <Form_data onChangeSetData={handlebusinessModel} />
+          <div>
+            <h3 className="my-6 text-lg">Dados Principais</h3>
+
+            <div className="flex flex-col gap-6">
+              <div className="w-1/2 flex">
+                <Input
+                  label={
+                    <div className="flex justify-between">
+                      <span>Capital para instalação</span>
+
+                      <div className="flex items-end justify-evenly gap-1">
+                        <input
+                          type="checkbox"
+                          className="transform scale-50"
+                          id="capitalForInstallationFixed"
+                        />
+                        <label
+                          className="text-blue-600"
+                          htmlFor="capitalForInstallationFixed"
+                        >
+                          Fixo
+                        </label>
+                      </div>
+                    </div>
+                  }
+                  endComponent={
+                    <div className="w-1/3 p-4 flex justify-center items-center border-l h-full">
+                      R$
+                    </div>
+                  }
+                  className="w-2/3"
+                  id="capitalForInstallation"
+                  placeholder="0,00"
+                />
+              </div>
+
+              <div className="w-1/2 flex">
+                <Input
+                  label={
+                    <div className="flex justify-between">
+                      <span>Capital de Giro</span>
+
+                      <div className="flex items-end justify-evenly gap-1">
+                        <input
+                          type="checkbox"
+                          className="transform scale-50"
+                          id="workingCapitalFixed"
+                        />
+                        <label
+                          className="text-blue-600"
+                          htmlFor="workingCapitalFixed"
+                        >
+                          Fixo
+                        </label>
+                      </div>
+                    </div>
+                  }
+                  endComponent={
+                    <div className="w-1/3 p-4 flex justify-center items-center border-l h-full">
+                      R$
+                    </div>
+                  }
+                  className="w-2/3"
+                  id="workingCapital"
+                  placeholder="0,00"
+                />
+              </div>
+
+              <div className="w-1/2 flex">
+                <Input
+                  label={
+                    <div className="flex justify-between">
+                      <span>Taxa de franquia</span>
+
+                      <div className="flex items-end justify-evenly gap-1">
+                        <input
+                          type="checkbox"
+                          className="transform scale-50"
+                          id="franchiseFeeFixed"
+                        />
+                        <label
+                          className="text-blue-600"
+                          htmlFor="franchiseFeeFixed"
+                        >
+                          Fixo
+                        </label>
+                      </div>
+                    </div>
+                  }
+                  endComponent={
+                    <div className="w-1/3 p-4 flex justify-center items-center border-l h-full">
+                      R$
+                    </div>
+                  }
+                  className="w-2/3"
+                  id="franchiseFee"
+                  placeholder="0,00"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="my-6 text-lg">Dados Técnicos</h3>
+
+            <div className="flex flex-col  gap-6">
+              <div className="flex justify-between gap-12">
+                <div className="w-1/2 flex">
+                  <Input
+                    label={
+                      <div className="flex justify-between">
+                        <span>Taxa de Propaganda</span>
+
+                        <div className="flex items-end justify-evenly gap-1">
+                          <input
+                            type="checkbox"
+                            className="transform scale-50"
+                            id="advertisingFeeFixed"
+                          />
+                          <label
+                            className="text-blue-600"
+                            htmlFor="advertisingFeeFixed"
+                          >
+                            Fixo
+                          </label>
+                        </div>
+                      </div>
+                    }
+                    endComponent={
+                      <div className="w-1/3 p-4 flex justify-center items-center border-l h-full">
+                        %
+                      </div>
+                    }
+                    className="w-2/3"
+                    id="advertisingFee"
+                    placeholder="0,00"
+                  />
+                </div>
+
+                <div className="w-1/2 flex">
+                  <Input
+                    label={
+                      <div className="flex justify-between">
+                        <span>Royalties</span>
+
+                        <div className="flex items-end justify-evenly gap-1">
+                          <input
+                            type="checkbox"
+                            className="transform scale-50"
+                            id="royaltiesFixed"
+                          />
+                          <label
+                            className="text-blue-600"
+                            htmlFor="royaltiesFixed"
+                          >
+                            Fixo
+                          </label>
+                        </div>
+                      </div>
+                    }
+                    endComponent={
+                      <div className="w-1/3 p-4 flex justify-center items-center border-l h-full">
+                        %
+                      </div>
+                    }
+                    className="w-2/3"
+                    id="royalties"
+                    placeholder="0,00"
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-between gap-12">
+                <div className="w-1/2 flex">
+                  <Input
+                    label={
+                      <div className="flex justify-between">
+                        <span>Taxa de franquia</span>
+
+                        <div className="flex items-end justify-evenly gap-1">
+                          <input
+                            type="checkbox"
+                            className="transform scale-50"
+                            id="storeAreaFixed"
+                          />
+                          <label
+                            className="text-blue-600"
+                            htmlFor="storeAreaFixed"
+                          >
+                            Fixo
+                          </label>
+                        </div>
+                      </div>
+                    }
+                    endComponent={
+                      <div className="w-1/3 p-4 flex justify-center items-center border-l h-full">
+                        M²
+                      </div>
+                    }
+                    className="w-2/3"
+                    id="storeArea"
+                    placeholder="0,00"
+                  />
+                </div>
+                <div className="w-1/2 flex">
+                  <Input
+                    label={
+                      <div className="flex justify-between">
+                        <span></span>
+
+                        <div className="flex items-end justify-evenly gap-1">
+                          <input
+                            type="checkbox"
+                            className="transform scale-50"
+                            id="storeAreaFixed"
+                          />
+                          <label
+                            className="text-blue-600"
+                            htmlFor="storeAreaFixed"
+                          >
+                            Não contém
+                          </label>
+                        </div>
+                      </div>
+                    }
+                    endComponent={
+                      <div className="w-1/3 p-4 flex justify-center items-center border-l h-full">
+                        M²
+                      </div>
+                    }
+                    className="w-2/3"
+                    id="storeArea"
+                    placeholder="0,00"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </FormContainer>
+
+        <div className="flex justify-end gap-4 mb-12">
+          <button
+            type="button"
+            className="px-3 py-2 rounded bg-[#ececec] w-1/4"
+          >
+            Cancelar
+          </button>
+          <button
+            type="button"
+            className="px-3 py-2 rounded text-white bg-[#007bff] w-1/4"
+          >
+            Salvar
+          </button>
+        </div>
       </form>
     </Container>
   );
