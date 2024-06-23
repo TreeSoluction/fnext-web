@@ -28,6 +28,6 @@ export interface Props<TEditor extends Editor>
 
 export interface TextAreaProps extends Props<ClassicEditor> {
   label: string;
-  maxLenght: number;
+  maxLength: number;
   characters: number;
 }
