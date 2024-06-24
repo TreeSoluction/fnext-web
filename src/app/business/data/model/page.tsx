@@ -1,5 +1,4 @@
 import Header from "@/components/Header";
-import Image from "next/image";
 
 export default function Franchises() {
   return (
@@ -48,7 +47,9 @@ export default function Franchises() {
         </div>
         <div className="shadow-md businessRegisterSection">
           <div className="text-xl text-start">Videos</div>
-          <div className="text-sm text-start">URL de videos sobre sua franquia (opcional)</div>
+          <div className="text-sm text-start">
+            URL de videos sobre sua franquia (opcional)
+          </div>
           <input></input>
           <div className="text-sm text-start">URL do site da sua franquia</div>
           <input></input>
@@ -58,7 +59,9 @@ export default function Franchises() {
           <div className="flex flex-col">
             <div className="flex flex-col 2xl:flex-row justify-between">
               <div>
-                <div className="text-sm text-start">Faturamento medio mensal</div>
+                <div className="text-sm text-start">
+                  Faturamento medio mensal
+                </div>
                 <input className="w-100"></input>
               </div>
               <div>
@@ -72,7 +75,9 @@ export default function Franchises() {
             </div>
             <div className="flex">
               <div>
-                <div className="text-sm text-start">Retorno de investimento</div>
+                <div className="text-sm text-start">
+                  Retorno de investimento
+                </div>
                 <div>
                   <input></input>
                   <input placeholder="Ate"></input>
@@ -83,7 +88,10 @@ export default function Franchises() {
         </div>
         <div className="shadow-md businessRegisterSection">
           <div className="text-xl text-start">Modelos de Negocio</div>
-          <div className="text-sm text-start">Por favor, selecione as categorias de atuacao da sua franquia e forneca as informacoes financeiras pertinentes a cada uma delas</div>
+          <div className="text-sm text-start">
+            Por favor, selecione as categorias de atuacao da sua franquia e
+            forneca as informacoes financeiras pertinentes a cada uma delas
+          </div>
           <button>Adicionar Modelo</button>
         </div>
       </div>

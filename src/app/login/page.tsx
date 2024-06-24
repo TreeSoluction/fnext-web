@@ -1,22 +1,20 @@
 "use client";
 
-import React from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import api from "../../services/api";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import {
-  notifyInfo,
-  notifySuccess,
-  notifyError,
-} from "../../services/notification";
-import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
 import ErrorMessage from "@/components/Form/error-message";
 import { InputStyled } from "@/components/Form/inputs";
 import { APP_ROUTES } from "@/constants/app-route";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Cookies from "js-cookie";
+import { useForm } from "react-hook-form";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { z } from "zod";
+import api from "../../services/api";
+import {
+  notifyError,
+  notifyInfo,
+  notifySuccess,
+} from "../../services/notification";
 
 export default function Home() {
   const LoginSchema = z.object({
@@ -69,7 +67,7 @@ export default function Home() {
         }
 
         notifyError(
-          "Ocorreu um erro inesperado ao servidor, tente novamente mais tarde!"
+          "Ocorreu um erro inesperado ao servidor, tente novamente mais tarde!",
         );
       });
   };

@@ -2,16 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-:root{
-    --color_primary: #0D2048;
-    --color_sencodary: #1031BD;
-    --color_text: #FFFFFF;
-    --color_text_secundary: #181b23;
-    --font_primary: "Montserrat", sans-serif 
+:root {
+  --color_primary: #0d2048;
+  --color_sencodary: #1031bd;
+  --color_text: #ffffff;
+  --color_text_secundary: #181b23;
+  --font_primary: "Montserrat", sans-serif;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 
 .modal {
   display: none;
@@ -83,8 +82,18 @@
 }
 
 .headerOfInput p {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Open Sans",
+    "Helvetica Neue",
+    sans-serif;
   font-size: 1.1rem;
 }
 

@@ -1,30 +1,27 @@
 "use client";
 
-import React from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import ErrorMessage from "@/components/Form/error-message";
+import { InputStyled } from "@/components/Form/inputs";
+import { CreateUser } from "@/services/User/create.user";
 import { zodResolver } from "@hookform/resolvers/zod";
-import api from "../../services/api";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import {
-  notifyInfo,
-  notifySuccess,
-  notifyError,
-} from "../../services/notification";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-import ErrorMessage from "@/components/Form/error-message";
-import { InputDate, InputStyled, InputMasked } from "@/components/Form/inputs";
-import { CreateUser } from "@/services/User/create.user";
-import { escape } from "querystring";
+import { useForm } from "react-hook-form";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { z } from "zod";
+import {
+  notifyError,
+  notifyInfo,
+  notifySuccess,
+} from "../../services/notification";
 
 export default function Home() {
   const router = useRouter();
   const RegisterSchema = z.object({
     fullname: z.string().min(1, "Nome não pode ser vazio!"),
     email: z.string().email({ message: "Email Inválido!" }),
-    password: z.string().min(6, "A senha tem que ter no mínimo 6 caracteres!")
+    password: z.string().min(6, "A senha tem que ter no mínimo 6 caracteres!"),
   });
 
   const {
@@ -47,7 +44,7 @@ export default function Home() {
     const response = await CreateUser({
       fullName: data.fullname,
       email: data.email,
-      password: data.password
+      password: data.password,
     });
 
     if (response.status != 200) {
