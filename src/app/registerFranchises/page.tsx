@@ -1,21 +1,24 @@
 "use client";
-
-import { ChangeEvent, useEffect, useRef, useState } from "react";
-
-import { operations } from "@/utils/operations";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { Search } from "lucide-react";
+import { ChangeEvent, Fragment, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { boolean } from "zod";
+
+// Components
+import { Divider } from "@/components/Divider";
 import { Container, FormContainer } from "./components/container";
 import { Input, InputImage, TextArea } from "./components/form/inputs";
 import { StatusToggle } from "./components/form/toggle";
-import { IbusinessModel } from "./components/interfaces/businessModel.interface";
 import { Model } from "./components/model";
+
+// Interfaces
+import { IModel } from "@/interfaces/IModel";
+import { IbusinessModel } from "./components/interfaces/businessModel.interface";
 
 export default function Franchise() {
   const [isOpenModel, setIsOpenModel] = useState<boolean>(false);
   const modelRef = useRef<HTMLDivElement>(null);
+  const [models, setModels] = useState<IModel[]>([]);
 
   const form = useForm({
     defaultValues: {
@@ -36,6 +39,10 @@ export default function Franchise() {
 
   const toggleModel = () => {
     setIsOpenModel((s) => !s);
+  };
+
+  const addModel = (data: IModel) => {
+    setModels((s) => [...s, data]);
   };
 
   const [switchState, setSwitchState] = useState<boolean>(true);
@@ -109,27 +116,6 @@ export default function Franchise() {
     const data = editor.getData();
     setFranchiseDescriptionSecond(data);
   };
-
-  useEffect(() => {
-    const list = operations;
-
-    if (operatingSegment.length === 0) {
-      setOperationgSegmentMessage(`Nenhum Segmento adicionado`);
-      setOperationgSegmentMessageClass("alert alert-primary");
-    } else {
-      if (list.indexOf(operatingSegment) !== -1) {
-        setOperationgSegmentMessage(
-          `O Segmento ${operatingSegment} selecionado é válido`,
-        );
-        setOperationgSegmentMessageClass("alert alert-success");
-      } else if (list.indexOf(operatingSegment) === -1) {
-        setOperationgSegmentMessage(
-          `O Segmento ${operatingSegment} selecionado é inválido, por favor verifique as opções listadas`,
-        );
-        setOperationgSegmentMessageClass("alert alert-danger");
-      }
-    }
-  }, [operatingSegment]);
 
   const handleOperatingSegment = (e: ChangeEvent<HTMLInputElement>) => {
     setOperationgSegment(e.target.value);
@@ -273,24 +259,7 @@ export default function Franchise() {
         ROI_min: 0,
         ROI_max: 0,
       },
-      models: [
-        {
-          name: "",
-          capital_for_instalation: 0,
-          capital_for_instalation_isFixed: false,
-          working_capital: 0,
-          working_capital_isFixed: false,
-          franchise_fee: 0,
-          franchise_fee_isFixed: false,
-          marketing_fee: 0,
-          marketing_fee_isFixed: false,
-          has_store_area: false,
-          store_area_min: 0,
-          store_area_max: 0,
-          royalties: 0,
-          royalties_isFixed: boolean,
-        },
-      ],
+      models,
     };
   };
 
@@ -490,13 +459,28 @@ export default function Franchise() {
         </FormContainer>
 
         <FormContainer
-          title="Modelos de negócios"
+          title="Modelos de Negócios"
           className="flex flex-col gap-4"
         >
-          <p className="text-zinc-600">
-            Por favor selecione as categorias de atuação de suas franquias e
-            forneça as informações financeiras pertinentes a cada uma delas
-          </p>
+          {models.length <= 0 ? (
+            <p className="text-zinc-600">
+              Por favor selecione as categorias de atuação de suas franquias e
+              forneça as informações financeiras pertinentes a cada uma delas
+            </p>
+          ) : (
+            <>
+              {models.map((model, index) => (
+                <Fragment key={index}>
+                  <p>
+                    Adicionado:{" "}
+                    <span className="font-medium">{model.name}</span>
+                  </p>
+
+                  <Divider />
+                </Fragment>
+              ))}
+            </>
+          )}
 
           <button
             type="button"
@@ -528,9 +512,8 @@ export default function Franchise() {
         <Model
           isOpen={isOpenModel}
           onClose={toggleModel}
-          operatingSegmentMessageClass={operatingSegmentMessageClass}
-          operatingSegmentMessage={operatingSegmentMessage}
           ref={modelRef}
+          addModel={addModel}
         />
       </form>
     </Container>

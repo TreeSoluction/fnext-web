@@ -1,3 +1,4 @@
+import { Divider } from "@/components/Divider";
 import { HTMLAttributes, forwardRef } from "react";
 
 interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
@@ -33,7 +34,7 @@ const FormContainer = forwardRef<HTMLDivElement, FormContainerProps>(
       >
         <h2 className="text-2xl">{title}</h2>
 
-        <hr className="w-full h-[2px] bg-gray-200 border-0 my-4" />
+        <Divider />
 
         {children}
       </div>
