@@ -17,7 +17,7 @@ import { IbusinessModel } from "./components/interfaces/businessModel.interface"
 
 export default function Franchise() {
   const [isOpenModel, setIsOpenModel] = useState<boolean>(false);
-  const modelRef = useRef<HTMLDivElement>(null);
+  const modelRef = useRef<HTMLFormElement>(null);
   const [models, setModels] = useState<IModel[]>([]);
 
   const form = useForm({
@@ -266,8 +266,8 @@ export default function Franchise() {
   return (
     <Container>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col gap-8"
+        onSubmit={form.handleSubmit(onSubmit)}
       >
         <FormContainer
           title="Informações da Franquia"
@@ -508,14 +508,14 @@ export default function Franchise() {
             Salvar
           </button>
         </div>
-
-        <Model
-          isOpen={isOpenModel}
-          onClose={toggleModel}
-          ref={modelRef}
-          addModel={addModel}
-        />
       </form>
+
+      <Model
+        isOpen={isOpenModel}
+        onClose={toggleModel}
+        ref={modelRef}
+        addModel={addModel}
+      />
     </Container>
   );
 }
