@@ -100,7 +100,7 @@ const InputImage = forwardRef<HTMLInputElement, ImageInputProps>(
           >
             {img ? (
               <img
-                src={img}
+                src={img as string}
                 alt="ImagemPreview"
                 className="overflow-hidden w-full h-full object-cover"
               />

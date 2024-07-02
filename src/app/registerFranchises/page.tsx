@@ -13,7 +13,7 @@ import { Model } from "./components/model";
 
 // Interfaces
 import { IModel } from "@/interfaces/IModel";
-import { IbusinessModel } from "./components/interfaces/businessModel.interface";
+import { UploadImage } from "@/utils/uploadImagens";
 
 export default function Franchise() {
   const [isOpenModel, setIsOpenModel] = useState<boolean>(false);
@@ -51,53 +51,24 @@ export default function Franchise() {
     useState<string>("");
   const [franchiseDescriptionSecond, setFranchiseDescriptionSecond] =
     useState<string>("");
-  const [textClassCharacterCount, setTextClassCharacterCount] =
-    useState<string>("words_counts_describe");
 
-  const [operatingSegment, setOperationgSegment] = useState<string>("");
-  const [operatingSegmentMessage, setOperationgSegmentMessage] =
-    useState<string>("Nenhum Segmento adicionado");
-  const [operatingSegmentMessageClass, setOperationgSegmentMessageClass] =
-    useState<string>("alert alert-primary");
+  const [logoImg, setLogoImg] = useState<{ file: File | null; img: string }>({
+    file: null,
+    img: "",
+  });
 
-  const [logoImg, setLogoImg] = useState<string>("");
-  const [otherImg, setOtherImg] = useState<string[]>([""]);
-  const [selectedImages, setSelectedImages] = useState<File[]>([]);
+  const [otherImg, setOtherImg] = useState<
+    { file: File | null; img: string }[]
+  >([
+    {
+      file: null,
+      img: "",
+    },
+  ]);
 
   //Videos
   const [videoURL, setVideoURL] = useState<string>("");
   const [validUrl, setValidUrl] = useState<boolean>(false);
-  const [websiteURL, setWebsiteURL] = useState<string>("");
-
-  // Franchise Revenue
-  const [monthlyRevenue, setMonthlyRevenue] = useState<string>("");
-  const [unitinBrazil, setUnitinBrazil] = useState<string>("");
-  const [headquarters, setHeadquarters] = useState<string>("");
-  const [returnonInvestmenFrom, setReturnonInvestmenFrom] =
-    useState<string>("");
-  const [returnonInvestmenUntil, setReturnonInvestmenUntil] =
-    useState<string>("");
-
-  const [businessModel, setBusinessModel] = useState<IbusinessModel>();
-
-  useEffect(() => {}, [textClassCharacterCount]);
-
-  useEffect(() => {}, [
-    franchiseDescriptionFrist,
-    franchiseDescriptionSecond,
-    videoURL,
-    websiteURL,
-    logoImg,
-    otherImg,
-  ]);
-
-  useEffect(() => {}, [
-    monthlyRevenue,
-    unitinBrazil,
-    headquarters,
-    returnonInvestmenFrom,
-    returnonInvestmenUntil,
-  ]);
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSwitchState((s) => !s);
@@ -117,17 +88,13 @@ export default function Franchise() {
     setFranchiseDescriptionSecond(data);
   };
 
-  const handleOperatingSegment = (e: ChangeEvent<HTMLInputElement>) => {
-    setOperationgSegment(e.target.value);
-  };
-
   const handleLogoImg = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       if (file.size <= 2 * 1024 * 1024) {
         const reader = new FileReader();
         reader.onload = (evt) => {
-          setLogoImg(evt.target?.result as string);
+          setLogoImg({ file: file, img: evt.target?.result as string });
         };
         reader.readAsDataURL(file);
       } else {
@@ -144,7 +111,7 @@ export default function Franchise() {
       if (file.size <= 2 * 1024 * 1024) {
         const reader = new FileReader();
         reader.onload = (evt) => {
-          setLogoImg(evt.target?.result as string);
+          setLogoImg({ file: file, img: evt.target?.result as string });
         };
         reader.readAsDataURL(file);
       } else {
@@ -160,7 +127,10 @@ export default function Franchise() {
         const reader = new FileReader();
 
         reader.onload = (evt) => {
-          setOtherImg((s) => [evt.target?.result as string, ...s]);
+          setOtherImg((s) => [
+            { file: file, img: evt.target?.result as string },
+            ...s,
+          ]);
         };
 
         reader.readAsDataURL(file);
@@ -179,7 +149,10 @@ export default function Franchise() {
         const reader = new FileReader();
 
         reader.onload = (evt) => {
-          setOtherImg((s) => [evt.target?.result as string, ...s]);
+          setOtherImg((s) => [
+            { file: file, img: evt.target?.result as string },
+            ...s,
+          ]);
         };
 
         reader.readAsDataURL(file);
@@ -208,50 +181,33 @@ export default function Franchise() {
     setValidUrl(false);
   };
 
-  const handleSiteUrl = (e: ChangeEvent<HTMLInputElement>) => {
-    setWebsiteURL(e.target.value);
-  };
+  const onSubmit = async () => {
+    let logo = "";
+    let images: string[] = [];
 
-  const handleFinanceInfoMonthlyRevenue = (
-    e: ChangeEvent<HTMLInputElement>,
-  ) => {
-    setMonthlyRevenue(e.target.value);
-  };
+    if (logoImg) {
+      if (logoImg.file) {
+        logo = await UploadImage(logoImg.file);
+      }
+    }
 
-  const handleFinanceInfoUnitinBrazil = (e: ChangeEvent<HTMLInputElement>) => {
-    setUnitinBrazil(e.target.value);
-  };
+    if (otherImg) {
+      otherImg.forEach(async (img) => {
+        if (img.file) {
+          images.push(await UploadImage(img.file));
+        }
+      });
+    }
 
-  const handleFinanceInfoHeadquarters = (e: ChangeEvent<HTMLInputElement>) => {
-    setHeadquarters(e.target.value);
-  };
-
-  const handleFinanceInfoReturnonInvestmenFrom = (
-    e: ChangeEvent<HTMLInputElement>,
-  ) => {
-    setReturnonInvestmenFrom(e.target.value);
-  };
-
-  const handleFinanceInfoReturnonInvestmenUntil = (
-    e: ChangeEvent<HTMLInputElement>,
-  ) => {
-    setReturnonInvestmenUntil(e.target.value);
-  };
-
-  const handlebusinessModel = (model) => {
-    setBusinessModel(model);
-  };
-
-  const onSubmit = (a: any) => {
     const data = {
       ownerId: "",
       business: {
         sector: "",
         name: "",
         description: "",
-        logo: "",
-        images: [],
-        videos: [],
+        logo,
+        images,
+        videos: [videoURL],
         site: "",
         average_monthly_billing: 0,
         units_in_brazil: 0,
@@ -319,15 +275,11 @@ export default function Franchise() {
                 </button>
               </>
             }
-            onChange={handleOperatingSegment}
             placeholder="Buscar segmento de atuação"
           />
 
-          <div
-            className={`segment-atribute-alert ${operatingSegmentMessageClass}`}
-            role="alert"
-          >
-            {operatingSegmentMessage}
+          <div className={`segment-atribute-alert`} role="alert">
+            "Nenhum Segmento adicionado"
           </div>
         </FormContainer>
 
@@ -336,7 +288,7 @@ export default function Franchise() {
             <InputImage
               label="Selecione sua Logo"
               id="logo"
-              img={logoImg}
+              img={logoImg.img}
               onChange={handleLogoImg}
               onDrop={onDropImg}
             />
@@ -353,8 +305,8 @@ export default function Franchise() {
               <InputImage
                 onChange={handleFranchiseImgs}
                 label="Selecione uma imagem"
-                id={img === "" ? "firstImg" : String(index)}
-                img={img}
+                id={img.img === "" ? "firstImg" : String(index)}
+                img={img.img}
                 onDrop={onDropOtherImg}
               />
 
@@ -390,7 +342,6 @@ export default function Franchise() {
           ) : null}
 
           <Input
-            onChange={handleSiteUrl}
             type="url"
             placeholder="https://..."
             label={
@@ -413,7 +364,6 @@ export default function Franchise() {
                 type="number"
                 id="franchiseFinanceFatmed"
                 placeholder="0,00"
-                onChange={handleFinanceInfoMonthlyRevenue}
               />
             </div>
 
@@ -422,17 +372,11 @@ export default function Franchise() {
                 label="Unidade no Brasil"
                 type="number"
                 id="franchiseFinanceUnit"
-                onChange={handleFinanceInfoHeadquarters}
               />
             </div>
 
             <div className="w-[30%]">
-              <Input
-                label="Sede"
-                type="number"
-                id="franchiseFinanceSede"
-                onChange={handleFinanceInfoMonthlyRevenue}
-              />
+              <Input label="Sede" type="number" id="franchiseFinanceSede" />
             </div>
           </div>
 
@@ -442,16 +386,11 @@ export default function Franchise() {
                 label="Retorno de Investimento &#x24D8;"
                 type="text"
                 id="franchiseFinanceInvestreturnBegin"
-                onChange={handleFinanceInfoReturnonInvestmenFrom}
               />
             </div>
 
             <div className="w-[30%]">
-              <Input
-                type="number"
-                id="franchiseFinanceInvestreturnUntil"
-                onChange={handleFinanceInfoReturnonInvestmenUntil}
-              />
+              <Input type="number" id="franchiseFinanceInvestreturnUntil" />
             </div>
 
             <div className="w-[30%]" />
@@ -502,7 +441,7 @@ export default function Franchise() {
           </button>
 
           <button
-            type="button"
+            type="submit"
             className="px-3 py-2 rounded text-white bg-[#007bff] w-1/4"
           >
             Salvar

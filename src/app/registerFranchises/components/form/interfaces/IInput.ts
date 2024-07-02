@@ -8,5 +8,5 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 export interface ImageInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
-  img: string;
+  img: File | string | null;
 }
