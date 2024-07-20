@@ -45,7 +45,6 @@ export default function Home() {
           <div className="flex items-center justify-between p-4">
             <div className="flex items-center justify-center ">
                 <input type="checkbox" id="terms" className="mr-6 rounded-[3px]"/>
-                {/* <label htmlFor="terms" className="text-center">Aceito os termos</label> */}
             </div>
             <div className=" flex-col items-center text-left justify-center">
                 <span className="text-sm ">

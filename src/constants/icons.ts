@@ -32,5 +32,29 @@ export const ICONS = {
         residential: '/icons/Segmentos/Serviços Residenciais e Reforma.svg',
         computing: '/icons/Segmentos/Tecnologia da Informação.svg',
         clothing: '/icons/Segmentos/vestuario.svg',
-    }
+
+    },
+    registered: {
+        store: 'icons/Franquias Registradas/loja 1.png',
+        flag: 'icons/Franquias Registradas/design/bandeira.svg',
+        finger: 'icons/Franquias Registradas/design/dedo.svg',
+        desing: 'icons/Franquias Registradas/design/desing.svg',
+        home: 'icons/Franquias Registradas/design/home.svg',
+        pencil: 'icons/Franquias Registradas/design/lapis.svg',
+        trash: 'icons/Franquias Registradas/design/lixo.svg',
+        eye: 'icons/Franquias Registradas/design/olho.svg',
+        person: 'icons/Franquias Registradas/design/person.svg',
+        person1: 'icons/Franquias Registradas/design/person1.svg',
+        percentage: 'icons/Franquias Registradas/design/porcentagem.svg',
+        arrow: 'icons/Franquias Registradas/design/seta.svg',
+        bell: 'icons/Franquias Registradas/design/sino.svg',
+        facebok: 'icons/Franquias Registradas/redes sociais/facebook-icon.svg',
+        instagram: 'icons/Franquias Registradas/redes sociais/instagram-icon.svg',
+        linkedin: 'icons/Franquias Registradas/redes sociais/linkedin-icon.svg',
+        tiktok: 'icons/Franquias Registradas/redes sociais/tiktok-icon.svg',
+        x: 'icons/Franquias Registradas/redes sociais/x-icon.svg',
+        youtube: 'icons/Franquias Registradas/redes sociais/youtube-icon.svg',
+        menu: 'icons/Franquias Registradas/design/menu-icon.svg', 
+    },
+
 };
