@@ -1,77 +1,289 @@
-import PlanCard from "@/components/Cards/plan";
-import Header from "@/components/Header";
+import { Plan1Icon } from "./icons/Plan1Icon";
+import { Plan2Icon } from "./icons/Plan2Icon";
+import { Plan3Icon } from "./icons/Plan3Icon";
 
 export default function Plans() {
   return (
-    <div>
-      <Header>
-        <a className="flex gap-2 items-center font-bold text-white " href="/">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            className="bi bi-caret-left-fill"
-            viewBox="0 0 16 16"
-          >
-            <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z" />
-          </svg>
-          <p>Voltar</p>
-        </a>
-      </Header>
-      <div className="relative flex flex-col items-center justify-center bg-[url('/img/background.png')] min-h-[calc(100vh-74px)] bg-no-repeat bg-cover bg-center">
-        <h1 className="text-3xl font-bold text-white max-w-[32rem] text-center mt-10 mb-20">
-          Veja nossos planos e começe a{" "}
-          <span className="text-sky-700">captar mais</span> franqueados agora.
-        </h1>
-        <div className="flex flex-wrap justify-center gap-6 max-w-[75rem]">
-          <PlanCard
-            title="Small Business Basico"
-            value="Gratuito"
-            periodo="Mensal"
-            beneficios={[
-              "Cadastrar 1 marca de franquia",
-              "5 leads Mensais",
-              "Suporte especializado",
-              "Analises de mercado",
-            ]}
-            button_content="Selecionar"
-          />
-          <PlanCard
-            title="Business Avançado"
-            value="R$ 49,90"
-            periodo="Mensal"
-            beneficios={[
-              <span>Cadastrar 3 marcas de franquia</span>,
-              <span>
-                Leads <span className="text-green-500">ilimitados</span>
-              </span>,
-              <span>
-                Selo <span className="text-green-500">Premium</span>
-              </span>,
-              <span>
-                <span className="text-green-500">Destaque</span> na página de
-                buscas
-              </span>,
-            ]}
-            button_content="Escolha o plano"
-          />
-          <PlanCard
-            title="Big Business Professional"
-            value="R$ 89,99"
-            periodo="Mensal"
-            beneficios={[
-              "Unlimited storage",
-              "Unlimited websites",
-              "Unlimited brandwith",
-              "24/7 premium customer support",
-              "Enhanced security features",
-              "Free domain name registration",
-            ]}
-            button_content="Escolha o plano"
-          />
+    <div className="flex flex-row w-screen h-screen bg-slate-900 text-center ">
+      <div className="w-4/12"></div>
+      <div className="w-full mt-12">
+        <div className="flex text-white text-5xl font-bold text-start">
+          <div className="text-blue-700">Conheça&nbsp;</div>
+          <div>nossos upgrades</div>
+        </div>
+        <div className="text-start text-white text-2xl mt-3">
+          Nosso upgrade Basic e gratis e possui todas as funcionalidades, porem
+          sua franquia fica sem nenhum destaque nas paginas de buscae com
+          funcoes limitadas, sem custo adicional. Upgrade Advanced e Pro
+          <strong>
+            {" "}
+            com beneficios exclusivos para potencializar a captacao de leads
+          </strong>
+        </div>
+
+        <div className="flex gap-9 items-center mt-5">
+          <div className="flex flex-col bg-white w-72 items-center rounded-md p-10">
+            <Plan1Icon />
+            <div className="text-1xl text-gray-600">SMALL BUSINESS</div>
+            <div className="text-4xl text-blue-950 font-bold">Gratis</div>
+            <div className="flex flex-col gap-5">
+              <div className="text-gray-500 ">
+                Tenha acesso a todas as funcionalidades
+              </div>
+              <div className="text-blue-600 underline ">
+                Criar uma conta gratis agora
+              </div>
+              <div className="flex flex-col items-center">
+                <div className="text-gray-500">Tudo do Upgrade SMALL e:</div>
+                <div className="flex flex-col items-start gap-5 mt-5">
+                  <div className="flex flex-row justify-center items-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="size-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                      />
+                    </svg>
+                    <div className="text text-start">
+                      Cadastrar 1 marca de franquia
+                    </div>
+                  </div>
+                  <div className="flex flex-row">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="size-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                      />
+                    </svg>
+                    <div>Suporte especializado</div>
+                  </div>
+                  <div className="flex flex-row">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="size-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                      />
+                    </svg>
+                    <div>Analise de Mercado</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col bg-white w-80 items-center rounded-md p-10">
+            <Plan2Icon />
+            <div className="text-1xl text-gray-600">Advanced</div>
+            <div className="text-4xl text-blue-950 font-bold">R$ 247/mes</div>
+            <div className="flex flex-col gap-5">
+              <div className="mt-10">
+                <div className="text-gray-500 font-medium">20% DE DESCONTO</div>
+                <div className="text-gray-500 ">(Pagamento Unico)</div>
+                <button className="bg-blue-950 w-56 h-11 rounded-3xl mt-3">
+                  <a
+                    className="text-white w-full h-full"
+                    href="https://fenext.pay.yampi.com.br/checkout?skipToCheckout=1&tokenReference=HFYSII0LDW"
+                  >
+                    Selecionar
+                  </a>
+                </button>
+              </div>
+              <div className="flex flex-col items-center">
+                <div className="text-gray-500">Tudo do Upgrade SMALL e:</div>
+                <div className="flex flex-col items-start gap-5 mt-5">
+                  <div className="flex flex-row justify-center items-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="size-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                      />
+                    </svg>
+                    <div className="text text-start">
+                      30 dias em destaque nas paginas de busca
+                    </div>
+                  </div>
+                  <div className="flex flex-row">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="size-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                      />
+                    </svg>
+                    <div>Leads ilimitados</div>
+                  </div>
+                  <div className="flex flex-row">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="size-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                      />
+                    </svg>
+                    <div>30 dias com selo premium</div>
+                  </div>
+                  <div className="flex flex-row">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="size-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                      />
+                    </svg>
+                    <div>Analise especializada</div>
+                  </div>
+                  <div className="flex flex-row">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="size-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                      />
+                    </svg>
+                    <div>Cadastrar 5 marca de franquia</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col bg-white w-72 items-center rounded-md p-10">
+            <Plan3Icon />
+            <div className="text-1xl text-gray-600">Pro</div>
+            <div className="text-4xl text-blue-950 font-bold">R$497/mes</div>
+            <div className="flex flex-col gap-5">
+              <div className="mt-10">
+                <div className="text-gray-500 font-medium">20% DE DESCONTO</div>
+                <div className="text-gray-500 ">(Pagamento Unico)</div>
+                <button className="bg-blue-950 w-56 h-11 rounded-3xl mt-3">
+                  <a
+                    className="text-white w-full h-full"
+                    href="https://fenext.pay.yampi.com.br/r/QMS830EANG"
+                  >
+                    Selecionar
+                  </a>
+                </button>
+              </div>
+              <div className="fl  ex flex-col items-center">
+                <div className="text-gray-500">Tudo do Upgrade ADVANCED e:</div>
+                <div className="flex flex-col items-start gap-5 mt-5">
+                  <div className="flex flex-row justify-center items-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="size-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                      />
+                    </svg>
+                    <div className="text text-start">
+                      Cadastrar 1 marca de franquia
+                    </div>
+                  </div>
+                  <div className="flex flex-row">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="size-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                      />
+                    </svg>
+                    <div>Suporte especializado</div>
+                  </div>
+                  <div className="flex flex-row">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="size-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                      />
+                    </svg>
+                    <div>Analise de Mercado</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+      <div className="w-4/12"></div>
     </div>
   );
 }
