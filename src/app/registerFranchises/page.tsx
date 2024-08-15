@@ -3,7 +3,7 @@
 import { ChangeEvent, Fragment, useEffect, useState } from "react";
 
 import { CreateFranchises } from "@/services/Franchises/create.franchises";
-import { ICreateFranchises } from "@/services/interfaces/IFranchises";
+import { ICreateFranchises, IModel } from "@/services/interfaces/IFranchises";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { Search } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -20,7 +20,7 @@ export default function Franchise() {
   });
 
   const [models, setModels] = useState<any>([]);
-  const [savedModels, setSavedModels] = useState<any>([]);
+  const [savedModels, setSavedModels] = useState<IModel[]>([]);
 
   const [nameState, setNameState] = useState<string>("");
   const [franchiseDescriptionFrist, setFranchiseDescriptionFrist] =
@@ -221,18 +221,18 @@ export default function Franchise() {
         id: models.length + 1,
         name: "",
         capital_for_instalation: 0,
-        capital_for_instalation_isFixed: true,
+        capital_for_instalation_isFixed: false,
         working_capital: 0,
         working_capital_isFixed: false,
         franchise_fee: 0,
         franchise_fee_isFixed: false,
         marketing_fee: 0,
         marketing_fee_isFixed: false,
+        royalties: 0,
+        royalties_isFixed: false,
         has_store_area: false,
         store_area_min: 0,
         store_area_max: 0,
-        royalties: 0,
-        royalties_isFixed: false,
       },
     ]);
   };
@@ -488,7 +488,7 @@ export default function Franchise() {
             Cancelar
           </button>
           <button
-            type="button"
+            type="submit"
             className="px-3 py-2 rounded text-white bg-[#007bff] w-1/4"
           >
             Salvar
@@ -504,36 +504,12 @@ export default function Franchise() {
               className="flex flex-col gap-4"
             >
               <Input
-                startComponent={<Search className="ml-2" />}
-                endComponent={
-                  <>
-                    <button className="h-full w-1/5 border-l border-solid border-[#ddd]">
-                      Buscar
-                    </button>
-                  </>
-                }
-                placeholder="Buscar Modelo de negócio"
-                onChange={handleOperatingSegment}
-                list="operation"
+                placeholder="Nome do Modelo de Negócio"
+                defaultValue={model.name}
+                onChange={(e) => {
+                  model.name = e.target.value;
+                }}
               />
-
-              <datalist
-                className="w-60 my-2 rounded-md bg-PASTEL p-2 border-none"
-                id="operation"
-              >
-                {operationList.map((options, index) => (
-                  <option key={index} value={options}>
-                    {options}
-                  </option>
-                ))}
-              </datalist>
-
-              <div
-                className={`segment-atribute-alert ${operatingSegmentMessageClass}`}
-                role="alert"
-              >
-                {operatingSegmentMessage}
-              </div>
 
               <div>
                 <h3 className="my-6 text-lg">Dados Principais</h3>
@@ -550,13 +526,12 @@ export default function Franchise() {
                               type="checkbox"
                               className="transform scale-50"
                               id="capitalForInstallationFixed"
-                              defaultValue={
+                              defaultChecked={
                                 model.capital_for_instalation_isFixed
                               }
                               onChange={(e) => {
-                                model.capital_for_instalation_isFixed = Boolean(
-                                  e.target.value,
-                                );
+                                model.capital_for_instalation_isFixed =
+                                  e.target.checked;
                               }}
                             />
                             <label
@@ -594,11 +569,10 @@ export default function Franchise() {
                               type="checkbox"
                               className="transform scale-50"
                               id="workingCapitalFixed"
-                              defaultValue={model.working_capital_isFixed}
+                              defaultChecked={model.working_capital_isFixed}
                               onChange={(e) => {
-                                model.working_capital_isFixed = Boolean(
-                                  e.target.value,
-                                );
+                                model.working_capital_isFixed =
+                                  e.target.checked;
                               }}
                             />
                             <label
@@ -636,11 +610,9 @@ export default function Franchise() {
                               type="checkbox"
                               className="transform scale-50"
                               id="franchiseFeeFixed"
-                              defaultValue={model.franchise_fee_isFixed}
+                              defaultChecked={model.franchise_fee_isFixed}
                               onChange={(e) => {
-                                model.franchise_fee_isFixed = Boolean(
-                                  e.target.value,
-                                );
+                                model.franchise_fee_isFixed = e.target.checked;
                               }}
                             />
                             <label
@@ -685,11 +657,10 @@ export default function Franchise() {
                                 type="checkbox"
                                 className="transform scale-50"
                                 id="advertisingFeeFixed"
-                                defaultValue={model.marketing_fee_isFixed}
+                                defaultChecked={model.marketing_fee_isFixed}
                                 onChange={(e) => {
-                                  model.marketing_fee_isFixed = Boolean(
-                                    e.target.value,
-                                  );
+                                  model.marketing_fee_isFixed =
+                                    e.target.checked;
                                 }}
                               />
                               <label
@@ -727,11 +698,9 @@ export default function Franchise() {
                                 type="checkbox"
                                 className="transform scale-50"
                                 id="royaltiesFixed"
-                                defaultValue={model.royalties_isFixed}
+                                defaultChecked={model.royalties_isFixed}
                                 onChange={(e) => {
-                                  model.royalties_isFixed = Boolean(
-                                    e.target.value,
-                                  );
+                                  model.royalties_isFixed = e.target.checked;
                                 }}
                               />
                               <label
@@ -762,7 +731,7 @@ export default function Franchise() {
                   <div className="flex justify-between gap-12">
                     <div className="w-1/2 flex">
                       <Input
-                        label="Taxa de franquia"
+                        label="Área da Loja (Min)"
                         endComponent={
                           <div className="w-1/3 p-4 flex justify-center items-center border-l h-full">
                             M²
@@ -777,22 +746,21 @@ export default function Franchise() {
                         }}
                       />
                     </div>
+
                     <div className="w-1/2 flex">
                       <Input
                         label={
                           <div className="flex justify-between">
-                            <span></span>
+                            <span>Área da Loja (Max)</span>
 
                             <div className="flex items-end justify-evenly gap-1">
                               <input
                                 type="checkbox"
                                 className="transform scale-50"
                                 id="storeAreaFixed"
-                                defaultValue={model.has_store_area}
+                                defaultChecked={model.has_store_area}
                                 onChange={(e) => {
-                                  model.has_store_area = Boolean(
-                                    e.target.value,
-                                  );
+                                  model.has_store_area = e.target.checked;
                                 }}
                               />
                               <label

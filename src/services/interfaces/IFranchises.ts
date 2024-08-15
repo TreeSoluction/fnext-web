@@ -19,7 +19,7 @@ interface IBusisness {
   ROI_max: number;
 }
 
-interface IModel {
+export interface IModel {
   name: string;
   capital_for_instalation: number;
   capital_for_instalation_isFixed: boolean;
