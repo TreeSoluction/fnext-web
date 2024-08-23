@@ -9,7 +9,7 @@ const request = () => {
   });
 
   if (token) {
-    api.defaults.headers["Authentication"] = `Bearer ${token}`;
+    api.defaults.headers["authentication"] = `Bearer ${token}`;
   }
 
   return api;

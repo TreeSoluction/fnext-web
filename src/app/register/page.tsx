@@ -10,11 +10,7 @@ import { useForm } from "react-hook-form";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
-import {
-  notifyError,
-  notifyInfo,
-  notifySuccess,
-} from "../../services/notification";
+import { notifyInfo, notifySuccess } from "../../services/notification";
 
 export default function Home() {
   const router = useRouter();
@@ -41,18 +37,27 @@ export default function Home() {
   const onSubmit = async (data) => {
     notifyInfo("Registrando...");
 
-    const response = await CreateUser({
-      fullName: data.fullname,
-      email: data.email,
-      password: data.password,
-    });
+    try {
+      const response = await CreateUser({
+        fullName: data.fullname,
+        email: data.email,
+        password: data.password,
+      });
 
-    if (response.status != 200) {
-      notifyError("Erro ao registrar!");
-      return;
-    }
+      setTimeout(() => {
+        notifySuccess("Registrado com sucesso!");
+      }, 1000);
 
-    notifySuccess("Registrado com sucesso!");
+      setTimeout(() => {
+        notifySuccess(
+          "Voce sera redirecionado para a tela principal em alguns instantes",
+        );
+      }, 1200);
+
+      setTimeout(() => {
+        router.push("/");
+      }, 3000);
+    } catch (error) {}
   };
 
   return (

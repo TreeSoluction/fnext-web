@@ -1,11 +1,28 @@
-import Image from "next/image";
-import React from "react";
+import { useRouter } from "next/navigation";
 
-export default function Header({ children }: React.PropsWithChildren) {
+export default function Header({ user }) {
+  const router = useRouter();
+
   return (
-    <header className="bg-MAIN_HIGH_BLUE p-5 sm:px-20 flex justify-between items-center">
-      <Image width={120} height={100} src="/img/logo.png" alt="Fenext Logo" />
-      {children}
+    <header className="bg-blue-800 p-10 px-28 flex justify-end items-center">
+      <div className="flex justify-center gap-2 items-center font-bold text-white">
+        <div className="hover:bg-white p-2 px-6 rounded-full hover:text-blue-800">
+          Home
+        </div>
+        <div className="hover:bg-white p-2 px-6 rounded-full hover:text-blue-800">
+          Favoritos
+        </div>
+        <div className="hover:bg-white p-2 px-6 rounded-full hover:text-blue-800">
+          Notificacoes
+        </div>
+        <div className="bg-white p-2 px-6 rounded-full text-blue-800">
+          {user ?? (
+            <button onClick={() => router.push("/register")}>
+              Registrar-se
+            </button>
+          )}
+        </div>
+      </div>
     </header>
   );
 }
