@@ -1,7 +1,7 @@
 "use client";
 
 import Header from "@/components/Header";
-import { GetUserData } from "@/services/User/login.user";
+import { GetUserData } from "@/services/User/get.user";
 import axios from "axios";
 import { useEffect, useState } from "react";
 export default function Plans() {

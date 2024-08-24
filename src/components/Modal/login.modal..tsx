@@ -2,7 +2,7 @@
 
 import ErrorMessage from "@/components/Form/error-message";
 import { InputStyled } from "@/components/Form/inputs";
-import { GetUserData } from "@/services/User/login.user";
+import { GetUserData } from "@/services/User/get.user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";

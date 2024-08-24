@@ -2,18 +2,17 @@
 
 import FranchiseCard from "@/components/Cards/franchise";
 import Header from "@/components/Header";
+import { AuthContext } from "@/contexts/auth.context";
 import { ListFranchise } from "@/services/Franchises/list.franchise";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 export default function Home() {
   const [franchises, setFranchises] = useState<any[]>([]);
-
+  const { user } = useContext(AuthContext);
   useEffect(() => {
     const loadFranchises = async () => {
-      console.log("query");
       const result = await ListFranchise();
       setFranchises(result.data);
-      console.log(franchises);
     };
 
     loadFranchises();
@@ -21,7 +20,7 @@ export default function Home() {
 
   return (
     <div>
-      <Header></Header>
+      <Header user={user} />
       <div className="p-1 justify-center flex items-center">
         <div className="p-10 gap-8 flex justify-start flex-wrap">
           {franchises.map((element) => (

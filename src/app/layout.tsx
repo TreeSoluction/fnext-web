@@ -1,6 +1,7 @@
 "use client";
 
 import PrivateRoute from "@/components/PrivateRoute";
+import { AuthProvider } from "@/contexts/auth.context";
 import { checkIsPublicRoute } from "@/functions/check-is-public-route";
 import { usePathname } from "next/navigation";
 import "./globals.css";
@@ -16,7 +17,9 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <body>
-        {isPublicRoute ? children : <PrivateRoute>{children}</PrivateRoute>}
+        <AuthProvider>
+          {isPublicRoute ? children : <PrivateRoute>{children}</PrivateRoute>}
+        </AuthProvider>
       </body>
     </html>
   );

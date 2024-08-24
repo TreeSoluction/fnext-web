@@ -3,20 +3,17 @@
 import ErrorMessage from "@/components/Form/error-message";
 import { InputStyled } from "@/components/Form/inputs";
 import { APP_ROUTES } from "@/constants/app-route";
+import { AuthContext } from "@/contexts/auth.context";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Cookies from "js-cookie";
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
-import api from "../../services/api";
-import {
-  notifyError,
-  notifyInfo,
-  notifySuccess,
-} from "../../services/notification";
 
 export default function Home() {
+  const { loginUser } = useContext(AuthContext);
   const LoginSchema = z.object({
     email: z.string().email({ message: "Email Inválido!" }),
     password: z.string().min(6, "A senha tem que ter no mínimo 6 caracteres!"),
@@ -41,35 +38,7 @@ export default function Home() {
 
   const onSubmit = async (data) => {
     resetPasswordField();
-
-    notifyInfo("Entrando...");
-
-    api
-      .post("/auth/login", {
-        email: data.email,
-        password: data.password,
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          notifySuccess("Login Realizado!");
-          SetCookie("token", res.data.token);
-        }
-      })
-      .catch((err) => {
-        if (err.response.status === 404) {
-          notifyError("Usuario nao encontrado");
-          return;
-        }
-
-        if (err.response.status === 401) {
-          notifyError("Senha incorreta");
-          return;
-        }
-
-        notifyError(
-          "Ocorreu um erro inesperado ao servidor, tente novamente mais tarde!",
-        );
-      });
+    loginUser(data);
   };
 
   return (
