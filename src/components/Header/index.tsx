@@ -24,7 +24,7 @@ export default function Header({ user, owner }) {
               <>
                 <div className="hover:bg-white p-2 px-6 rounded-full hover:text-blue-800 ">
                   <button
-                    onClick={() => router.push("/investor/register")}
+                    onClick={() => router.push("/account/edit")}
                     className="underline"
                   >
                     Meu perfil
@@ -45,7 +45,9 @@ export default function Header({ user, owner }) {
             )}
 
             <div className="bg-white p-2 px-6 rounded-full text-blue-800">
-              Criar Franquia
+              <button onClick={() => router.push("/registerFranchises")}>
+                Criar Franquia
+              </button>
             </div>
             <div className="hover:bg-white p-2 px-6 rounded-full hover:text-blue-800">
               <button onClick={() => logOut()}>Sair</button>
