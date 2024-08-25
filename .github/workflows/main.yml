@@ -23,7 +23,7 @@ jobs:
             expect \"password:\"
             send \"${{ secrets.SSH_PASSWORD }}\r\"
             expect \"$\"
-            send \"cd /path/to/your/app\r\"
+            send \"cd /data/apps/fenext-web\r\"
             expect \"$\"
             send \"git pull origin main\r\"
             expect \"$\"
