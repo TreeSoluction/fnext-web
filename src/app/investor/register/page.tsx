@@ -1,126 +1,108 @@
 "use client";
 
-import ErrorMessage from "@/components/Form/error-message";
-import { InputDate, InputMasked, InputStyled } from "@/components/Form/inputs";
+import { AuthContext } from "@/contexts/auth.context";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { z } from "zod";
-import api from "../../../services/api";
-import {
-  notifyError,
-  notifyInfo,
-  notifySuccess,
-} from "../../../services/notification";
+import { notifyInfo, notifySuccess } from "../../../services/notification";
 
 export default function Home() {
-  const router = useRouter();
+  const { registerOwner } = useContext(AuthContext);
   const RegisterSchema = z.object({
-    fullname: z.string().min(1, "Nome não pode ser vazio!"),
-    email: z.string().email({ message: "Email Inválido!" }),
-    password: z.string().min(6, "A senha tem que ter no mínimo 6 caracteres!"),
-    date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Data Inválida!"),
-    phone: z
-      .string()
-      .regex(/^\(\d{2}\) \d{5}-\d{4}$/, "Telefone Inválido!")
-      .transform((phone) => phone.replace(/[()\-]/g, "")),
+    birth_date: z.string(),
+    phone: z.string().regex(/^\d{10,11}$/, "Invalid phone number"), // Example regex for 10 or 11 digits
+    cpf: z.string().regex(/^\d{11}$/, "Invalid CPF number"), // Example regex for 11 digits
   });
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
-    setValue,
   } = useForm({
     resolver: zodResolver(RegisterSchema),
   });
 
-  function SetCookie(value: string) {
-    Cookies.set("ownerid", value);
-  }
-
   const onSubmit = async (data) => {
     notifyInfo("Registrando...");
-
-    api
-      .post("/investor", {
-        name: data.fullname,
-        email: data.email,
-        password: data.password,
-        birth_date: data.date,
-        phone: data.phone,
-      })
-      .then((res) => {
-        if (res.status === 201) {
-          notifySuccess("Usuario registrado!");
-          SetCookie(res.data.id);
-          reset();
-          router.push("register/confirmaccount");
-        }
-      })
-      .catch((err) => {
-        if (err.response.status < 500) {
-          notifyError(err.response.data.message);
-          return;
-        }
-
-        notifyError(
-          "Ocorreu um erro inesperado ao servidor, tente novamente mais tarde!",
-        );
-      });
+    await registerOwner(data);
+    notifySuccess("Registrado com sucesso!");
   };
 
   return (
-    <div className="flex w-full min-h-screen bg-gradient-to-r from-GRAY to-LOW_PURPLE items-center justify-center px-2 py-20">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col w-full max-w-lg p-6 sm:px-12 sm:py-6 bg-white rounded-[5px] sm:rounded-[10px]  shadow-xl"
-      >
-        <h1 className="text-4xl my-2">Dados Pessoais</h1>
-        <p className="mt-4 text-sm">
-          Duvidas no cadastro?{" "}
-          <a className="text-LOW_BLUE underline font-bold" href="#">
-            ajuda
-          </a>
-        </p>
-        <InputStyled label="Nome" {...register("fullname")} />
-        <ErrorMessage error={errors.fullname} />
-        <InputStyled label="E-mail" type="email" {...register("email")} />
-        <ErrorMessage error={errors.email} />
-        <InputStyled label="Senha" type="password" {...register("password")} />
-        <ErrorMessage error={errors.password} />
-        <InputDate
-          label="Data de Nascimento"
-          getInputDateRegisterRef={() => register("date")}
-          setValueInputDate={(value) => setValue("date", value)}
-        />
-        <ErrorMessage error={errors.date} />
-        <InputMasked
-          mask="(99) 99999-9999"
-          label="Telefone"
-          {...register("phone")}
-        />
-        <ErrorMessage error={errors.phone} />
-        <p className="max-w-80 text-xs mt-8">
-          Ao clicar em <strong>&quot;Finalizar&quot;</strong> e continuar com o
-          seu cadastro, você está concordando com a nossa{" "}
-          <a className="text-BLACK underline font-bold" href="#">
-            Política de Privacidade
-          </a>
-          .
-        </p>
-        <button
-          className="mx-auto my-6 w-1/2 min-w-40  bg-LOW_BLUE text-white text-xl font-bold underline py-2 rounded-[25px]"
-          type="submit"
-        >
-          Finalizar
-        </button>
-      </form>
-      <ToastContainer />
+    <div className="flex w-full min-h-screen bg-gradient-to-r from-gray-300 to-purple-300 items-center justify-center px-4 py-8">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h2 className="text-2xl font-bold mb-4">Cadastro de Proprietário</h2>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div>
+            <label
+              htmlFor="date"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Data
+            </label>
+            <input
+              type="date"
+              id="date"
+              {...register("birth_date")}
+              className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${errors.date ? "border-red-500" : ""}`}
+            />
+            {errors.date && (
+              <p className="mt-1 text-sm text-red-500">{errors.date.message}</p>
+            )}
+          </div>
+
+          <div>
+            <label
+              htmlFor="phone"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Telefone
+            </label>
+            <input
+              type="text"
+              id="phone"
+              {...register("phone")}
+              placeholder="Digite o telefone"
+              className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${errors.phone ? "border-red-500" : ""}`}
+            />
+            {errors.phone && (
+              <p className="mt-1 text-sm text-red-500">
+                {errors.phone.message}
+              </p>
+            )}
+          </div>
+
+          {/* CPF Field */}
+          <div>
+            <label
+              htmlFor="cpf"
+              className="block text-sm font-medium text-gray-700"
+            >
+              CPF
+            </label>
+            <input
+              type="text"
+              id="cpf"
+              {...register("cpf")}
+              placeholder="Digite o CPF"
+              className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${errors.cpf ? "border-red-500" : ""}`}
+            />
+            {errors.cpf && (
+              <p className="mt-1 text-sm text-red-500">{errors.cpf.message}</p>
+            )}
+          </div>
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            Enviar
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

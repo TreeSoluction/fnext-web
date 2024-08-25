@@ -1,10 +1,8 @@
 "use client";
 
 import ErrorMessage from "@/components/Form/error-message";
-import { InputStyled } from "@/components/Form/inputs";
 import { CreateUser } from "@/services/User/create.user";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { ToastContainer } from "react-toastify";
@@ -30,10 +28,6 @@ export default function Home() {
     resolver: zodResolver(RegisterSchema),
   });
 
-  function SetCookie(value: string) {
-    Cookies.set("ownerid", value);
-  }
-
   const onSubmit = async (data) => {
     notifyInfo("Registrando...");
 
@@ -50,7 +44,7 @@ export default function Home() {
 
       setTimeout(() => {
         notifySuccess(
-          "Voce sera redirecionado para a tela principal em alguns instantes",
+          "Você será redirecionado para a tela principal em alguns instantes",
         );
       }, 1200);
 
@@ -64,21 +58,42 @@ export default function Home() {
     <div className="flex w-full min-h-screen bg-gradient-to-r from-GRAY to-LOW_PURPLE items-center justify-center px-2 py-20">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col w-full max-w-lg p-6 sm:px-12 sm:py-6 bg-white rounded-[5px] sm:rounded-[10px]  shadow-xl"
+        className="flex flex-col w-full max-w-lg p-6 sm:px-12 sm:py-6 bg-white rounded-[5px] sm:rounded-[10px] shadow-xl"
       >
         <h1 className="text-4xl my-2">Dados Pessoais</h1>
         <p className="mt-4 text-sm">
-          Duvidas no cadastro?{" "}
+          Dúvidas no cadastro?{" "}
           <a className="text-LOW_BLUE underline font-bold" href="#">
-            ajuda
+            Ajuda
           </a>
         </p>
-        <InputStyled label="Nome completo" {...register("fullname")} />
-        <ErrorMessage error={errors.fullname} />
-        <InputStyled label="E-mail" type="email" {...register("email")} />
-        <ErrorMessage error={errors.email} />
-        <InputStyled label="Senha" type="password" {...register("password")} />
-        <ErrorMessage error={errors.password} />
+        <label className="mb-4">
+          <span className="block text-gray-700">Nome completo</span>
+          <input
+            type="text"
+            {...register("fullname")}
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+          <ErrorMessage error={errors.fullname} />
+        </label>
+        <label className="mb-4">
+          <span className="block text-gray-700">E-mail</span>
+          <input
+            type="email"
+            {...register("email")}
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+          <ErrorMessage error={errors.email} />
+        </label>
+        <label className="mb-4">
+          <span className="block text-gray-700">Senha</span>
+          <input
+            type="password"
+            {...register("password")}
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+          <ErrorMessage error={errors.password} />
+        </label>
         <p className="max-w-80 text-xs mt-8">
           Ao clicar em <strong>&quot;Finalizar&quot;</strong> e continuar com o
           seu cadastro, você está concordando com a nossa{" "}
@@ -88,7 +103,7 @@ export default function Home() {
           .
         </p>
         <button
-          className="mx-auto my-6 w-1/2 min-w-40  bg-LOW_BLUE text-white text-xl font-bold underline py-2 rounded-[25px]"
+          className="mx-auto my-6 w-1/2 min-w-40 bg-LOW_BLUE text-white text-xl font-bold underline py-2 rounded-[25px]"
           type="submit"
         >
           Finalizar

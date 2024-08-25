@@ -8,7 +8,7 @@ import { useContext, useEffect, useState } from "react";
 
 export default function Home() {
   const [franchises, setFranchises] = useState<any[]>([]);
-  const { user } = useContext(AuthContext);
+  const { user, owner } = useContext(AuthContext);
   useEffect(() => {
     const loadFranchises = async () => {
       const result = await ListFranchise();
@@ -20,15 +20,11 @@ export default function Home() {
 
   return (
     <div>
-      <Header user={user} />
+      <Header user={user} owner={owner} />
       <div className="p-1 justify-center flex items-center">
-        <div className="p-10 gap-8 flex justify-start flex-wrap">
+        <div className="p-10 gap-8 flex justify-center flex-wrap">
           {franchises.map((element) => (
-            <FranchiseCard
-              key={element.id}
-              name={element.name}
-              image={element.description}
-            />
+            <FranchiseCard name={element.name} image={element.description} />
           ))}
         </div>
       </div>
