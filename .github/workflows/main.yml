@@ -1,0 +1,48 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install expect
+        run: sudo apt-get install -y expect
+
+      - name: Run deployment script on VPS
+        run: |
+          expect -c "
+            spawn ssh -o StrictHostKeyChecking=no guilherme@45.70.46.240
+            expect \"password:\"
+            send \"${{ secrets.SSH_PASSWORD }}\r\"
+            
+            # Wait for the shell prompt after SSH login
+            expect \"\$ \"
+            
+            # Change to the application directory
+            send \"cd data/apps/fenext-web\r\"
+            expect \"\$ \"
+      
+            send \"git pull\r\"
+            expect \"\$ \"
+      
+            send \"yarn install\r\"
+            
+           expect {
+              \"\$ \" { send \"exit\r\"; exp_continue }
+              timeout { send_user \"Timed out waiting for yarn install to complete\n\"; exit 1 }
+            }
+            
+            send \"exit\r\"
+            expect eof
+          "
+      
+        env:
+          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
