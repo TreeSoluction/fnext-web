@@ -1,7 +1,8 @@
 "use client";
 
-import { ChangeEvent, Fragment, useEffect, useState } from "react";
+import { ChangeEvent, Fragment, useContext, useEffect, useState } from "react";
 
+import { AuthContext } from "@/contexts/auth.context";
 import { CreateFranchises } from "@/services/Franchises/create.franchises";
 import { ICreateFranchises, IModel } from "@/services/interfaces/IFranchises";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
@@ -11,6 +12,8 @@ import { Container, FormContainer } from "./components/container";
 import { Input, InputImage, TextArea } from "./components/form/inputs";
 
 export default function Franchise() {
+  const { owner } = useContext(AuthContext);
+
   const form = useForm({
     defaultValues: {
       name: "",
@@ -252,8 +255,8 @@ export default function Franchise() {
     // TODO: Adicionar tratamento para Models e para campos de formulário
 
     const data: ICreateFranchises = {
-      ownerId: "",
-      business: {
+      ownerID: owner.id,
+      Business: {
         ...form.getValues(),
         sector: operatingSegment,
         images: selectedImages,
@@ -265,7 +268,7 @@ export default function Franchise() {
         ROI_min: returnonInvestmenFrom,
         ROI_max: returnonInvestmenUntil,
       },
-      models: savedModels,
+      Models: savedModels,
     };
 
     // TODO: Adicionar tratamento de erro e redirecionamento caso sucesso
@@ -476,7 +479,7 @@ export default function Franchise() {
           </button>
 
           {savedModels.map((model, index) => (
-            <Fragment key={index}>{model.capital_for_instalation}</Fragment>
+            <Fragment key={index}>{model.name}</Fragment>
           ))}
         </FormContainer>
 

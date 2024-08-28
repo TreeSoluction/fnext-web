@@ -23,9 +23,10 @@ export default function Home() {
       <Header user={user} owner={owner} />
       <div className="p-1 justify-center flex items-center">
         <div className="p-10 gap-8 flex justify-center flex-wrap">
-          {franchises.map((element) => (
-            <FranchiseCard name={element.name} image={element.description} />
-          ))}
+          {franchises &&
+            franchises.map((element) => (
+              <FranchiseCard name={element.name} image={element.description} />
+            ))}
         </div>
       </div>
     </div>

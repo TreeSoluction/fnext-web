@@ -1,7 +1,7 @@
 export interface ICreateFranchises {
-  ownerId: string;
-  business: IBusisness;
-  models: IModel[];
+  ownerID: string;
+  Business: IBusisness;
+  Models: IModel[];
 }
 
 interface IBusisness {
