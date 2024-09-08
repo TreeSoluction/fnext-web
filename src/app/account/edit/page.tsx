@@ -36,9 +36,7 @@ export default function Plans() {
         (res) => {
           alert("usuario atualizado");
         },
-        (err) => {
-          console.log(err);
-        },
+        (err) => {},
       );
   }
 

@@ -273,12 +273,8 @@ export default function Franchise() {
 
     // TODO: Adicionar tratamento de erro e redirecionamento caso sucesso
     CreateFranchises(data)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      .then((res) => {})
+      .catch((err) => {});
   };
 
   return (
