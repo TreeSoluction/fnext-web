@@ -31,4 +31,32 @@ export const ICONS = {
     computing: "/icons/Segmentos/Tecnologia da Informação.svg",
     clothing: "/icons/Segmentos/vestuario.svg",
   },
+
+  
+  IconsCarousel: {
+    alimentacao:'icons/IconsCarousel/alimentacao.svg',
+    agricultura:'icons/IconsCarousel/agricultura.svg',
+    autobolistico:'icons/IconsCarousel/autobolistico.svg',
+    bem_estar_animal:'icons/IconsCarousel/bem estar animal.svg',
+    conservacao:'icons/IconsCarousel/conservação.svg',
+    construcao:'icons/IconsCarousel/construção.svg',
+    e_commerce:'icons/IconsCarousel/E-Commerce.svg',
+    educação:'icons/IconsCarousel/educação.svg',
+    entreterimento:'icons/IconsCarousel/entreterimento.svg',
+    financas:'icons/IconsCarousel/finanças.svg',
+    fitness:'icons/IconsCarousel/fitness.svg',
+    indicados:'icons/IconsCarousel/indicados.svg',
+    imobiliaria:'icons/IconsCarousel/imobiliária.svg',
+    informatica:'icons/IconsCarousel/informatica.svg',
+    lazer:'icons/IconsCarousel/lazer.svg',
+    limpeza:'icons/IconsCarousel/limpeza.svg',
+    logistica:'icons/IconsCarousel/logistica.svg',
+    meio_ambiente:'icons/IconsCarousel/meio ambiente.svg',
+    moda:'icons/IconsCarousel/moda.svg',
+    praia:'icons/IconsCarousel/praia.svg',
+    saude:'icons/IconsCarousel/saude.svg',
+    turismo:'icons/IconsCarousel/turismo.svg',
+    upload:'icons/IconsCarousel/upload.svg',
+}
+
 };
