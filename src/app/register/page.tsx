@@ -55,7 +55,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex w-full min-h-screen bg-gradient-to-r from-GRAY to-LOW_PURPLE items-center justify-center px-2 py-20">
+    <div className="flex w-full min-h-screen bg-gradient-to-r items-center justify-center px-2 py-20">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col w-full max-w-lg p-6 sm:px-12 sm:py-6 bg-white rounded-[5px] sm:rounded-[10px] shadow-xl"
