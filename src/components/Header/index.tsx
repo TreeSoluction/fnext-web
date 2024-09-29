@@ -53,14 +53,7 @@ export default function Header({ user, owner }) {
             </div>
           </>
         ) : (
-          <>
-            <button onClick={() => router.push("/login")}>Entrar-se</button>
-            <div className="bg-white p-2 px-6 rounded-full text-blue-800">
-              <button onClick={() => router.push("/register")}>
-                Registrar-se
-              </button>
-            </div>
-          </>
+          <></>
         )}
       </div>
     </header>

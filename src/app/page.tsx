@@ -4,13 +4,16 @@ import Carousel from "@/components/Carousel/Carousel";
 import MenuBar from "@/components/Header/menu";
 import HeaderHome from "@/components/HeaderHome";
 import SearchBox from "@/components/SearchBox/SearchBox";
-import { APP_ROUTES } from "@/constants/app-route";
+import { AuthContext } from "@/contexts/auth.context";
 import { ListFranchise } from "@/services/Franchises/list.franchise";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useContext, useEffect, useState } from "react";
 
 export default function Home() {
   const [franchise, setFranchises] = useState<IFranchise[]>([]);
+  const { logOut, owner, user } = useContext(AuthContext);
 
+  const router = useRouter();
   useEffect(() => {
     const load = async () => {
       const result = await ListFranchise();
@@ -25,12 +28,15 @@ export default function Home() {
     <div>
       <HeaderHome>
         <div className="flex flex-wrap-reverse justify-center items-center gap-4">
-          <a
-            className="text-sm text-white font-bold capitalize text-center"
-            href={APP_ROUTES.private.franchises}
-          >
-            Cadastre Sua Franquia
-          </a>
+          {user ? (
+            <></>
+          ) : (
+            <a className="text-sm text-white font-bold capitalize text-center">
+              <button onClick={() => router.push("/registerFranchises")}>
+                Cadastre Sua Franquia
+              </button>
+            </a>
+          )}
           <MenuBar />
         </div>
       </HeaderHome>

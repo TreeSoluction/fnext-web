@@ -1,16 +1,24 @@
 "use client";
 
-import { APP_ROUTES } from "@/constants/app-route";
 import Image from "next/image";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 
-import { userLogout } from "@/functions/user-logout";
+import { AuthContext } from "@/contexts/auth.context";
+import { useRouter } from "next/navigation";
 
 type MenuProps = {
   closeMenuFunction: () => void;
 };
 
 function Menu({ closeMenuFunction }: MenuProps) {
+  const { logOut, owner, user } = useContext(AuthContext);
+  const router = useRouter();
+
+  useEffect(() => {
+    console.log(user);
+    console.log(user === null);
+  });
+
   return (
     <div className="fixed inset-0 z-50">
       <button
@@ -19,64 +27,31 @@ function Menu({ closeMenuFunction }: MenuProps) {
       ></button>
       <nav>
         <ul className="bg-white rounded-[2rem] absolute w-10/12 max-w-72 right-10 sm:right-40 top-10 sm:top-20 text-sm ">
-          <li>
-            <a
-              href="#"
-              className="block p-3 hover:bg-slate-100 rounded-md mt-4 mx-2"
-            >
-              Mensagem
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="block p-3 hover:bg-slate-100 rounded-md mx-2"
-            >
-              Salvos
-            </a>
-          </li>
-          <span className="block h-[1px] w-full my-2 bg-PASTEL"></span>
-          <li>
-            <a
-              href="#"
-              className="block p-3 hover:bg-slate-100 rounded-md mx-2"
-            >
-              Minha Franquia
-            </a>
-          </li>
-          <li>
-            <a
-              href={APP_ROUTES.private.franchises}
-              className="block p-3 hover:bg-slate-100 rounded-md mx-2"
-            >
-              Cadastrar Minha Franquia
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="block p-3 hover:bg-slate-100 rounded-md mx-2"
-            >
-              Conta
-            </a>
-          </li>
-          <span className="block h-[1px] w-full my-2 bg-PASTEL"></span>
-          <li>
-            <a
-              href="#"
-              className="block p-3 hover:bg-slate-100 rounded-md mx-2"
-            >
-              Central de ajuda
-            </a>
-          </li>
-          <li>
-            <button
-              onClick={userLogout}
-              className="block w-[-webkit-fill-available] text-start p-3 hover:bg-red-100 rounded-md mb-4 mx-2"
-            >
-              Sair da conta
-            </button>
-          </li>
+          {user ? (
+            <>
+              <div className="bg-white p-2 px-6 font-bold ">Minha Franquia</div>
+              <div className="bg-white p-2 px-6 font-bold ">
+                <button onClick={() => router.push("/account/edit")}>
+                  Conta
+                </button>
+              </div>
+              <span className="block h-[1px] w-full my-2 bg-PASTEL"></span>
+              <div className="bg-white p-2 px-6 font-bold ">
+                <button onClick={logOut}>Sair da conta</button>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="bg-white p-2 px-6 font-bold ">
+                <button onClick={() => router.push("/login")}>Entrar</button>
+              </div>
+              <div className="bg-white p-2 px-6  font-bold">
+                <button onClick={() => router.push("/register")}>
+                  Registrar-se
+                </button>
+              </div>
+            </>
+          )}
         </ul>
       </nav>
     </div>

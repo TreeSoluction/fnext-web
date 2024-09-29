@@ -35,8 +35,6 @@ export const AuthProvider = ({ children }: any) => {
   useEffect(() => {
     const cookies = parseCookies();
     const token = cookies.BearerToken;
-    console.log("Aqui esta o token " + token);
-
     if (!token) {
       logOut();
       return;
