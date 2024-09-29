@@ -106,34 +106,51 @@ export default function Franchise() {
 
   const handleLogoImg = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      if (file.size <= 2 * 1024 * 1024) {
-        const reader = new FileReader();
-        reader.onload = (evt) => {
-          setLogoImg(evt.target?.result as string);
-        };
-        reader.readAsDataURL(file);
-      } else {
-        alert("O arquivo deve ser uma imagem em png ou jpg até 2MB.");
+    console.log(file);
+
+    const request = async () => {
+      if (file) {
+        if (
+          file.size <= 2 * 1024 * 1024 &&
+          (file.type === "image/png" || file.type === "image/jpeg")
+        ) {
+          const formData = new FormData();
+          formData.append("file", file);
+
+          try {
+            const response = await fetch(
+              process.env.NEXT_PUBLIC_ZIPLINE_URL + "/api/upload",
+              {
+                method: "POST",
+                body: formData,
+                headers: {
+                  Authorization:
+                    process.env.NEXT_PUBLIC_ZIPLINE_TOKEN?.toString() || "",
+                },
+              },
+            );
+
+            if (response.ok) {
+              const result = await response.json();
+              console.log("Upload success:", result);
+            } else {
+              alert("Failed to upload image. Please try again.");
+            }
+          } catch (error) {
+            console.error("Error uploading image:", error);
+            alert("An error occurred while uploading the image.");
+          }
+        } else {
+          alert("The file must be a png or jpg image up to 2MB.");
+        }
       }
-    }
+    };
+    request();
   };
 
   const onDropImg = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     const file = e.dataTransfer.files?.[0];
-
-    if (file) {
-      if (file.size <= 2 * 1024 * 1024) {
-        const reader = new FileReader();
-        reader.onload = (evt) => {
-          setLogoImg(evt.target?.result as string);
-        };
-        reader.readAsDataURL(file);
-      } else {
-        alert("O arquivo deve ser uma imagem em png ou jpg até 2MB.");
-      }
-    }
   };
 
   const handleFranchiseImgs = (e: ChangeEvent<HTMLInputElement>) => {
