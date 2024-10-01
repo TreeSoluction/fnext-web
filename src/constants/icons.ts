@@ -57,6 +57,35 @@ export const ICONS = {
     saude:'icons/IconsCarousel/saude.svg',
     turismo:'icons/IconsCarousel/turismo.svg',
     upload:'icons/IconsCarousel/upload.svg',
-}
+},
+
+  overviewImages: {
+    arrow:'icons/OverviewImages/arrow.svg',
+    double_arrow:'icons/OverviewImages/double-arrow.svg',
+    franchise_fee:'icons/OverviewImages/franchise_fee.svg',
+    globo:'icons/OverviewImages/globo.svg',
+    home:'icons/OverviewImages/home.svg',
+    instalation_capital:'icons/OverviewImages/instalation_capital.svg',
+    lupa:'icons/OverviewImages/lupa.svg',
+    logo_contbank:'icons/OverviewImages/logo_contbank.svg',
+    menu:'icons/OverviewImages/menu.svg',
+    profile_vector:'icons/OverviewImages/profile_vector.svg',
+    star:'icons/OverviewImages/star.svg',
+    heart:'icons/OverviewImages/heart.svg',
+    check_mark:'icons/OverviewImages/check_mark.svg',
+    sede:'icons/OverviewImages/sede.svg',
+    store_area:'icons/OverviewImages/store_area.svg',
+    upload:'icons/OverviewImages/upload.svg',
+    instagram:'icons/OverviewImages/instagram.svg',
+    twitter:'icons/OverviewImages/twitter.svg',
+    linkedin:'icons/OverviewImages/linkedin.svg',
+    youtube:'icons/OverviewImages/youtube.svg',
+    warn_vector:'icons/OverviewImages/warn_vector.svg',
+    working_capital:'icons/OverviewImages/working_capital.svg',
+    profile:'icons/OverviewImages/imagens/profile-2.svg',
+    image01:'icons/OverviewImages/imagens/Image01.svg',
+    image02:'icons/OverviewImages/imagens/Image02.svg',
+    image03:'icons/OverviewImages/imagens/Image03.svg',
+  }
 
 };
