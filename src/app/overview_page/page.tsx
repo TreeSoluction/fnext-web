@@ -246,13 +246,12 @@ export default function Page() {
 
                 <div className="bg-slate-700 border-[1px] p-6">
                     <p className="pb-6 text-white">
-                        As sociedades empresárias de pequeno porte e as ofertas apresentadas nesta plataforma estão automaticamente dispensadas de registro
-                        pela Comissão de Valores Mobiliários - CVM. A CVM não analisa previamente as ofertas.
+                        Nossa plataforma exerce a função de intermediadora entre franqueadores e potenciais franqueados, promovendo a facilitação do contato e
+                        da negociação entre as partes. Embora não assumamos responsabilidade por eventuais ocorrências decorrentes dessas negociações.  
                     </p>
                     <p className="pb-4 text-white">
-                        As ofertas realizadas não implicam por parte da CVM a garantia da veracidade das informações prestadas, de adequação à legislação
-                        vigente ou julgamento sobre a qualidade da sociedade empresária de pequeno porte. Antes de aceitar uma oferta leia com atenção as
-                        informações essenciais da oferta, em especial a seção de alertas sobre riscos.
+                        Nos empenhamos em manter um ambiente seguro e confiável, por meio da aplicação de rigorosos critérios de análise e monitoramento. 
+                        Nosso compromisso é assegurar que os usuários tenham acesso a informações claras e transparentes, promovendo relações comerciais seguras e sólidas.   
                     </p>
                 </div>
 
