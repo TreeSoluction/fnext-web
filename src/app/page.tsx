@@ -10,13 +10,15 @@ import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 
 export default function Home() {
-  const [franchise, setFranchises] = useState<IFranchise[]>([]);
+  const [franchise, setFranchises] = useState<IFranchiseList[]>([]);
   const { logOut, owner, user } = useContext(AuthContext);
 
   const router = useRouter();
   useEffect(() => {
     const load = async () => {
       const result = await ListFranchise();
+      console.log(result);
+
       setFranchises(result);
     };
 
@@ -60,6 +62,7 @@ export default function Home() {
           {franchise.map((franchise) => (
             <Carousel
               key={franchise.id}
+              id={franchise.id}
               name={franchise.name}
               sector={franchise.sector}
               minValue={franchise.ROI_min}

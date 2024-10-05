@@ -6,7 +6,7 @@ import { AuthContext } from "@/contexts/auth.context";
 import { CreateFranchises } from "@/services/Franchises/create.franchises";
 import { ICreateFranchises, IModel } from "@/services/interfaces/IFranchises";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import { Search } from "lucide-react";
+import { Copy, Search } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { Container, FormContainer } from "./components/container";
 import { Input, InputImage, TextArea } from "./components/form/inputs";
