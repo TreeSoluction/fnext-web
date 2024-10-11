@@ -1,7 +1,14 @@
 export const ICONS = {
+  check: "/icons/check.svg",
   filter: "/icons/filtro.svg",
   lupa: "/icons/lupa.svg",
-  check: "/icons/check.svg",
+  logo_02: '/icons/logo_02.svg',
+  olho: '/icons/olho.svg',
+  olho_fechado: '/icons/olho_fechado.svg',
+  check_icon: '/icons/check_icon.svg',
+  plano_basic: '/icons/plano_basic.svg',
+  plano_pro: '/icons/plano_pro.svg',
+  plano_starter: '/icons/plano_starter.svg',
   models: {
     home_based: "/icons/Modelo de negocio/home based.svg",
     home_office: "/icons/Modelo de negocio/home officie.svg",
