@@ -15,13 +15,10 @@ export default function Home() {
   useEffect(() => {
     const load = async () => {
       const result = await ListFranchise();
-      console.log(result);
-
       setFranchises(result);
     };
 
     load();
-    console.log(franchise);
   }, []);
 
   return (
@@ -29,14 +26,31 @@ export default function Home() {
       <HeaderHome>
         <div className="flex flex-wrap-reverse justify-center items-center gap-4">
           {user ? (
-            <></>
+            <>
+              {owner ? (
+                <></>
+              ) : (
+                <>
+                  <a className="text-sm text-white font-bold capitalize text-center border rounded-full p-4">
+                    <button onClick={() => router.push("/investor/register")}>
+                      Criar conta de franquia
+                    </button>
+                  </a>
+                </>
+              )}
+              <a className="text-sm text-blue-900 font-bold capitalize text-center bg-white rounded-full p-4">
+                <button onClick={() => router.push("/registerFranchises")}>
+                  Cadastre Sua Franquia
+                </button>
+              </a>
+            </>
           ) : (
             <>
               <a className="text-sm text-white font-bold capitalize text-center border rounded-full p-4 px-7">
                 <button onClick={() => router.push("/login")}>Entrar</button>
               </a>
               <a className="text-sm text-blue-900 font-bold capitalize text-center bg-white rounded-full p-4">
-                <button onClick={() => router.push("/registerFranchises")}>
+                <button onClick={() => router.push("/register")}>
                   Cadastre Sua Franquia
                 </button>
               </a>

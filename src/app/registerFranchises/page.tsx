@@ -6,10 +6,15 @@ import { AuthContext } from "@/contexts/auth.context";
 import { CreateFranchises } from "@/services/Franchises/create.franchises";
 import { ICreateFranchises, IModel } from "@/services/interfaces/IFranchises";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import { Copy, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { Container, FormContainer } from "./components/container";
-import { Input, InputImage, TextArea } from "./components/form/inputs";
+import {
+  Input,
+  InputImage,
+  InputImages,
+  TextArea,
+} from "./components/form/inputs";
 
 export default function Franchise() {
   const { owner } = useContext(AuthContext);
@@ -18,7 +23,6 @@ export default function Franchise() {
     defaultValues: {
       name: "",
       description: "",
-      logo: "",
     },
   });
 
@@ -70,6 +74,13 @@ export default function Franchise() {
   const [returnonInvestmenUntil, setReturnonInvestmenUntil] =
     useState<number>(0);
 
+  useEffect(() => {
+    console.log(logoImg);
+  }, [logoImg]);
+  useEffect(() => {
+    console.log(otherImg);
+  }, [otherImg]);
+
   const handleOnNameState = (e: ChangeEvent<HTMLInputElement>) => {
     setNameState(e.target.value);
   };
@@ -106,40 +117,21 @@ export default function Franchise() {
 
   const handleLogoImg = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    console.log(file);
-
     const request = async () => {
       if (file) {
         if (
           file.size <= 2 * 1024 * 1024 &&
           (file.type === "image/png" || file.type === "image/jpeg")
         ) {
-          const formData = new FormData();
-          formData.append("file", file);
+          const reader = new FileReader();
+          reader.onloadend = async () => {
+            const base64String = reader.result as string;
+            console.log(base64String);
 
-          try {
-            const response = await fetch(
-              process.env.NEXT_PUBLIC_ZIPLINE_URL + "/api/upload",
-              {
-                method: "POST",
-                body: formData,
-                headers: {
-                  Authorization:
-                    process.env.NEXT_PUBLIC_ZIPLINE_TOKEN?.toString() || "",
-                },
-              },
-            );
+            setLogoImg(base64String);
+          };
 
-            if (response.ok) {
-              const result = await response.json();
-              console.log("Upload success:", result);
-            } else {
-              alert("Failed to upload image. Please try again.");
-            }
-          } catch (error) {
-            console.error("Error uploading image:", error);
-            alert("An error occurred while uploading the image.");
-          }
+          reader.readAsDataURL(file);
         } else {
           alert("The file must be a png or jpg image up to 2MB.");
         }
@@ -154,18 +146,26 @@ export default function Franchise() {
   };
 
   const handleFranchiseImgs = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      if (file.size <= 2 * 1024 * 1024 && otherImg.length <= 4) {
-        const reader = new FileReader();
+    const files = e.target.files;
+    if (files) {
+      if (otherImg.length + files.length <= 4) {
+        Array.from(files).forEach((file) => {
+          if (file.size <= 2 * 1024 * 1024) {
+            const reader = new FileReader();
+            reader.onloadend = async () => {
+              const base64String = reader.result as string;
+              setOtherImg((prevImgs) => [...prevImgs, base64String]);
+            };
 
-        reader.onload = (evt) => {
-          setOtherImg((s) => [evt.target?.result as string, ...s]);
-        };
-
-        reader.readAsDataURL(file);
+            reader.readAsDataURL(file);
+          } else {
+            alert(
+              `O arquivo ${file.name} deve ser uma imagem em png ou jpg até 2MB.`,
+            );
+          }
+        });
       } else {
-        alert("O arquivo deve ser uma imagem em png ou jpg até 2MB.");
+        alert("Você pode adicionar até 4 imagens.");
       }
     }
   };
@@ -269,14 +269,13 @@ export default function Franchise() {
   };
 
   const onSubmit = (a: any) => {
-    // TODO: Adicionar tratamento para Models e para campos de formulário
-
     const data: ICreateFranchises = {
       ownerID: owner.id,
       Business: {
         ...form.getValues(),
         sector: operatingSegment,
-        images: selectedImages,
+        images: otherImg,
+        logo: logoImg,
         videos: videoURL,
         site: websiteURL,
         average_monthly_billing: monthlyRevenue,
@@ -285,7 +284,7 @@ export default function Franchise() {
         ROI_min: returnonInvestmenFrom,
         ROI_max: returnonInvestmenUntil,
       },
-      Models: savedModels,
+      Models: savedModels.map(({ id, ...model }) => model),
     };
 
     // TODO: Adicionar tratamento de erro e redirecionamento caso sucesso
@@ -349,24 +348,43 @@ export default function Franchise() {
 
         <FormContainer title="Logo" className="flex flex-col gap-4">
           <div className="flex flex-col">
-            <InputImage
-              label="Selecione sua Logo"
-              id="logo"
-              img={logoImg}
-              onChange={handleLogoImg}
-              onDrop={onDropImg}
-            />
-            <span className="text-[0.6rem] text-[#9E9D9D] text-right mt-4">
-              Imagem em png ou jpg até 2MB cada. Sugerimos dimensões de 250px X
-              150px.
-            </span>
+            {logoImg ? (
+              <div className="flex flex-col items-center">
+                <img
+                  src={logoImg}
+                  alt="Logo Preview"
+                  className="mb-4"
+                  style={{ maxWidth: "250px", maxHeight: "150px" }}
+                />
+                <button
+                  onClick={() => setLogoImg(null)}
+                  className="mt-2 text-red-500"
+                >
+                  Remove Logo
+                </button>
+              </div>
+            ) : (
+              <>
+                <InputImage
+                  label="Selecione sua Logo"
+                  id="logo"
+                  img={logoImg}
+                  onChange={handleLogoImg}
+                  onDrop={onDropImg}
+                />
+                <span className="text-[0.6rem] text-[#9E9D9D] text-right mt-4">
+                  Imagem em png ou jpg até 2MB cada. Sugerimos dimensões de
+                  250px X 150px.
+                </span>
+              </>
+            )}
           </div>
         </FormContainer>
 
         <FormContainer title="Imagens" className="flex flex-col gap-4">
           {otherImg.map((img, index) => (
             <div className="flex flex-col" key={index}>
-              <InputImage
+              <InputImages
                 onChange={handleFranchiseImgs}
                 label="Selecione uma imagem"
                 id={img === "" ? "firstImg" : String(index)}

@@ -33,13 +33,25 @@ export const AuthProvider = ({ children }: any) => {
   const router = useRouter();
 
   useEffect(() => {
+    console.log(user);
+  }, [user]);
+
+  useEffect(() => {
+    console.log(owner);
+  }, [owner]);
+
+  useEffect(() => {
     const cookies = parseCookies();
     const token = cookies.BearerToken;
     if (!token) {
       logOut();
       return;
     }
-    getUserData(user?.id as string);
+
+    if (cookies.User) {
+      const parse = JSON.parse(cookies.User) as IUser;
+      getUserData(parse.id as string);
+    }
   }, []);
 
   const loginUser = (data: any) => {
@@ -121,17 +133,33 @@ export const AuthProvider = ({ children }: any) => {
     GetUserData(id)
       .then((res) => {
         setUser({
-          name: res.data.name,
-          id: res.data.id,
-          email: res.data.email,
+          name: res.data.data.name.toString(),
+          id: res.data.data.id.toString(),
+          email: res.data.data.email.toString(),
         });
-        if (res.data.Owner) {
+
+        if (res.data.data.Owner) {
           setOwner({
-            name: res.data.name,
-            id: res.data.id,
-            phone: res.data.phone,
-            cpf: res.data.cpf,
+            name: res.data.data.Owner.name.toString(),
+            id: res.data.data.Owner.id.toString(),
+            phone: res.data.data.Owner.phone.toString(),
+            cpf: res.data.data.Owner.cpf.toString(),
           });
+
+          setCookie(
+            null,
+            "Owner",
+            JSON.stringify({
+              name: res.data.data.Owner.cpf.toString(),
+              id: res.data.data.Owner.id.toString(),
+              phone: res.data.data.Owner.phone.toString(),
+              cpf: res.data.data.Owner.cpf.toString(),
+            }),
+            {
+              maxAge: 30 * 24 * 60 * 60,
+              path: "/",
+            },
+          );
         }
       })
       .catch((err) => {

@@ -9,7 +9,7 @@ interface IBusisness {
   name: string;
   description: string;
   logo: string;
-  images: File[];
+  images: string[];
   videos: string;
   site: string;
   average_monthly_billing: number;
@@ -20,6 +20,7 @@ interface IBusisness {
 }
 
 export interface IModel {
+  id: string;
   name: string;
   capital_for_instalation: number;
   capital_for_instalation_isFixed: boolean;
@@ -33,5 +34,5 @@ export interface IModel {
   store_area_min: number;
   store_area_max: number;
   royalties: number;
-  royalties_isFixed: boolean;
+  royalties_isFixed: number;
 }
