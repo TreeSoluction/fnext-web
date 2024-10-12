@@ -294,6 +294,9 @@ export default function Franchise() {
   };
 
   return (
+
+  <div className='bg-[#EAE9E9] h-full pb-32 top-0'>
+
     <Container>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
@@ -849,5 +852,6 @@ export default function Franchise() {
         ))}
       </form>
     </Container>
+  </div>
   );
 }

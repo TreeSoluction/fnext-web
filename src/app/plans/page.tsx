@@ -1,11 +1,27 @@
+
+"use client";
+import { useState, useEffect } from "react";
+import Header from "@/components/HeaderHome";
 import PlanCard from "@/components/Cards/plan";
-import Header from "@/components/Header";
+import PlanCardBasic from "@/components/Cards/planBasic";
+import { ICONS } from "@/constants/icons";
 
 export default function Plans() {
+
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true); // Isso garante que o componente será renderizado apenas no cliente
+  }, []);
+
+  if (!isClient) {
+    return null; // Impede a renderização até que esteja no cliente
+  }
+  
   return (
     <div>
       <Header>
-        <a className="flex gap-2 items-center font-bold text-white " href="/">
+        <a className="flex gap-2 items-center font-bold text-white" href="/">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -19,67 +35,112 @@ export default function Plans() {
           <p>Voltar</p>
         </a>
       </Header>
-      <div className="relative flex flex-col items-center justify-center bg-[url('/img/background.png')] min-h-[calc(100vh-74px)] bg-no-repeat bg-cover bg-center">
-        <h1 className="text-3xl font-bold text-white max-w-[32rem] text-center mt-10 mb-20">
-          Veja nossos planos e começe a{" "}
-          <span className="text-sky-700">captar mais</span> franqueados agora.
+      <div className="relative flex flex-col items-center justify-center mt-[74px] bg-[url('/img/background-02.png')]  sm:h-[98rem] bg-no-repeat bg-cover bg-center">
+        <h1 className="flex justify-start sm:text-5xl text-3xl font-bold text-white sm:w-full max-w-[45.5rem] text-center sm:ml-0 ml-12 mt-10 mb-20 tracking-wide">
+          <span className="text-blue-800 sm:text-5xl text-3xl sm:pr-4 pr-2 tracking-wide">Conheça</span> nossos upgrades
         </h1>
+        <div>
+          <p className="text-white flex flex-wrap justify-center w-full mb-32 px-6 sm:px-0 sm:max-w-[75rem] text-sm sm:text-base lg:text-lg leading-relaxed sm:leading-loose">
+            Nosso upgrade Basic é grátis e possui todas as funcionalidades, porém sua franquia fica <br className="hidden sm:inline" />
+            sem nenhum destaque nas páginas de busca e com funções limitadas, sem custo adicional. <br className="hidden sm:inline" />
+            Upgrade Advanced e Pro com benefícios exclusivos para potencializar a captação de leads.
+          </p>
+        </div>
         <div className="flex flex-wrap justify-center gap-6 max-w-[75rem]">
-          <PlanCard
-            title="Small Business Basico"
-            value="Gratuito"
-            periodo="Mensal"
+          {/* PlanCardBasic - Small Business */}
+          <PlanCardBasic
+            title="SMALL BUSINESS"
+            value="Grátis"
+            periodo="Tenha acesso a todas as funcionalidades"
             beneficios={[
-              "Cadastrar 1 marca de franquia",
-              "5 leads Mensais",
-              "Suporte especializado",
-              "Analises de mercado",
+              <span className="text-black py-2">Cadastrar 1 marca de <br /> franquia.</span>,
+              <span className="text-black py-2">Suporte especializado</span>,
+              <span className="text-black">Análise de Mercado</span>,
             ]}
+            button_link="Criar uma conta grátis agora"
+            svg={ICONS.plano_starter}
+            upgrade_info="Tudo do upgrade SMALL e:"
+            
+          />
+
+          {/* PlanCard - Advanced */}
+          <div className="trasition scale-[1.12] px-4">
+
+              <PlanCard
+                title="ADVANCED"
+                recommendation={[
+                  <div className="flex bg-blue-900 w-full text-white rounded-t-lg">
+                    <p className="py-2 flex justify-center w-full">Recomendado</p>
+                  </div>,
+                ]}
+                value={[
+                  <div className="w-full flex flex-row py-4">
+                    <span className="text-xl mr-2 flex items-start">R$</span>
+                    <span className="text-4xl font-bold">497</span>
+                    <span  className="text-2xl flex items-end">/mês</span>
+                  </div>,
+                ]}
+                periodo="Trimestral"
+                beneficios={[
+                  <span className="text-blue-900">
+                    30 dias em <span className="text-green-400">Destaque</span> <br />
+                    nas páginas de busca
+                  </span>,
+                  <span className="text-black">
+                    Leads <span className="text-green-500">ilimitados</span>
+                  </span>,
+                  <span className="text-blue-900">
+                    30 dias com selo <br /> <span className="text-green-500">premium</span>
+                  </span>,
+                  <span className="text-black">Análise especializada</span>,
+                  <span className="text-black">
+                    Cadastrar 5 marcas <br />
+                    de franquia.
+                  </span>,
+                ]}
+                discount="20% DE DESCONTO"
+                payment_type="(pagamento único)"
+                button_content="Selecionar"
+                svg={ICONS.plano_basic}
+                upgrade_info="Tudo do upgrade ADVANCED e:"           
+              />
+          </div>
+
+          {/* PlanCard - Pro */}
+          <PlanCard
+            title="PRO"
+            recommendation={undefined}
+            value={[
+              <div className="w-full flex flex-row py-4">
+                <span className="text-xl mr-2 flex items-center">R$</span>
+                <span className="text-4xl font-bold">647</span>
+                <span className="text-2xl flex items-end">/mês</span>
+              </div>,
+            ]}
+            periodo="Trimestral"
+            beneficios={[
+              <span className="text-blue-900">
+                30 dias em <span className="text-green-400">Destaque</span> <br />
+                na primeira página
+              </span>,
+              <span className="text-green-500">
+                Indicados
+                <span className="text-black pl-2">
+                  para todos <br /> os usuários
+                </span>
+              </span>,
+              <span className="text-blue-900">
+                Selo de <span className="text-green-500">aprovação</span>
+              </span>,
+            ]}
+            discount="25% DE DESCONTO"
+            payment_type="(pagamento único)"
             button_content="Selecionar"
-          />
-          <PlanCard
-            title="Business Avançado"
-            value="R$ 49,90"
-            periodo="Mensal"
-            beneficios={[
-              <span>Cadastrar 3 marcas de franquia</span>,
-              <span>
-                Leads <span className="text-green-500">ilimitados</span>
-              </span>,
-              <span>
-                Selo <span className="text-green-500">Premium</span>
-              </span>,
-              <span>
-                <span className="text-green-500">Destaque</span> na página de
-                buscas
-              </span>,
-            ]}
-            button_content="Escolha o plano"
-          />
-          <PlanCard
-            title="Big Business Professional"
-            value="R$ 89,99"
-            periodo="Mensal"
-            beneficios={[
-              "Unlimited storage",
-              "Unlimited websites",
-              "Unlimited brandwith",
-              "24/7 premium customer support",
-              "Enhanced security features",
-              "Free domain name registration",
-            ]}
-            button_content="Escolha o plano"
+            svg={ICONS.plano_pro}      
+            upgrade_info="Tudo do upgrade ADVANCED com os adicionais de:"          
           />
         </div>
       </div>
     </div>
   );
 }
-
-const CustomBeneficios = () => {
-  return (
-    <ul>
-      <li>1</li>
-    </ul>
-  );
-};
