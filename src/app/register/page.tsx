@@ -1,24 +1,18 @@
 "use client";
 
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import api from "../../services/api";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import {
-  notifyInfo,
-  notifySuccess,
-  notifyError,
-} from "../../services/notification";
-import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
 import ErrorMessage from "@/components/Form/error-message";
 import { InputStyled } from "@/components/Form/inputs";
-import { CreateUser } from "@/services/User/create.user";
 import { ICONS } from "@/constants/icons";
+import { createUser } from "@/services/User/create.user";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { z } from "zod";
+import { notifyInfo, notifySuccess } from "../../services/notification";
 
 export default function Home() {
   const router = useRouter();
@@ -27,7 +21,10 @@ export default function Home() {
     fullname: z.string().min(1, "Nome não pode ser vazio!"),
     email: z.string().email({ message: "Email Inválido!" }),
     password: z.string().min(6, "A senha tem que ter no mínimo 6 caracteres!"),
-    phone: z.string().min(1, "O telefone é obrigatório!").regex(/^[0-9\s]+$/, "O telefone deve conter apenas números!"),
+    phone: z
+      .string()
+      .min(1, "O telefone é obrigatório!")
+      .regex(/^[0-9\s]+$/, "O telefone deve conter apenas números!"),
   });
 
   const {
@@ -42,20 +39,21 @@ export default function Home() {
   const onSubmit = async (data) => {
     notifyInfo("Registrando...");
 
-    const response = await CreateUser({
+    const result = await createUser({
       fullName: data.fullname,
       email: data.email,
       phone: data.phone,
       password: data.password,
     });
 
-    if (response.status !== 200) {
-      notifyError("Erro ao registrar!");
-      return;
+    if (result?.status == 200) {
+      notifySuccess(
+        "Registrado com sucesso! Voce será redirecionado para a página de login.",
+      );
+      setTimeout(() => {
+        router.push("/login");
+      }, 5000);
     }
-
-    notifySuccess("Registrado com sucesso!");
-    router.push("/"); // Redireciona após o registro bem-sucedido
   };
 
   return (
@@ -69,22 +67,34 @@ export default function Home() {
         </div>
 
         <div className="flex flex-col w-full mb-10">
-          <h1 className="flex justify-center sm:text-4xl text-3xl mb-4">Criação de conta</h1>
+          <h1 className="flex justify-center sm:text-4xl text-3xl mb-4">
+            Criação de conta
+          </h1>
           <h3 className="flex flex-col items-center justify-center sm:text-md text-sm text-slate-400 font-semibold">
-            Cadastre-se e abra as portas para um mundo 
-            <span className="flex justify-center"> de oportunidades no franchising!</span>
+            Cadastre-se e abra as portas para um mundo
+            <span className="flex justify-center">
+              {" "}
+              de oportunidades no franchising!
+            </span>
           </h3>
         </div>
 
         <p className="font-semibold">Nome completo</p>
-        <InputStyled label="Ex.: Rafaele Ribeiro de Freitas" {...register("fullname")} />
+        <InputStyled
+          label="Ex.: Rafaele Ribeiro de Freitas"
+          {...register("fullname")}
+        />
         <ErrorMessage error={errors.fullname} />
 
         <p className="font-semibold mt-4">E-mail</p>
         <InputStyled label="E-mail" type="email" {...register("email")} />
         <ErrorMessage error={errors.email} />
         <p className="font-semibold mt-4">Telefone</p>
-        <InputStyled label="(00) 00000-0000" type="tel" {...register("phone")} />
+        <InputStyled
+          label="(00) 00000-0000"
+          type="tel"
+          {...register("phone")}
+        />
         <ErrorMessage error={errors.phone} />
 
         <p className="font-semibold mt-4">Crie uma senha</p>
@@ -108,18 +118,32 @@ export default function Home() {
 
         <div className="flex flex-row justify-end gap-2 mt-4">
           <p>Mostrar senhas</p>
-          <button type="button" onClick={() => setShowPassword((prev) => !prev)}>
+          <button
+            type="button"
+            onClick={() => setShowPassword((prev) => !prev)}
+          >
             {showPassword ? (
-              <img src={ICONS.olho_fechado} className="w-6 h-6 flex items-center justify-center" alt="Ocultar senha" />
+              <img
+                src={ICONS.olho_fechado}
+                className="w-6 h-6 flex items-center justify-center"
+                alt="Ocultar senha"
+              />
             ) : (
-              <img src={ICONS.olho} className="w-6 h-6 flex items-center justify-center" alt="Mostrar senha" />
+              <img
+                src={ICONS.olho}
+                className="w-6 h-6 flex items-center justify-center"
+                alt="Mostrar senha"
+              />
             )}
           </button>
         </div>
 
         <div className="flex items-center justify-center w-full pt-12">
           <Link href={"#"} className="w-full">
-            <button className="flex items-center justify-center bg-blue-800 font-bold text-white w-full py-2 rounded-md transition-transform duration-200 ease-in-out hover:w-full hover:scale-105">
+            <button
+              onClick={handleSubmit(onSubmit)}
+              className="flex items-center justify-center bg-blue-800 font-bold text-white w-full py-2 rounded-md transition-transform duration-200 ease-in-out hover:w-full hover:scale-105"
+            >
               Cadastrar
             </button>
           </Link>
@@ -133,10 +157,10 @@ export default function Home() {
                 termos de uso
               </span>
             </Link>
-            e 
+            e
             <Link href={"/"}>
               <span className="font-semibold text-blue-800 px-[4px] hover:underline w-full">
-                Política de Privacidade da Fenext.   
+                Política de Privacidade da Fenext.
               </span>
             </Link>
           </p>
@@ -146,13 +170,14 @@ export default function Home() {
           Já tem uma conta?
           <Link href={"/login"}>
             <span className="font-semibold text-blue-800 px-2 hover:underline w-full">
-              Entrar  
+              Entrar
             </span>
           </Link>
         </div>
 
         <div className="w-full flex flex-row justify-center text-center text-[12px] mb-6">
-          Utilizaremos seus dados para criar sua conta de acesso e enviar informações que te ajudem.
+          Utilizaremos seus dados para criar sua conta de acesso e enviar
+          informações que te ajudem.
         </div>
       </form>
       <ToastContainer />

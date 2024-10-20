@@ -1,74 +1,39 @@
-// Importando ícones e React
-"use client"
+"use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "react-feather";
 
-
-const videos = [
-  "https://www.youtube.com/embed/cFoXlvNnALM",
-  "https://www.youtube.com/embed/YFGNXpErBoY",
-];
-
-const images = [
-  "/icons/OverviewImages/imagens/Image01.svg",
-  "/icons/OverviewImages/imagens/Image02.svg",
-  "/icons/OverviewImages/imagens/Image03.svg",
-  "/icons/OverviewImages/imagens/Image01.svg",
-  "/icons/OverviewImages/imagens/Image02.svg",
-  "/icons/OverviewImages/imagens/Image03.svg",
-  "/icons/OverviewImages/imagens/Image01.svg",
-  "/icons/OverviewImages/imagens/Image02.svg",
-  
-];
-
-// Combina os arrays de vídeos e imagens em um único array para criar o carrossel.
-const slides = [...videos, ...images]; 
-
-export default function MediaCarousel() {
+export default function MediaCarousel(images: string[]) {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-      //  Funções de navegação dos slides do carrossel
-  // Vai para o slide anterior. Se estiver no primeiro slide, ele volta para o último.
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
+    setCurrentSlide((prev) => (prev === 0 ? images.length - 1 : prev - 1));
   };
 
-  // Vai para o próximo slide. Se estiver no último, retorna ao primeiro.
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
+    setCurrentSlide((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   };
 
-  return (
-
-    <div className="flex flex-col pt-2">
-
+  return images === undefined ? (
+    <>
+      <div className="flex flex-col pt-2">
         <div>
-            <div>
-                <h2 className="font-bold text-3xl pb-8">Sobre a Franquia</h2>
-            </div>
-              <img src="" alt="" />
+          <h2 className="font-bold text-3xl pb-8">Sobre a Franquia</h2>
         </div>
 
         <div className="relative max-w-screen-lg mx-auto">
-          {/* Carrossel */}
           <div className="relative w-full h-68 md:h-84 lg:h-full overflow-hidden">
             <div
-              className="flex transition-transform duration-500  h-full ease-in-out"
+              className="flex transition-transform duration-500 h-full ease-in-out"
               style={{ transform: `translateX(-${currentSlide * 100}%)` }}
             >
-              {slides.map((slide, idx) => (
+              {images.map((slide, idx) => (
                 <div key={idx} className="min-w-full">
-                  {slide.includes("youtube") ? (
-                    <iframe
-                      className="w-full h-full"
-                      src={slide}
-                      title={`video-${idx}`}
-                      allowFullScreen
-                    />
-                  ) : (
-                    <img src={slide} alt={`slide-${idx}`} className="w-full h-full object-cover" />
-                  )}
+                  <img
+                    src={slide}
+                    alt={`slide-${idx}`}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
               ))}
             </div>
@@ -90,7 +55,7 @@ export default function MediaCarousel() {
 
           {/* Indicadores de Slides */}
           <div className="flex justify-center mt-4 space-x-2">
-            {slides.map((_, idx) => (
+            {images.map((_, idx) => (
               <div
                 key={idx}
                 onClick={() => setCurrentSlide(idx)}
@@ -101,33 +66,10 @@ export default function MediaCarousel() {
             ))}
           </div>
         </div>
-    </div>
+      </div>
+      )
+    </>
+  ) : (
+    <></>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //         {/* Bolinhas de marcação das imagens */}
-        //     <div className='absolute bottom-4 right-0 left-0'>
-        //         <div className='flex flex-row  items-center justify-center gap-2'>
-        //             {slides.map((s, i) => (
-        //                 <div key={i} className={`transition-all w-1.5 h-1.5 bg-white rounded-full  ${curr === i ? "p-0.5" : "bg-opacity-50"}`} />
-        //             ))}
-        //         </div>
-        //     </div>
-        // </div>
-

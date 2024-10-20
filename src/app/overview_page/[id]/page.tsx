@@ -59,8 +59,16 @@ export default function Page({ params }) {
         </div>
       </div>
 
+      <div className="p-10">
+        <img src={franchise?.logo} width={250} height={250}></img>
+      </div>
+
       <div className="flex lg:flex-row md:flex-col sm:flex-col w-full pt-10 px-10 gap-16">
-        <MediaCarousel />
+        {franchise?.images == null ? (
+          <MediaCarousel images={franchise?.images} />
+        ) : (
+          <></>
+        )}
 
         {franchise == null ? (
           <></>

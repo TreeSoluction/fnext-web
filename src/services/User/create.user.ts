@@ -1,14 +1,17 @@
 import api from "../api";
 import { notifyError } from "../notification";
 
-export const CreateUser = async (data: any) => {
-  await api
-    .post("/user", data)
-    .then((response) => {
-      return response.data;
-    })
-    .catch((error) => {
-      notifyError(error.response.data.messages[0].message);
-      throw new Error(error);
-    });
+export const createUser = async (data: any) => {
+  try {
+    const response = await api.post("/user", data);
+
+    if (response.status >= 200 && response.status < 300) {
+      return response;
+    } else {
+      notifyError("Erro ao registrar!");
+      return null;
+    }
+  } catch (error) {
+    notifyError("Erro ao registrar!");
+  }
 };
