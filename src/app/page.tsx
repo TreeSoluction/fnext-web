@@ -1,5 +1,6 @@
 "use client";
 
+import Banner from "@/components/Banner/Banner";
 import Carousel from "@/components/Carousel/Carousel";
 import HeaderHome from "@/components/HeaderHome";
 import { AuthContext } from "@/contexts/auth.context";
@@ -59,8 +60,8 @@ export default function Home() {
           {/* <MenuBar /> */}
         </div>
       </HeaderHome>
+      <Banner />
       <div className="flex justify-center p-5 mt-28">
-        {" "}
         <div className="flex flex-row flex-wrap gap-8 justify-center">
           {franchise.map((franchise) => (
             <Carousel
