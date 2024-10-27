@@ -18,7 +18,7 @@ export default function Header({ children }: React.PropsWithChildren) {
             className="lg:ml-44 absolute top-2 lg:static "
                 width={120}
                 height={100}
-                src="/icons/fenext_logo.png"
+                src="/icons/fenext_logo.svg"
                 alt="fenext_logo"
 
             />
