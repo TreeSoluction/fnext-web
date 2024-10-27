@@ -1,13 +1,34 @@
 "use client";
 
-import Image from "next/image";
 import React from "react";
+import Image from "next/image";
+import Link from "next/link";
 
-export default function HeaderHome({ children }: React.PropsWithChildren) {
-  return (
-    <header className="fixed top-0 bg-MAIN_HIGH_BLUE p-5 sm:w-full w-full flex justify-between items-center z-30">
-      <Image width={120} height={100} src="/img/logo.png" alt="Fenext Logo" />
-      {children}
-    </header>
-  );
+export default function Header({ children }: React.PropsWithChildren) {
+    return (
+        <header className="top-0 bg-white py-2 sm:w-full w-full ">
+           <div className="flex sm:flex-row flex-row w-full flex gap-20 justify-evenly items-center">
+           
+           <div className="flex w-96 sm:gap-16  sm:mx-28 mx-4">
+
+           <div className="absolute top-16 lg:static">
+            <Link  href={"#"} className="hover:underline pr-20">Ajuda</Link>
+            </div> 
+            <Image
+            className="lg:ml-44 absolute top-2 lg:static "
+                width={120}
+                height={100}
+                src="/icons/fenext_logo.png"
+                alt="fenext_logo"
+
+            />
+           </div>
+            <div className="flex flex-row">
+                {children}
+
+            </div>
+            
+           </div>
+        </header>
+    );
 }

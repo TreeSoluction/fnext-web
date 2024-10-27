@@ -23,7 +23,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div>
+    <div className=" bg-[#F7F7F7]">
       <HeaderHome>
         <div className="flex flex-wrap-reverse justify-center items-center gap-4">
           {user ? (
