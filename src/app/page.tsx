@@ -70,6 +70,7 @@ export default function Home() {
               name={franchise.name}
               sector={franchise.sector}
               minValue={franchise.ROI_min}
+              image={franchise.logo}
             />
           ))}
         </div>

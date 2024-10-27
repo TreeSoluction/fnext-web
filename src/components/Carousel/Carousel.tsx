@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 
-const Carousel = ({ id, name, sector, minValue }) => {
+const Carousel = ({ id, name, sector, minValue, image }) => {
   const router = useRouter();
 
   function Visualize() {
@@ -16,7 +16,7 @@ const Carousel = ({ id, name, sector, minValue }) => {
     >
       <div className="flex flex-col items-center">
         <div className="flex w-80 h-60 bg-gray-200 justify-center items-center rounded-xl">
-          Image HERE
+          <img src={image}></img>
         </div>
         <div className={"w-full"}>
           <div className="flex flex-col text-start p-2">

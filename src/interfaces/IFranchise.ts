@@ -8,7 +8,7 @@ interface IFranchise {
   name: string;
   description: string;
   logo: string;
-  images: Record<string, unknown>; // Assuming images can have various properties
+  images: string[]; // Assuming images can have various properties
   videos: Record<string, unknown>; // Assuming videos can have various properties
   site: string;
   average_monthly_billing: number;

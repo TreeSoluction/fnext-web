@@ -71,13 +71,6 @@ export default function Franchise() {
   const [returnonInvestmenUntil, setReturnonInvestmenUntil] =
     useState<number>(0);
 
-  useEffect(() => {
-    console.log(logoImg);
-  }, [logoImg]);
-  useEffect(() => {
-    console.log(otherImg);
-  }, [otherImg]);
-
   const handleOnNameState = (e: ChangeEvent<HTMLInputElement>) => {
     setNameState(e.target.value);
   };
@@ -123,8 +116,6 @@ export default function Franchise() {
           const reader = new FileReader();
           reader.onloadend = async () => {
             const base64String = reader.result as string;
-            console.log(base64String);
-
             setLogoImg(base64String);
           };
 

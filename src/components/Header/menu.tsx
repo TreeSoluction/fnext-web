@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 
 import { AuthContext } from "@/contexts/auth.context";
 import { useRouter } from "next/navigation";
@@ -13,11 +13,6 @@ type MenuProps = {
 function Menu({ closeMenuFunction }: MenuProps) {
   const { logOut, owner, user } = useContext(AuthContext);
   const router = useRouter();
-
-  useEffect(() => {
-    console.log(user);
-    console.log(user === null);
-  });
 
   return (
     <div className="fixed inset-0 z-50">
