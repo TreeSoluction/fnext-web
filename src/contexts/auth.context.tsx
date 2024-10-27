@@ -3,11 +3,7 @@
 import { CreateOwner } from "@/services/Owner/create.owner";
 import { GetUserData } from "@/services/User/get.user";
 import { LoginUser } from "@/services/User/post.user";
-import {
-  notifyError,
-  notifyInfo,
-  notifySuccess,
-} from "@/services/notification";
+import { notifyError, notifySuccess } from "@/services/notification";
 import { useRouter } from "next/navigation";
 import { destroyCookie, parseCookies, setCookie } from "nookies";
 import { createContext, useEffect, useState } from "react";
@@ -24,21 +20,12 @@ interface IOwner {
   name: string;
   id: string;
   phone: string;
-  cpf: string;
 }
 
 export const AuthProvider = ({ children }: any) => {
   const [user, setUser] = useState<IUser | undefined>(undefined);
   const [owner, setOwner] = useState<IOwner | undefined>(undefined);
   const router = useRouter();
-
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
-
-  useEffect(() => {
-    console.log(owner);
-  }, [owner]);
 
   useEffect(() => {
     const cookies = parseCookies();
@@ -59,29 +46,27 @@ export const AuthProvider = ({ children }: any) => {
       .then((response) => {
         notifySuccess("Login successful!");
         setUser({
-          name: response.data.name,
-          id: response.data.id,
-          email: response.data.email,
+          name: response.name,
+          id: response.id,
+          email: response.email,
         });
 
-        if (response.data.owner) {
+        if (response.owner) {
           setOwner({
-            name: response.data.owner.name,
-            id: response.data.owner.id,
-            phone: response.data.owner.phone,
-            cpf: response.data.owner.cpf,
+            name: response.owner.name,
+            id: response.owner.id,
+            phone: response.owner.phone,
           });
 
           setCookie(
             null,
             "Owner",
             JSON.stringify({
-              name: response.data.owner.name,
-              id: response.data.owner.id,
-              email: response.data.owner.email,
-              phone: response.data.owner.phone,
-              birth_date: response.data.owner.birth_date,
-              cpf: response.data.owner.cpf,
+              name: response.owner.name,
+              id: response.owner.id,
+              email: response.owner.email,
+              phone: response.owner.phone,
+              birth_date: response.owner.birth_date,
             }),
             {
               maxAge: 30 * 24 * 60 * 60,
@@ -90,17 +75,18 @@ export const AuthProvider = ({ children }: any) => {
           );
         }
 
-        setCookie(null, "BearerToken", response.data.token, {
+        setCookie(null, "BearerToken", response.token, {
           maxAge: 30 * 24 * 60 * 60,
           path: "/",
         });
+
         setCookie(
           null,
           "User",
           JSON.stringify({
-            name: response.data.name,
-            id: response.data.id,
-            email: response.data.email,
+            name: response.name,
+            id: response.id,
+            email: response.email,
           }),
           {
             maxAge: 30 * 24 * 60 * 60,
@@ -143,17 +129,15 @@ export const AuthProvider = ({ children }: any) => {
             name: res.data.data.Owner.name.toString(),
             id: res.data.data.Owner.id.toString(),
             phone: res.data.data.Owner.phone.toString(),
-            cpf: res.data.data.Owner.cpf.toString(),
           });
 
           setCookie(
             null,
             "Owner",
             JSON.stringify({
-              name: res.data.data.Owner.cpf.toString(),
+              name: res.data.data.Owner.name.toString(),
               id: res.data.data.Owner.id.toString(),
               phone: res.data.data.Owner.phone.toString(),
-              cpf: res.data.data.Owner.cpf.toString(),
             }),
             {
               maxAge: 30 * 24 * 60 * 60,
@@ -170,7 +154,6 @@ export const AuthProvider = ({ children }: any) => {
   };
 
   const logOut = () => {
-    notifyInfo("Voce foi deslogado");
     destroyCookie(undefined, "User");
     destroyCookie(undefined, "Owner");
     destroyCookie(undefined, "BearerToken");

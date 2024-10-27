@@ -9,28 +9,22 @@ import { GetById } from "@/services/Franchises/get.franchise";
 import { useEffect, useState } from "react";
 
 export default function Page({ params }) {
-  const [activeComponent, setActiveComponent] = useState("resume"); // Componente ativo inicial
-  const [franchise, setFranchise] = useState<IFranchise>();
+  const [activeComponent, setActiveComponent] = useState("resume");
+  const [franchise, setFranchise] = useState<IFranchise | null>(null);
 
   useEffect(() => {
     const fetchFranchise = async () => {
       try {
         const data = await GetById(params.id);
-        console.log(data);
-        setFranchise(data);
-        console.log(franchise);
+        const parsedResult: IFranchise = data;
+        setFranchise(parsedResult);
       } catch (error) {
         console.error("Error fetching franchise:", error);
       }
     };
 
     fetchFranchise();
-    console.log(franchise);
   }, [params.id]);
-
-  useEffect(() => {
-    console.log(franchise);
-  }, [franchise]);
 
   const handleFirstBtnClick = () => {
     setActiveComponent("resume");
@@ -46,9 +40,6 @@ export default function Page({ params }) {
         <div>
           <div className="flex py-8">
             <img src={ICONS.overviewImages.profile} alt="" />
-            <h1 className="flex items-center justify-center pl-4 font-bold text-5xl">
-              {franchise?.name}
-            </h1>
           </div>
         </div>
 
@@ -59,13 +50,16 @@ export default function Page({ params }) {
         </div>
       </div>
 
-      <div className="p-10">
+      <div className="p-10 flex items-center">
         <img src={franchise?.logo} width={250} height={250}></img>
+        <h1 className="flex items-center justify-center pl-4 font-bold text-5xl">
+          {franchise?.name}
+        </h1>
       </div>
 
       <div className="flex lg:flex-row md:flex-col sm:flex-col w-full pt-10 px-10 gap-16">
-        {franchise?.images == null ? (
-          <MediaCarousel images={franchise?.images} />
+        {franchise?.images?.length ? (
+          <MediaCarousel images={franchise.images} />
         ) : (
           <></>
         )}

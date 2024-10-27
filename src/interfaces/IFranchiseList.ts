@@ -3,4 +3,5 @@ interface IFranchiseList {
   sector: String;
   name: String;
   ROI_min: String;
+  logo: String;
 }
