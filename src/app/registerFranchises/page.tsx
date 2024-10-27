@@ -1,22 +1,18 @@
 "use client";
 
-import { ChangeEvent, Fragment, useContext, useEffect, useState } from "react";
+import { ChangeEvent, Fragment, useContext, useState } from "react";
 
 import { AuthContext } from "@/contexts/auth.context";
 import { CreateFranchises } from "@/services/Franchises/create.franchises";
-import { ICreateFranchises, IModel } from "@/services/interfaces/IFranchises";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import { Search } from "lucide-react";
+import { ICreateFranchises } from "@/services/interfaces/IFranchises";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { Container, FormContainer } from "./components/container";
-import {
-  Input,
-  InputImage,
-  InputImages,
-  TextArea,
-} from "./components/form/inputs";
+import { Input, InputImage } from "./components/form/inputs";
 
 export default function Franchise() {
+  const router = useRouter();
+
   const { owner } = useContext(AuthContext);
 
   const form = useForm({
@@ -35,25 +31,6 @@ export default function Franchise() {
     useState<string>("Nenhum Segmento adicionado");
   const [operatingSegmentMessageClass, setOperationgSegmentMessageClass] =
     useState<string>("alert alert-primary");
-  const [operationList] = useState<string[]>([
-    "Alimentação",
-    "Casa e Construção",
-    "Comunicação,informática e eletrônicos",
-    "Educação",
-    "Entretenimento e lazer",
-    "Hotelaria e turismo",
-    "Limpeza e conservação",
-    "Moda",
-    "Saúde e Beleza e bem estar",
-    "Serviços Automotivos",
-    "Serviço e outros negócios",
-    "Imobiliário",
-    "Finanças e Seguros",
-    "Agricultura e Agroindústria",
-    "Meio Ambiente",
-    "Logística e Transporte",
-    "Bem-Estar Animal",
-  ]);
 
   const [logoImg, setLogoImg] = useState<string>("");
   const [otherImg, setOtherImg] = useState<string[]>([""]);
@@ -73,36 +50,6 @@ export default function Franchise() {
 
   const handleOnNameState = (e: ChangeEvent<HTMLInputElement>) => {
     setNameState(e.target.value);
-  };
-
-  const handleOnfranchiseDescriptionFrist = (event: any, editor: any) => {
-    const data = editor.getData();
-    setFranchiseDescriptionFrist(data);
-  };
-
-  useEffect(() => {
-    const list = operationList;
-
-    if (operatingSegment.length === 0) {
-      setOperationgSegmentMessage(`Nenhum Segmento adicionado`);
-      setOperationgSegmentMessageClass("alert alert-primary");
-    } else {
-      if (list.indexOf(operatingSegment) !== -1) {
-        setOperationgSegmentMessage(
-          `O Segmento ${operatingSegment} selecionado é válido`,
-        );
-        setOperationgSegmentMessageClass("alert alert-success");
-      } else if (list.indexOf(operatingSegment) === -1) {
-        setOperationgSegmentMessage(
-          `O Segmento ${operatingSegment} selecionado é inválido, por favor verifique as opções listadas`,
-        );
-        setOperationgSegmentMessageClass("alert alert-danger");
-      }
-    }
-  }, [operatingSegment, operationList]);
-
-  const handleOperatingSegment = (e: ChangeEvent<HTMLInputElement>) => {
-    setOperationgSegment(e.target.value);
   };
 
   const handleLogoImg = (e: ChangeEvent<HTMLInputElement>) => {
@@ -133,73 +80,6 @@ export default function Franchise() {
     const file = e.dataTransfer.files?.[0];
   };
 
-  const handleFranchiseImgs = (e: ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files) {
-      if (otherImg.length + files.length <= 4) {
-        Array.from(files).forEach((file) => {
-          if (file.size <= 2 * 1024 * 1024) {
-            const reader = new FileReader();
-            reader.onloadend = async () => {
-              const base64String = reader.result as string;
-              setOtherImg((prevImgs) => [...prevImgs, base64String]);
-            };
-
-            reader.readAsDataURL(file);
-          } else {
-            alert(
-              `O arquivo ${file.name} deve ser uma imagem em png ou jpg até 2MB.`,
-            );
-          }
-        });
-      } else {
-        alert("Você pode adicionar até 4 imagens.");
-      }
-    }
-  };
-
-  const onDropOtherImg = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    const file = e.dataTransfer.files?.[0];
-
-    if (file) {
-      if (file.size <= 2 * 1024 * 1024 && otherImg.length <= 4) {
-        const reader = new FileReader();
-
-        reader.onload = (evt) => {
-          setOtherImg((s) => [evt.target?.result as string, ...s]);
-        };
-
-        reader.readAsDataURL(file);
-      } else {
-        alert("O arquivo deve ser uma imagem em png ou jpg até 2MB.");
-      }
-    }
-  };
-
-  const handleVideoUrl = (e: ChangeEvent<HTMLInputElement>) => {
-    if (
-      /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\//.test(e.target.value)
-    ) {
-      setValidUrl(true);
-
-      if (e.target.value.includes("embed")) {
-        setVideoURL(e.target.value);
-      } else {
-        const videoId = e.target.value.split("v=")[1].split("&list=")[0];
-        setVideoURL(`https://www.youtube.com/embed/${videoId}`);
-      }
-
-      return;
-    }
-
-    setValidUrl(false);
-  };
-
-  const handleSiteUrl = (e: ChangeEvent<HTMLInputElement>) => {
-    setWebsiteURL(e.target.value);
-  };
-
   const handleFinanceInfoMonthlyRevenue = (
     e: ChangeEvent<HTMLInputElement>,
   ) => {
@@ -222,36 +102,7 @@ export default function Franchise() {
     setReturnonInvestmenUntil(Number(e.target.value));
   };
 
-  const addModel = () => {
-    setModels((s) => [
-      ...s,
-      {
-        id: models.length + 1,
-        name: "",
-        capital_for_instalation: 0,
-        capital_for_instalation_isFixed: false,
-        working_capital: 0,
-        working_capital_isFixed: false,
-        franchise_fee: 0,
-        franchise_fee_isFixed: false,
-        marketing_fee: 0,
-        marketing_fee_isFixed: false,
-        royalties: 0,
-        royalties_isFixed: false,
-        has_store_area: false,
-        store_area_min: 0,
-        store_area_max: 0,
-      },
-    ]);
-  };
-
-  const removeModel = (id: string) => {
-    setModels(models.filter((model) => model.id !== id));
-  };
-
   const saveModel = (id: string) => {
-    // TODO: ADICIONAR VALIDAÇÃO ANTES DE ADICIONAR O MODEL AO CARD
-
     setSavedModels((s) => [...s, models.filter((model) => model.id === id)[0]]);
     setModels(models.filter((model) => model.id !== id));
   };
@@ -261,25 +112,21 @@ export default function Franchise() {
       ownerID: owner.id,
       Business: {
         ...form.getValues(),
-        sector: operatingSegment,
         name: nameState,
-        description: franchiseDescriptionFrist,
-        images: otherImg,
         logo: logoImg,
-        videos: videoURL,
-        site: websiteURL,
         average_monthly_billing: monthlyRevenue,
         units_in_brazil: headquarters,
         headquarters: franchiseDescriptionFrist,
         ROI_min: returnonInvestmenFrom,
         ROI_max: returnonInvestmenUntil,
       },
-      Models: savedModels.map(({ id, ...model }) => model),
     };
 
     // TODO: Adicionar tratamento de erro e redirecionamento caso sucesso
     CreateFranchises(data)
-      .then((res) => {})
+      .then((res) => {
+        router.push("/");
+      })
       .catch((err) => {});
   };
 
@@ -301,40 +148,6 @@ export default function Franchise() {
               onChange={handleOnNameState}
               value={nameState}
             />
-
-            <TextArea
-              maxLength={300}
-              label="Descreva a Franquia"
-              editor={ClassicEditor}
-              onChange={handleOnfranchiseDescriptionFrist}
-              id={"describefranchise"}
-              characters={franchiseDescriptionFrist.length}
-            />
-          </FormContainer>
-
-          <FormContainer
-            title="Segmento de Atuação"
-            className="flex flex-col gap-4"
-          >
-            <Input
-              startComponent={<Search className="ml-2" />}
-              endComponent={
-                <>
-                  <button className="h-full w-1/5 border-l border-solid border-[#ddd]">
-                    Buscar
-                  </button>
-                </>
-              }
-              onChange={handleOperatingSegment}
-              placeholder="Buscar segmento de atuação"
-            />
-
-            <div
-              className={`segment-atribute-alert ${operatingSegmentMessageClass}`}
-              role="alert"
-            >
-              {operatingSegmentMessage}
-            </div>
           </FormContainer>
 
           <FormContainer title="Logo" className="flex flex-col gap-4">
@@ -370,62 +183,6 @@ export default function Franchise() {
                 </>
               )}
             </div>
-          </FormContainer>
-
-          <FormContainer title="Imagens" className="flex flex-col gap-4">
-            {otherImg.map((img, index) => (
-              <div className="flex flex-col" key={index}>
-                <InputImages
-                  onChange={handleFranchiseImgs}
-                  label="Selecione uma imagem"
-                  id={img === "" ? "firstImg" : String(index)}
-                  img={img}
-                  onDrop={onDropOtherImg}
-                />
-
-                <span className="text-[0.6rem] text-[#9E9D9D] text-right mt-4">
-                  Imagem em png ou jpg até 2MB cada. Sugerimos dimensões de
-                  250px X 150px.
-                </span>
-              </div>
-            ))}
-          </FormContainer>
-
-          <FormContainer title="Vídeos" className="flex flex-col gap-4">
-            <Input
-              onChange={handleVideoUrl}
-              type="url"
-              id="franchiseVideoUrl"
-              placeholder="https://..."
-              label={
-                <>
-                  URL de vídeo sobre sua Franquia{" "}
-                  <span>(opcional) &#9432;</span>
-                </>
-              }
-            />
-
-            {videoURL && validUrl ? (
-              <iframe
-                src={videoURL}
-                width={560}
-                height={315}
-                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen={true}
-              />
-            ) : null}
-
-            <Input
-              onChange={handleSiteUrl}
-              type="url"
-              placeholder="https://..."
-              label={
-                <>
-                  URL do site de sua Franquia<span>(opcional) &#x24D8;</span>
-                </>
-              }
-              id="siteUrl"
-            />
           </FormContainer>
 
           <FormContainer
@@ -482,28 +239,6 @@ export default function Franchise() {
 
               <div className="w-[30%]" />
             </div>
-          </FormContainer>
-
-          <FormContainer
-            title="Modelos de negócios"
-            className="flex flex-col gap-4"
-          >
-            <p className="text-zinc-600">
-              Por favor selecione as categorias de atuação de suas franquias e
-              forneça as informações financeiras pertinentes a cada uma delas
-            </p>
-
-            <button
-              type="button"
-              className="px-3 py-2 rounded text-white bg-[#007bff]"
-              onClick={addModel}
-            >
-              Adicionar Modelo
-            </button>
-
-            {savedModels.map((model, index) => (
-              <Fragment key={index}>{model.name}</Fragment>
-            ))}
           </FormContainer>
 
           <div className="flex justify-end gap-4 mb-4">

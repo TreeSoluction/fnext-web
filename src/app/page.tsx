@@ -1,6 +1,5 @@
 "use client";
 
-import Banner from "@/components/Banner/Banner";
 import Carousel from "@/components/Carousel/Carousel";
 import HeaderHome from "@/components/HeaderHome";
 import { AuthContext } from "@/contexts/auth.context";
@@ -23,7 +22,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className=" bg-[#F7F7F7]">
+    <div className="bg-[#F7F7F7]">
       <HeaderHome>
         <div className="flex flex-wrap-reverse justify-center items-center gap-4">
           {user ? (
@@ -60,12 +59,10 @@ export default function Home() {
           {/* <MenuBar /> */}
         </div>
       </HeaderHome>
-      <Banner />
-      <div className="flex justify-center p-5 mt-28">
+      <div className="flex justify-center p-5 mt-28 bg-[#F7F7F7]">
         <div className="flex flex-row flex-wrap gap-8 justify-center">
           {franchise.map((franchise) => (
             <Carousel
-              key={franchise.id}
               id={franchise.id}
               name={franchise.name}
               sector={franchise.sector}
