@@ -25,6 +25,9 @@ interface IOwner {
 export const AuthProvider = ({ children }: any) => {
   const [user, setUser] = useState<IUser | undefined>(undefined);
   const [owner, setOwner] = useState<IOwner | undefined>(undefined);
+  const [haveFranchise, setHaveFranchise] = useState<IOwner | undefined>(
+    undefined,
+  );
   const router = useRouter();
 
   useEffect(() => {

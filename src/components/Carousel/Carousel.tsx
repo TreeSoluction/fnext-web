@@ -1,12 +1,17 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
-const Carousel = ({ id, name, sector, minValue, image }) => {
+const Carousel = ({ id, name, sector, minValue, image, site }) => {
   const router = useRouter();
 
+  useEffect(() => {
+    console.log(name);
+  }, []);
+
   function Visualize() {
-    router.push(`/overview_page/${id}`);
+    console.log("Visualize");
   }
 
   return (
@@ -16,7 +21,9 @@ const Carousel = ({ id, name, sector, minValue, image }) => {
     >
       <div className="flex flex-col items-center">
         <div className="flex w-80 h-60 bg-gray-200 justify-center items-center rounded-xl">
-          <img src={image}></img>
+          <a href={site}>
+            <img src={image}></img>
+          </a>
         </div>
         <div className={"w-full"}>
           <div className="flex flex-col text-start p-2">

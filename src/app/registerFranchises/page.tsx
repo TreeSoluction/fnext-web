@@ -22,24 +22,12 @@ export default function Franchise() {
   const [models, setModels] = useState<any>([]);
   const [savedModels, setSavedModels] = useState<IModel[]>([]);
 
+  const [site, setHandleSite] = useState<string>("");
   const [nameState, setNameState] = useState<string>("");
   const [franchiseDescriptionFrist, setFranchiseDescriptionFrist] =
     useState<string>("");
 
-  const [operatingSegment, setOperationgSegment] = useState<string>("");
-  const [operatingSegmentMessage, setOperationgSegmentMessage] =
-    useState<string>("Nenhum Segmento adicionado");
-  const [operatingSegmentMessageClass, setOperationgSegmentMessageClass] =
-    useState<string>("alert alert-primary");
-
   const [logoImg, setLogoImg] = useState<string>("");
-  const [otherImg, setOtherImg] = useState<string[]>([""]);
-  const [selectedImages, setSelectedImages] = useState<File[]>([]);
-
-  //Videos
-  const [videoURL, setVideoURL] = useState<string>("");
-  const [validUrl, setValidUrl] = useState<boolean>(false);
-  const [websiteURL, setWebsiteURL] = useState<string>("");
 
   // Franchise Revenue
   const [monthlyRevenue, setMonthlyRevenue] = useState<number>(0);
@@ -102,6 +90,10 @@ export default function Franchise() {
     setReturnonInvestmenUntil(Number(e.target.value));
   };
 
+  const handleSiteLink = (e: ChangeEvent<HTMLInputElement>) => {
+    setHandleSite(e.target.value);
+  };
+
   const saveModel = (id: string) => {
     setSavedModels((s) => [...s, models.filter((model) => model.id === id)[0]]);
     setModels(models.filter((model) => model.id !== id));
@@ -112,6 +104,7 @@ export default function Franchise() {
       ownerID: owner.id,
       Business: {
         ...form.getValues(),
+        site: site,
         name: nameState,
         logo: logoImg,
         average_monthly_billing: monthlyRevenue,
@@ -183,6 +176,15 @@ export default function Franchise() {
                 </>
               )}
             </div>
+          </FormContainer>
+
+          <FormContainer title="Links" className="flex flex-col gap-4">
+            <Input
+              label="Link do Site"
+              id="franchiseName"
+              onChange={handleSiteLink}
+              value={site}
+            />
           </FormContainer>
 
           <FormContainer

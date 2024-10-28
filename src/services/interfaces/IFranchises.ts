@@ -6,6 +6,7 @@ export interface ICreateFranchises {
 interface IBusisness {
   name: string;
   logo: string;
+  site: string;
   average_monthly_billing: number;
   units_in_brazil: number;
   headquarters: string;

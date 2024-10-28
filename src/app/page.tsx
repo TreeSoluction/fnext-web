@@ -43,20 +43,29 @@ export default function Home() {
                   Cadastre Sua Franquia
                 </button>
               </a>
+              <a className="text-sm text-white font-bold capitalize text-center border rounded-full p-4 px-7">
+                <button onClick={logOut} className="text-blue-900">
+                  Sair
+                </button>
+              </a>
             </>
           ) : (
             <>
-              <a className="text-sm text-white font-bold capitalize text-center border rounded-full p-4 px-7">
-                <button onClick={() => router.push("/login")}>Entrar</button>
-              </a>
               <a className="text-sm text-blue-900 font-bold capitalize text-center bg-white rounded-full p-4">
                 <button onClick={() => router.push("/register")}>
                   Cadastre Sua Franquia
                 </button>
               </a>
+              <a className="text-sm text-white font-bold capitalize text-center border rounded-full p-4 px-7">
+                <button
+                  onClick={() => router.push("/login")}
+                  className="text-blue-900"
+                >
+                  Entrar
+                </button>
+              </a>
             </>
           )}
-          {/* <MenuBar /> */}
         </div>
       </HeaderHome>
       <div className="flex justify-center p-5 mt-28 bg-[#F7F7F7]">
@@ -68,6 +77,7 @@ export default function Home() {
               sector={franchise.sector}
               minValue={franchise.ROI_min}
               image={franchise.logo}
+              site={franchise.site}
             />
           ))}
         </div>
