@@ -4,11 +4,13 @@ import Carousel from "@/components/Carousel/Carousel";
 import HeaderHome from "@/components/HeaderHome";
 import { AuthContext } from "@/contexts/auth.context";
 import { ListFranchise } from "@/services/Franchises/list.franchise";
+import { VerifyBusiness } from "@/services/User/verifyBusiness.user";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 
 export default function Home() {
   const [franchise, setFranchises] = useState<IFranchiseList[]>([]);
+  const [haveFranchise, setHaveFranchise] = useState<boolean>(false);
   const { logOut, owner, user } = useContext(AuthContext);
 
   const router = useRouter();
@@ -19,6 +21,20 @@ export default function Home() {
     };
 
     load();
+
+    const verifyBusiness = async () => {
+      const result = await VerifyBusiness(user.id);
+
+      const verification = result.data.data as IVerifyBusiness;
+
+      if (verification.haveFranchise) {
+        setHaveFranchise(true);
+      } else {
+        setHaveFranchise(false);
+      }
+    };
+
+    verifyBusiness();
   }, []);
 
   return (
@@ -38,11 +54,19 @@ export default function Home() {
                   </a>
                 </>
               )}
-              <a className="text-sm text-blue-900 font-bold capitalize text-center bg-white rounded-full p-4">
-                <button onClick={() => router.push("/registerFranchises")}>
-                  Cadastre Sua Franquia
-                </button>
-              </a>
+              {haveFranchise ? (
+                <a className="text-sm text-blue-900 font-bold capitalize text-center bg-white rounded-full p-4">
+                  <button onClick={() => router.push("/editFranchises")}>
+                    Edite Sua Franquia
+                  </button>
+                </a>
+              ) : (
+                <a className="text-sm text-blue-900 font-bold capitalize text-center bg-white rounded-full p-4">
+                  <button onClick={() => router.push("/registerFranchises")}>
+                    Cadastre Sua Franquia
+                  </button>
+                </a>
+              )}
               <a className="text-sm text-white font-bold capitalize text-center border rounded-full p-4 px-7">
                 <button onClick={logOut} className="text-blue-900">
                   Sair
@@ -72,6 +96,7 @@ export default function Home() {
         <div className="flex flex-row flex-wrap gap-8 justify-center">
           {franchise.map((franchise) => (
             <Carousel
+              key={franchise.id}
               id={franchise.id}
               name={franchise.name}
               sector={franchise.sector}

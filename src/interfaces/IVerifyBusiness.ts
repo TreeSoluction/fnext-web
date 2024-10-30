@@ -1,0 +1,3 @@
+interface IVerifyBusiness {
+  haveFranchise: boolean;
+}
